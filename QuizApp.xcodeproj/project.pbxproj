@@ -13,9 +13,11 @@
 		522CA4DD26174960008BAE7B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 522CA4DB26174960008BAE7B /* Main.storyboard */; };
 		522CA4DF26174962008BAE7B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 522CA4DE26174962008BAE7B /* Assets.xcassets */; };
 		522CA4E226174962008BAE7B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 522CA4E026174962008BAE7B /* LaunchScreen.storyboard */; };
+		EDCED8E4445DDC32D4996F65 /* Pods_QuizApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B67B507A7964E30BCF704575 /* Pods_QuizApp.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		51F5B9844C7C7EDE09A8B67A /* Pods-QuizApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuizApp.release.xcconfig"; path = "Target Support Files/Pods-QuizApp/Pods-QuizApp.release.xcconfig"; sourceTree = "<group>"; };
 		522CA4D226174960008BAE7B /* QuizApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuizApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		522CA4D526174960008BAE7B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		522CA4D726174960008BAE7B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -24,6 +26,8 @@
 		522CA4DE26174962008BAE7B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		522CA4E126174962008BAE7B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		522CA4E326174962008BAE7B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B67B507A7964E30BCF704575 /* Pods_QuizApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_QuizApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BEF5C387EE323CF29BD97309 /* Pods-QuizApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuizApp.debug.xcconfig"; path = "Target Support Files/Pods-QuizApp/Pods-QuizApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,17 +35,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EDCED8E4445DDC32D4996F65 /* Pods_QuizApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		33B7B04B8DC5DB0510AB8898 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B67B507A7964E30BCF704575 /* Pods_QuizApp.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		522CA4C926174960008BAE7B = {
 			isa = PBXGroup;
 			children = (
 				522CA4D426174960008BAE7B /* QuizApp */,
 				522CA4D326174960008BAE7B /* Products */,
+				565DAAEACC28AA51FC137DBB /* Pods */,
+				33B7B04B8DC5DB0510AB8898 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -67,6 +82,16 @@
 			path = QuizApp;
 			sourceTree = "<group>";
 		};
+		565DAAEACC28AA51FC137DBB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BEF5C387EE323CF29BD97309 /* Pods-QuizApp.debug.xcconfig */,
+				51F5B9844C7C7EDE09A8B67A /* Pods-QuizApp.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -74,6 +99,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 522CA4E626174962008BAE7B /* Build configuration list for PBXNativeTarget "QuizApp" */;
 			buildPhases = (
+				976119ABBAB633B2F34BCDAC /* [CP] Check Pods Manifest.lock */,
 				522CA4CE26174960008BAE7B /* Sources */,
 				522CA4CF26174960008BAE7B /* Frameworks */,
 				522CA4D026174960008BAE7B /* Resources */,
@@ -132,6 +158,31 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		976119ABBAB633B2F34BCDAC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-QuizApp-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		522CA4CE26174960008BAE7B /* Sources */ = {
@@ -282,6 +333,7 @@
 		};
 		522CA4E726174962008BAE7B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BEF5C387EE323CF29BD97309 /* Pods-QuizApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -299,6 +351,7 @@
 		};
 		522CA4E826174962008BAE7B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 51F5B9844C7C7EDE09A8B67A /* Pods-QuizApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
