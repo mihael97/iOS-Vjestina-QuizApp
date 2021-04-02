@@ -11,9 +11,11 @@ import UIKit
 
 class LoginViewController: UIViewController {
     let fontName = "ArialRoundedMTBold"
+    let radiusOfField = 5
 
     private var appNameLabel: UILabel!
     private var usernameTextField: UITextField!
+    private var passwordField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +30,7 @@ class LoginViewController: UIViewController {
     private func styleView() {
         appNameLabel.translatesAutoresizingMaskIntoConstraints = false
         usernameTextField.translatesAutoresizingMaskIntoConstraints = false
+        passwordField.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             appNameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             appNameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
@@ -35,6 +38,10 @@ class LoginViewController: UIViewController {
             usernameTextField.heightAnchor.constraint(equalToConstant: 40),
             usernameTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             usernameTextField.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            passwordField.widthAnchor.constraint(equalToConstant: 300),
+            passwordField.heightAnchor.constraint(equalToConstant: 40),
+            passwordField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            passwordField.topAnchor.constraint(equalTo: usernameTextField.bottomAnchor, constant: 10),
         ])
     }
     
@@ -50,13 +57,21 @@ class LoginViewController: UIViewController {
         // Username field Styling
         usernameTextField = UITextField()
         usernameTextField.placeholder = "Email"
-        usernameTextField.layer.cornerRadius = 5
+        usernameTextField.layer.cornerRadius = CGFloat(radiusOfField)
         usernameTextField.backgroundColor = .systemPurple
         usernameTextField.textColor = .black
-
+        
+        // Password field Styling
+        passwordField = UITextField()
+        passwordField.placeholder = "Password"
+        passwordField.layer.cornerRadius = CGFloat(radiusOfField)
+        passwordField.backgroundColor = .systemPurple
+        usernameTextField.textColor = .black
+        
         //Add layouts
         view.addSubview(appNameLabel)
         view.addSubview(usernameTextField)
+        view.addSubview(passwordField)
     }
     
 }
