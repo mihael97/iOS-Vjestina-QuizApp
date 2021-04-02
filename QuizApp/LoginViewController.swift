@@ -16,6 +16,7 @@ class LoginViewController: UIViewController {
     private var appNameLabel: UILabel!
     private var usernameTextField: UITextField!
     private var passwordField: UITextField!
+    private var loginButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +32,7 @@ class LoginViewController: UIViewController {
         appNameLabel.translatesAutoresizingMaskIntoConstraints = false
         usernameTextField.translatesAutoresizingMaskIntoConstraints = false
         passwordField.translatesAutoresizingMaskIntoConstraints = false
+        loginButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             appNameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             appNameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
@@ -42,6 +44,9 @@ class LoginViewController: UIViewController {
             passwordField.heightAnchor.constraint(equalToConstant: 40),
             passwordField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             passwordField.topAnchor.constraint(equalTo: usernameTextField.bottomAnchor, constant: 10),
+            loginButton.topAnchor.constraint(equalTo: passwordField.bottomAnchor, constant: 20),
+            loginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loginButton.widthAnchor.constraint(equalToConstant: 100)
         ])
     }
     
@@ -68,10 +73,21 @@ class LoginViewController: UIViewController {
         passwordField.backgroundColor = .systemPurple
         usernameTextField.textColor = .black
         
-        //Add layouts
+        // Login button
+        loginButton = UIButton()
+        loginButton.setTitle("Login", for: .normal)
+        loginButton.backgroundColor = .blue
+        loginButton.addTarget(self, action: #selector(self.pressed), for: .touchUpInside)
+        
+        
+        // Add layouts
         view.addSubview(appNameLabel)
         view.addSubview(usernameTextField)
         view.addSubview(passwordField)
+        view.addSubview(loginButton)
     }
     
+   @objc func pressed(sender: UIButton!) {
+    datase
+   }
 }
