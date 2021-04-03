@@ -16,15 +16,17 @@ class QuizzesViewController: UIViewController {
     private var funFactLabel: UILabel!
     private var numberOfQuizzesLabel: UILabel!
     private let numberOfQuizzesTemplate = "There are %d questions that contains the word \"NBA\""
-    private var quizzes: [Quiz] = []
+    private var quizTable: UITableView!
+    private var quizzes: [Quiz] = [Quiz]()
     let fontName = "ArialRoundedMTBold"
+    let customCellIdentifier = "customCell"
     
     override func viewDidLoad() {
         dataService = DataService()
         buildView()
         arangeOnScreen()
     }
-    
+        
     private func arangeOnScreen() {
         quizNameLabel.translatesAutoresizingMaskIntoConstraints = false
         fetchQuizzesButton.translatesAutoresizingMaskIntoConstraints = false
@@ -43,11 +45,14 @@ class QuizzesViewController: UIViewController {
         } else {
             funFactLabel.translatesAutoresizingMaskIntoConstraints = false
             numberOfQuizzesLabel.translatesAutoresizingMaskIntoConstraints = false
+            quizTable.translatesAutoresizingMaskIntoConstraints = false
+            
             NSLayoutConstraint.activate([
                 funFactLabel.topAnchor.constraint(equalTo: fetchQuizzesButton.bottomAnchor, constant: 60),
                 funFactLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
                 numberOfQuizzesLabel.topAnchor.constraint(equalTo: funFactLabel.bottomAnchor, constant: 10),
                 numberOfQuizzesLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+                quizTable.topAnchor.constraint(equalTo: fetchQuizzesButton.bottomAnchor, constant: 30)
             ])
         }
     }
@@ -98,11 +103,18 @@ class QuizzesViewController: UIViewController {
         numberOfQuizzesLabel.font = UIFont(name: fontName, size: 20)
         numberOfQuizzesLabel.textColor = .white
         
+        //Quiz table
+        quizTable = UITableView()
+        quizTable.backgroundColor = .white
+        quizTable.register(QuizTableCell.self, forCellReuseIdentifier: customCellIdentifier)
+        quizTable.dataSource = self
+        
         // Add to subview
         view.addSubview(quizNameLabel)
         view.addSubview(fetchQuizzesButton)
         view.addSubview(funFactLabel)
         view.addSubview(numberOfQuizzesLabel)
+        view.addSubview(quizTable)
     }
     
     @objc
@@ -110,8 +122,20 @@ class QuizzesViewController: UIViewController {
         //quizzes = dataService.fetchQuizes().filter{ $0.title.uppercased().contains("NBA") }
         quizzes = dataService.fetchQuizes()
         numberOfQuizzesLabel.text = String(format: numberOfQuizzesTemplate, quizzes.count)
-        numberOfQuizzesLabel.lineBreakMode = .byWordWrapping
-        print("Fetch quizzes ",quizzes.count)
         arangeOnScreen()
+        quizTable.reloadData()
     }
+}
+
+extension QuizzesViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return quizzes.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: customCellIdentifier) as! QuizTableCell
+        cell.quiz = quizzes[indexPath.row]
+        return cell
+    }
+    
 }
