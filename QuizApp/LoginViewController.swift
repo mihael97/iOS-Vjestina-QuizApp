@@ -17,9 +17,11 @@ class LoginViewController: UIViewController {
     private var usernameTextField: UITextField!
     private var passwordField: UITextField!
     private var loginButton: UIButton!
+    private var dataService: DataService!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        dataService = DataService()
         buildViews()
     }
     
@@ -88,6 +90,13 @@ class LoginViewController: UIViewController {
     }
     
    @objc func pressed(sender: UIButton!) {
-    datase
+    let response :LoginStatus = dataService.login(email: usernameTextField.text ?? "", password: passwordField.text ?? "")
+    switch response {
+    case .error(_,_):
+        print("Failed failed with error")
+        break
+    case .success:
+        print("Loggin is successfull")
+    }
    }
 }
