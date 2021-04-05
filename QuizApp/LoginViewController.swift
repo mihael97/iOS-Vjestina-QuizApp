@@ -134,8 +134,8 @@ class LoginViewController: UIViewController {
    @objc func pressed(sender: UIButton!) {
     let response :LoginStatus = dataService.login(email: usernameTextField.text ?? "", password: passwordField.text ?? "")
     switch response {
-    case .error(_,_):
-        print("Loggin failed with error")
+    case .error(_,let message):
+        print("Loggin failed with error: \(message)")
         falseLoginLabel.isHidden = false
         styleView()
         break
