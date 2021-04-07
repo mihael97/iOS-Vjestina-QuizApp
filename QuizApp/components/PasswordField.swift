@@ -17,7 +17,6 @@ class PasswordField: UITextField {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        print("A")
         setupField()
         addVisiblityButton()
     }

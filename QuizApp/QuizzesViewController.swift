@@ -30,6 +30,7 @@ class QuizzesViewController: UIViewController {
     private func arangeOnScreen() {
         quizNameLabel.translatesAutoresizingMaskIntoConstraints = false
         fetchQuizzesButton.translatesAutoresizingMaskIntoConstraints = false
+        quizTable.translatesAutoresizingMaskIntoConstraints = false
 
 
         NSLayoutConstraint.activate([
@@ -61,7 +62,7 @@ class QuizzesViewController: UIViewController {
         let largeFont = UIFont.systemFont(ofSize: 30)
         let configuration = UIImage.SymbolConfiguration(font: largeFont)
 
-        let image = UIImage(systemName: "lightbulb.fill", withConfiguration: configuration)
+        let image = UIImage(systemName: "lightbulb", withConfiguration: configuration)
         
         let bulbAttachment = NSTextAttachment()
         bulbAttachment.image = image
