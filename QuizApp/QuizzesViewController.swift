@@ -17,6 +17,7 @@ class QuizzesViewController: UIViewController {
     private var numberOfQuizzesLabel: UILabel!
     private let numberOfQuizzesTemplate = "There are %d questions that contains the word \"NBA\""
     private var quizTable: UITableView!
+    private var noQuizView: NoQuizView!
     private var quizzes: [Quiz] = [Quiz]()
     let fontName = "ArialRoundedMTBold"
     let customCellIdentifier = "customCell"
@@ -31,38 +32,32 @@ class QuizzesViewController: UIViewController {
         quizNameLabel.translatesAutoresizingMaskIntoConstraints = false
         fetchQuizzesButton.translatesAutoresizingMaskIntoConstraints = false
         quizTable.translatesAutoresizingMaskIntoConstraints = false
-
-
+        funFactLabel.translatesAutoresizingMaskIntoConstraints = false
+        numberOfQuizzesLabel.translatesAutoresizingMaskIntoConstraints = false
+        quizTable.translatesAutoresizingMaskIntoConstraints = false
+        noQuizView.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
             quizNameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             quizNameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
             fetchQuizzesButton.topAnchor.constraint(equalTo: quizNameLabel.bottomAnchor, constant: 30),
             fetchQuizzesButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             fetchQuizzesButton.widthAnchor.constraint(equalToConstant: 300),
+            funFactLabel.topAnchor.constraint(equalTo: fetchQuizzesButton.bottomAnchor, constant: 60),
+            funFactLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            numberOfQuizzesLabel.topAnchor.constraint(equalTo: funFactLabel.bottomAnchor, constant: 10),
+            numberOfQuizzesLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            quizTable.topAnchor.constraint(equalTo: fetchQuizzesButton.bottomAnchor, constant: 30),
+            noQuizView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            noQuizView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
         ])
-        
-        if (quizzes.count==0) {
-            
-        } else {
-            funFactLabel.translatesAutoresizingMaskIntoConstraints = false
-            numberOfQuizzesLabel.translatesAutoresizingMaskIntoConstraints = false
-            quizTable.translatesAutoresizingMaskIntoConstraints = false
-            
-            NSLayoutConstraint.activate([
-                funFactLabel.topAnchor.constraint(equalTo: fetchQuizzesButton.bottomAnchor, constant: 60),
-                funFactLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-                numberOfQuizzesLabel.topAnchor.constraint(equalTo: funFactLabel.bottomAnchor, constant: 10),
-                numberOfQuizzesLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-                quizTable.topAnchor.constraint(equalTo: fetchQuizzesButton.bottomAnchor, constant: 30)
-            ])
-        }
     }
     
     private func addTrailingBulb() {
         let largeFont = UIFont.systemFont(ofSize: 30)
         let configuration = UIImage.SymbolConfiguration(font: largeFont)
 
-        let image = UIImage(systemName: "lightbulb", withConfiguration: configuration)
+        let image = UIImage(systemName: "lightbulb", withConfiguration: configuration)?.withTintColor(.yellow)
         
         let bulbAttachment = NSTextAttachment()
         bulbAttachment.image = image
@@ -80,7 +75,7 @@ class QuizzesViewController: UIViewController {
         
         // Quiz name label
         quizNameLabel = UILabel()
-        quizNameLabel.text = "Quiz App"
+        quizNameLabel.text = "Pop Quiz"
         quizNameLabel.font = UIFont(name:fontName, size: 50.0)
         quizNameLabel.textColor = .systemYellow
         
@@ -97,12 +92,16 @@ class QuizzesViewController: UIViewController {
         funFactLabel.text = "Fun Fact"
         funFactLabel.textColor = .white
         funFactLabel.font = UIFont(name: fontName, size: 25)
+        funFactLabel.isHidden = true
         addTrailingBulb()
         
         // Number of quizzes label
         numberOfQuizzesLabel = UILabel()
         numberOfQuizzesLabel.font = UIFont(name: fontName, size: 20)
         numberOfQuizzesLabel.textColor = .white
+        numberOfQuizzesLabel.numberOfLines = 0
+        numberOfQuizzesLabel.preferredMaxLayoutWidth = view.frame.width
+        numberOfQuizzesLabel.lineBreakMode = .byWordWrapping
         
         //Quiz table
         quizTable = UITableView()
@@ -110,19 +109,27 @@ class QuizzesViewController: UIViewController {
         quizTable.register(QuizTableCell.self, forCellReuseIdentifier: customCellIdentifier)
         quizTable.dataSource = self
         
+        // No quiz view
+        noQuizView = NoQuizView()
+        
         // Add to subview
         view.addSubview(quizNameLabel)
         view.addSubview(fetchQuizzesButton)
         view.addSubview(funFactLabel)
         view.addSubview(numberOfQuizzesLabel)
         view.addSubview(quizTable)
+        view.addSubview(noQuizView)
     }
     
     @objc
     private func fetchQuizzes(button: UIButton) {
         //quizzes = dataService.fetchQuizes().filter{ $0.title.uppercased().contains("NBA") }
         quizzes = dataService.fetchQuizes()
+        noQuizView.isHidden = true
+        funFactLabel.isHidden = false
         numberOfQuizzesLabel.text = String(format: numberOfQuizzesTemplate, quizzes.count)
+        numberOfQuizzesLabel.numberOfLines = 0
+
         arangeOnScreen()
         quizTable.reloadData()
     }

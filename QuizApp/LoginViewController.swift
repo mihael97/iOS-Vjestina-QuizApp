@@ -64,7 +64,7 @@ class LoginViewController: UIViewController {
 
         // Quiz app Styling
         appNameLabel = UILabel()
-        appNameLabel.text = "Quiz App"
+        appNameLabel.text = "Pop Quiz"
         appNameLabel.font = UIFont(name:fontName, size: 50.0)
         appNameLabel.textColor = .systemYellow
         

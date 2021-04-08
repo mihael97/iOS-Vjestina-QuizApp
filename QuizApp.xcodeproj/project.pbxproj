@@ -22,6 +22,7 @@
 		5243C0C12618746300194D35 /* QuizzesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5243C0C02618746300194D35 /* QuizzesViewController.swift */; };
 		5243C0C92618DD7E00194D35 /* QuizTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5243C0C82618DD7E00194D35 /* QuizTableCell.swift */; };
 		5256ADD9261B5BED006DE011 /* PasswordField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5256ADD8261B5BED006DE011 /* PasswordField.swift */; };
+		52B41053261F8DAC0013422E /* NoQuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B41052261F8DAC0013422E /* NoQuizView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,7 @@
 		5243C0C02618746300194D35 /* QuizzesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizzesViewController.swift; sourceTree = "<group>"; };
 		5243C0C82618DD7E00194D35 /* QuizTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizTableCell.swift; sourceTree = "<group>"; };
 		5256ADD8261B5BED006DE011 /* PasswordField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordField.swift; sourceTree = "<group>"; };
+		52B41052261F8DAC0013422E /* NoQuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoQuizView.swift; sourceTree = "<group>"; };
 		BEF5C387EE323CF29BD97309 /* Pods-QuizApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuizApp.debug.xcconfig"; path = "Target Support Files/Pods-QuizApp/Pods-QuizApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -117,6 +119,7 @@
 			children = (
 				5243C0C82618DD7E00194D35 /* QuizTableCell.swift */,
 				5256ADD8261B5BED006DE011 /* PasswordField.swift */,
+				52B41052261F8DAC0013422E /* NoQuizView.swift */,
 			);
 			path = components;
 			sourceTree = "<group>";
@@ -238,6 +241,7 @@
 				522CA4D626174960008BAE7B /* AppDelegate.swift in Sources */,
 				522CA4F526178660008BAE7B /* Question.swift in Sources */,
 				522CA4D826174960008BAE7B /* SceneDelegate.swift in Sources */,
+				52B41053261F8DAC0013422E /* NoQuizView.swift in Sources */,
 				5243C0C92618DD7E00194D35 /* QuizTableCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
