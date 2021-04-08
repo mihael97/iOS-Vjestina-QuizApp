@@ -11,12 +11,13 @@ import SwiftUI
 class PasswordField: UITextField {
     private let radiusOfField:Int64 = 5
     private let offsetOfField:Int64 = 5
-    private let openEyeImageName: UIImage? = UIImage(systemName: "eye")
-    private let closeEyeImageName: UIImage? = UIImage(systemName: "eye.slash")
+    private let openEyeImageName: UIImage? = UIImage(systemName: "eye")?.withTintColor(.black)
+    private let closeEyeImageName: UIImage? = UIImage(systemName: "eye.slash")?.withTintColor(.black)
     private var passwordShowButton: UIButton!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        self.delegate = self
         setupField()
         addVisiblityButton()
     }
@@ -39,6 +40,7 @@ class PasswordField: UITextField {
         passwordShowButton.addTarget(self, action: #selector(self.visibilityButtonClicked), for: .touchUpInside)
         self.rightView = passwordShowButton
         self.rightViewMode = .always
+        passwordShowButton.isHidden = true
     }
         
     @objc
@@ -50,5 +52,15 @@ class PasswordField: UITextField {
             passwordShowButton.setImage(openEyeImageName, for: .normal)
         }
         self.isSecureTextEntry = !self.isSecureTextEntry
+    }
+}
+
+extension PasswordField:UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        passwordShowButton.isHidden = false
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        passwordShowButton.isHidden = true
     }
 }

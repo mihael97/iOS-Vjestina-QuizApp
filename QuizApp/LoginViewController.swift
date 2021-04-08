@@ -12,6 +12,8 @@ import UIKit
 class LoginViewController: UIViewController {
     private let fontName: String = "ArialRoundedMTBold"
     private let radiusOfField:Int64 = 5
+    private let fieldsWidth  = CGFloat(300)
+    private let fieldsHeight = CGFloat(40)
 
     private var appNameLabel: UILabel!
     private var usernameTextField: UITextField!
@@ -45,18 +47,25 @@ class LoginViewController: UIViewController {
             falseLoginLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             falseLoginLabel.bottomAnchor.constraint(equalTo:usernameTextField.topAnchor ,constant: -10),
             falseLoginLabel.widthAnchor.constraint(equalToConstant:  200),
-            usernameTextField.widthAnchor.constraint(equalToConstant: 300),
-            usernameTextField.heightAnchor.constraint(equalToConstant: 40),
+            usernameTextField.widthAnchor.constraint(equalToConstant: fieldsWidth),
+            usernameTextField.heightAnchor.constraint(equalToConstant: fieldsHeight),
             usernameTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             usernameTextField.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            passwordField.widthAnchor.constraint(equalToConstant: 300),
-            passwordField.heightAnchor.constraint(equalToConstant: 40),
+            passwordField.widthAnchor.constraint(equalToConstant: fieldsWidth),
+            passwordField.heightAnchor.constraint(equalToConstant: fieldsHeight),
             passwordField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             passwordField.topAnchor.constraint(equalTo: usernameTextField.bottomAnchor, constant: 10),
             loginButton.topAnchor.constraint(equalTo: passwordField.bottomAnchor, constant: 20),
             loginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            loginButton.widthAnchor.constraint(equalToConstant: 100)
+            loginButton.widthAnchor.constraint(equalToConstant: fieldsWidth),
+            loginButton.heightAnchor.constraint(equalToConstant: fieldsHeight)
         ])
+    }
+    
+    private func setRoundShape() {
+        usernameTextField.layer.cornerRadius = CGFloat(radiusOfField)
+        passwordField.layer.cornerRadius = CGFloat(radiusOfField)
+        loginButton.layer.cornerRadius = CGFloat(radiusOfField)
     }
     
     private func createViewComponents() {
@@ -86,8 +95,10 @@ class LoginViewController: UIViewController {
         // Login button
         loginButton = UIButton()
         loginButton.setTitle("Login", for: .normal)
-        loginButton.backgroundColor = .blue
+        loginButton.backgroundColor = .systemGray4
         loginButton.addTarget(self, action: #selector(self.login), for: .touchUpInside)
+        loginButton.isHighlighted = false
+        loginButton.setTitleColor(.purple, for: .normal)
         
         // False login label
         falseLoginLabel = UILabel()
@@ -96,7 +107,9 @@ class LoginViewController: UIViewController {
         falseLoginLabel.text = "Wrong credentials"
         falseLoginLabel.textAlignment = .center
         falseLoginLabel.isHidden = true
-    
+        
+        setRoundShape()
+        
         // Add layouts
         view.addSubview(appNameLabel)
         view.addSubview(usernameTextField)
@@ -126,6 +139,11 @@ class LoginViewController: UIViewController {
     func textFieldDidChange(_:UITextField)  {
         if(isFalseLogin) {
             falseLoginLabel.isHidden = true
+        }
+        if(usernameTextField.text!.count != 0 && passwordField.text!.count != 0 ) {
+            loginButton.backgroundColor = .white
+        } else {
+            loginButton.backgroundColor = .systemGray2
         }
     }
 
