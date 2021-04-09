@@ -18,7 +18,7 @@ class QuizzesViewController: UIViewController {
     private var quizCollection:UICollectionView!
     private let numberOfQuizzesTemplate = "There are %d questions that contains the word \"NBA\""
     private var noQuizView: NoQuizView!
-    private var quizzes: [Quiz] = [Quiz]()
+    private var quizzes: [QuizCategory:[Quiz]] = [:]
     let fontName = "ArialRoundedMTBold"
     let customCellIdentifier = "customCell"
     
@@ -128,11 +128,23 @@ class QuizzesViewController: UIViewController {
     
     @objc
     private func fetchQuizzes(button: UIButton) {
-        //quizzes = dataService.fetchQuizes().filter{ $0.title.uppercased().contains("NBA") }
-        quizzes = dataService.fetchQuizes()
+//        let arrayQuizzes = dataService.fetchQuizes().filter{ $0.title.uppercased().contains("NBA") || $0.description.uppercased().contains("NBA") || $0.questions.uppercased().contains("NBA")}
+        let arrayQuizzes = dataService.fetchQuizes()
+//        let count = arrayQuizzes.reduce{ $0.questions.filter( $0.title.uppercased().contains("NBA")).count }
+        
+        quizzes = [:]
+        
+        for quiz in arrayQuizzes {
+            if quizzes[quiz.category] != nil {
+                quizzes[quiz.category]?.append(quiz)
+            } else {
+                quizzes[quiz.category] = [quiz]
+            }
+        }
+        
         noQuizView.isHidden = true
         funFactLabel.isHidden = false
-        numberOfQuizzesLabel.text = String(format: numberOfQuizzesTemplate, quizzes.count)
+        numberOfQuizzesLabel.text = String(format: numberOfQuizzesTemplate, arrayQuizzes.count)
         numberOfQuizzesLabel.numberOfLines = 0
         quizCollection.isHidden = false
         quizCollection.reloadData()
@@ -146,7 +158,7 @@ extension QuizzesViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: customCellIdentifier, for: indexPath) as! QuizThemeComponent
-        cell.setUp(quizzes: [quizzes[indexPath.row]])
+        cell.setUp(quizzes: Array(quizzes)[indexPath.row].value)
         return cell
     }
   

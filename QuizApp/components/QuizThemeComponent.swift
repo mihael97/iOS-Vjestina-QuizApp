@@ -32,7 +32,9 @@ class QuizThemeComponent: UICollectionViewCell {
             quizThemeLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 0),
             quizThemeLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30),
             quizCollection.topAnchor.constraint(equalTo: quizThemeLabel.bottomAnchor, constant: 20),
-            quizCollection.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30),
+            quizCollection.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+            quizCollection.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
+            quizCollection.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -20)
         ])
     }
     
@@ -61,7 +63,6 @@ class QuizThemeComponent: UICollectionViewCell {
             quizThemeLabel.text = "Sport"
         }
         self.quizzes = quizzes
-        
     }
 }
 

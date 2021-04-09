@@ -12,6 +12,7 @@ import UIKit
 class QuizTableCell: UICollectionViewCell {
     private var titleLabel: UILabel!
     private var quizImage: UIImageView!
+    private var descriptionLabel: UILabel!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -26,34 +27,51 @@ class QuizTableCell: UICollectionViewCell {
     func addConstraints() {
         quizImage.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            quizImage.topAnchor.constraint(equalTo: self.topAnchor, constant: 20),
-            quizImage.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
-            quizImage.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -20),
-            titleLabel.trailingAnchor.constraint(equalTo: quizImage.trailingAnchor),
-            titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 20)
+            quizImage.topAnchor.constraint(equalTo: self.topAnchor, constant: 5),
+            quizImage.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 5),
+            quizImage.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -5),
+            quizImage.widthAnchor.constraint(equalToConstant: 100),
+            quizImage.heightAnchor.constraint(equalToConstant: 20),
+            titleLabel.leadingAnchor.constraint(equalTo:quizImage.trailingAnchor, constant: 5),
+            titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 15),
+            titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 5),
+            descriptionLabel.leadingAnchor.constraint(equalTo: quizImage.trailingAnchor, constant: 5),
+            descriptionLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 5),
+            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 2),
+            descriptionLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -5)
         ])
     }
     
     func buildView() {
+        self.backgroundColor = .systemPurple
         // title label
         titleLabel = UILabel()
-        titleLabel.backgroundColor = .purple
         titleLabel.textColor = .white
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 15)
+        titleLabel.numberOfLines = 0
+        titleLabel.lineBreakMode = .byWordWrapping
         
         // image
         quizImage = UIImageView()
         
+        //description label
+        descriptionLabel = UILabel()
+        descriptionLabel.lineBreakMode = .byWordWrapping
+        descriptionLabel.numberOfLines = 0
+        descriptionLabel.textColor = .white
+        
         self.addSubview(titleLabel)
         self.addSubview(quizImage)
+        self.addSubview(descriptionLabel)
     }
     
     public func setUp(quiz:Quiz) {
         titleLabel.text = quiz.title
+        descriptionLabel.text=quiz.description
 
-        let url = URL(string: quiz.imageUrl)
-        let data = try? Data(contentsOf: url!)
-        quizImage.image = UIImage(data: data!)
+        quizImage.image = UIImage(named: "download.jpeg")
     }
 }
