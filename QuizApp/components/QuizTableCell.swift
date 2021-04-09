@@ -9,13 +9,12 @@
 import Foundation
 import UIKit
 
-class QuizTableCell: UITableViewCell {
-    var quiz: Quiz?
+class QuizTableCell: UICollectionViewCell {
     private var titleLabel: UILabel!
-    private var imageUI: UIImageView!
+    private var quizImage: UIImageView!
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         buildView()
         addConstraints()
     }
@@ -25,27 +24,36 @@ class QuizTableCell: UITableViewCell {
     }
     
     func addConstraints() {
-        if let quizImage = imageUI {
-            quizImage.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                quizImage.trailingAnchor.constraint(equalTo: self.trailingAnchor)
-            ])
-        }
+        quizImage.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            quizImage.topAnchor.constraint(equalTo: self.topAnchor, constant: 20),
+            quizImage.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+            quizImage.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -20),
+            titleLabel.trailingAnchor.constraint(equalTo: quizImage.trailingAnchor),
+            titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 20)
+        ])
     }
     
     func buildView() {
-        if let quiz = quiz {
-            // title label
-            titleLabel = UILabel()
-            titleLabel.text = quiz.title
-            titleLabel.backgroundColor = .purple
-            titleLabel.textColor = .white
-            
-            // image
-            imageUI = UIImageView()
-            let url = URL(string: quiz.imageUrl)
-            let data = try? Data(contentsOf: url!)
-            imageUI.image = UIImage(data: data!)
-        }
+        // title label
+        titleLabel = UILabel()
+        titleLabel.backgroundColor = .purple
+        titleLabel.textColor = .white
+        
+        // image
+        quizImage = UIImageView()
+        
+        self.addSubview(titleLabel)
+        self.addSubview(quizImage)
+    }
+    
+    public func setUp(quiz:Quiz) {
+        titleLabel.text = quiz.title
+
+        let url = URL(string: quiz.imageUrl)
+        let data = try? Data(contentsOf: url!)
+        quizImage.image = UIImage(data: data!)
     }
 }

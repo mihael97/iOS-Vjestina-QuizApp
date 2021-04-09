@@ -11,6 +11,9 @@ import UIKit
 
 class QuizThemeComponent: UICollectionViewCell {
     private var quizThemeLabel:UILabel!
+    private var quizzes: [Quiz] = []
+    private var quizCollection:UICollectionView!
+    private let cellId = "cellId"
     
     override init(frame: CGRect) {
         super.init(frame:frame)
@@ -24,9 +27,12 @@ class QuizThemeComponent: UICollectionViewCell {
     
     private func setConstraints() {
         quizThemeLabel.translatesAutoresizingMaskIntoConstraints = false
+        quizCollection.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            quizThemeLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 30),
+            quizThemeLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 0),
             quizThemeLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30),
+            quizCollection.topAnchor.constraint(equalTo: quizThemeLabel.bottomAnchor, constant: 20),
+            quizCollection.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 30),
         ])
     }
     
@@ -34,7 +40,14 @@ class QuizThemeComponent: UICollectionViewCell {
         quizThemeLabel = UILabel()
         quizThemeLabel.font = UIFont.boldSystemFont(ofSize: 20)
         quizThemeLabel.textColor = .yellow
+        
+        quizCollection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        quizCollection.register(QuizTableCell.self, forCellWithReuseIdentifier: cellId)
+        quizCollection.dataSource = self
+        quizCollection.delegate = self
+        
         self.addSubview(quizThemeLabel)
+        self.addSubview(quizCollection)
     }
     
     public func setUp(quizzes: [Quiz]) {
@@ -47,5 +60,25 @@ class QuizThemeComponent: UICollectionViewCell {
         case .sport:
             quizThemeLabel.text = "Sport"
         }
+        self.quizzes = quizzes
+        
+    }
+}
+
+extension QuizThemeComponent:UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return quizzes.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! QuizTableCell
+        cell.setUp(quiz: quizzes[indexPath.row])
+        return cell
+    }
+}
+
+extension QuizThemeComponent:UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: quizCollection.frame.width, height: 100)
     }
 }
