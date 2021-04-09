@@ -15,8 +15,8 @@ class QuizzesViewController: UIViewController {
     private var fetchQuizzesButton: UIButton!
     private var funFactLabel: UILabel!
     private var numberOfQuizzesLabel: UILabel!
+    private var quizCollection:UICollectionView!
     private let numberOfQuizzesTemplate = "There are %d questions that contains the word \"NBA\""
-    private var quizTable: UITableView!
     private var noQuizView: NoQuizView!
     private var quizzes: [Quiz] = [Quiz]()
     let fontName = "ArialRoundedMTBold"
@@ -31,11 +31,10 @@ class QuizzesViewController: UIViewController {
     private func arangeOnScreen() {
         quizNameLabel.translatesAutoresizingMaskIntoConstraints = false
         fetchQuizzesButton.translatesAutoresizingMaskIntoConstraints = false
-        quizTable.translatesAutoresizingMaskIntoConstraints = false
         funFactLabel.translatesAutoresizingMaskIntoConstraints = false
         numberOfQuizzesLabel.translatesAutoresizingMaskIntoConstraints = false
-        quizTable.translatesAutoresizingMaskIntoConstraints = false
         noQuizView.translatesAutoresizingMaskIntoConstraints = false
+        quizCollection.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             quizNameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -47,9 +46,12 @@ class QuizzesViewController: UIViewController {
             funFactLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
             numberOfQuizzesLabel.topAnchor.constraint(equalTo: funFactLabel.bottomAnchor, constant: 10),
             numberOfQuizzesLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-            quizTable.topAnchor.constraint(equalTo: fetchQuizzesButton.bottomAnchor, constant: 30),
             noQuizView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             noQuizView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            quizCollection.topAnchor.constraint(equalTo: numberOfQuizzesLabel.bottomAnchor, constant: 20),
+            quizCollection.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            quizCollection.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            quizCollection.bottomAnchor.constraint(equalTo:view.bottomAnchor, constant: -30)
         ])
     }
     
@@ -102,23 +104,26 @@ class QuizzesViewController: UIViewController {
         numberOfQuizzesLabel.numberOfLines = 0
         numberOfQuizzesLabel.preferredMaxLayoutWidth = view.frame.width
         numberOfQuizzesLabel.lineBreakMode = .byWordWrapping
-        
-        //Quiz table
-        quizTable = UITableView()
-        quizTable.backgroundColor = .white
-        quizTable.register(QuizTableCell.self, forCellReuseIdentifier: customCellIdentifier)
-        quizTable.dataSource = self
-        
+                
         // No quiz view
         noQuizView = NoQuizView()
         
+        // Table
+        let layout:UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        quizCollection = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        quizCollection.backgroundColor = .purple
+        quizCollection.isHidden = true
+        quizCollection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: customCellIdentifier)
+        quizCollection.dataSource = self
+        quizCollection.delegate = self
+         
         // Add to subview
         view.addSubview(quizNameLabel)
         view.addSubview(fetchQuizzesButton)
         view.addSubview(funFactLabel)
         view.addSubview(numberOfQuizzesLabel)
-        view.addSubview(quizTable)
         view.addSubview(noQuizView)
+        view.addSubview(quizCollection)
     }
     
     @objc
@@ -129,21 +134,26 @@ class QuizzesViewController: UIViewController {
         funFactLabel.isHidden = false
         numberOfQuizzesLabel.text = String(format: numberOfQuizzesTemplate, quizzes.count)
         numberOfQuizzesLabel.numberOfLines = 0
-
-        arangeOnScreen()
-        quizTable.reloadData()
+        quizCollection.isHidden = false
+        quizCollection.reloadData()
     }
 }
 
-extension QuizzesViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+extension QuizzesViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return quizzes.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: customCellIdentifier) as! QuizTableCell
-        cell.quiz = quizzes[indexPath.row]
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: customCellIdentifier, for: indexPath)
+        cell.backgroundColor = .cyan
         return cell
     }
-    
+  
+}
+
+extension QuizzesViewController: UICollectionViewDelegateFlowLayout   {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: 200)
+    }
 }
