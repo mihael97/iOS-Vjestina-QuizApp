@@ -113,7 +113,7 @@ class QuizzesViewController: UIViewController {
         quizCollection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         quizCollection.backgroundColor = .purple
         quizCollection.isHidden = true
-        quizCollection.register(UICollectionViewCell.self, forCellWithReuseIdentifier: customCellIdentifier)
+        quizCollection.register(QuizThemeComponent.self, forCellWithReuseIdentifier: customCellIdentifier)
         quizCollection.dataSource = self
         quizCollection.delegate = self
          
@@ -145,8 +145,8 @@ extension QuizzesViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: customCellIdentifier, for: indexPath)
-        cell.backgroundColor = .cyan
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: customCellIdentifier, for: indexPath) as! QuizThemeComponent
+        cell.setUp(quizzes: [quizzes[indexPath.row]])
         return cell
     }
   
