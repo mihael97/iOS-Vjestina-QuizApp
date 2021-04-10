@@ -51,7 +51,7 @@ class QuizzesViewController: UIViewController {
             quizCollection.topAnchor.constraint(equalTo: numberOfQuizzesLabel.bottomAnchor, constant: 20),
             quizCollection.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             quizCollection.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            quizCollection.bottomAnchor.constraint(equalTo:view.bottomAnchor, constant: -30)
+            quizCollection.bottomAnchor.constraint(equalTo:view.bottomAnchor, constant: -10)
         ])
     }
     

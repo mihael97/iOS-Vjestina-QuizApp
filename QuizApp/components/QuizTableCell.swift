@@ -13,9 +13,11 @@ class QuizTableCell: UICollectionViewCell {
     private var titleLabel: UILabel!
     private var quizImage: UIImageView!
     private var descriptionLabel: UILabel!
+    private var levelRating: LevelRating!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setupCell()
         buildView()
         addConstraints()
     }
@@ -24,10 +26,11 @@ class QuizTableCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func addConstraints() {
+    private func addConstraints() {
         quizImage.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
+        levelRating.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             quizImage.topAnchor.constraint(equalTo: self.topAnchor, constant: 5),
@@ -36,17 +39,21 @@ class QuizTableCell: UICollectionViewCell {
             quizImage.widthAnchor.constraint(equalToConstant: 100),
             quizImage.heightAnchor.constraint(equalToConstant: 20),
             titleLabel.leadingAnchor.constraint(equalTo:quizImage.trailingAnchor, constant: 5),
-            titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 15),
-            titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 5),
+            titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 25),
+            titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -5),
+            levelRating.topAnchor.constraint(equalTo: self.topAnchor, constant: 5),
+            levelRating.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
+            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5),
             descriptionLabel.leadingAnchor.constraint(equalTo: quizImage.trailingAnchor, constant: 5),
             descriptionLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 5),
-            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 2),
-            descriptionLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -5)
         ])
     }
     
-    func buildView() {
+    private func setupCell() {
         self.backgroundColor = .systemPurple
+    }
+    
+    private func buildView() {
         // title label
         titleLabel = UILabel()
         titleLabel.textColor = .white
@@ -63,9 +70,13 @@ class QuizTableCell: UICollectionViewCell {
         descriptionLabel.numberOfLines = 0
         descriptionLabel.textColor = .white
         
+        //rating starts
+        levelRating = LevelRating()
+        
         self.addSubview(titleLabel)
         self.addSubview(quizImage)
         self.addSubview(descriptionLabel)
+        self.addSubview(levelRating)
     }
     
     public func setUp(quiz:Quiz) {
@@ -73,5 +84,7 @@ class QuizTableCell: UICollectionViewCell {
         descriptionLabel.text=quiz.description
 
         quizImage.image = UIImage(named: "download.jpeg")
+        levelRating.setUp(rating: quiz.level)
+        print(quiz.level)
     }
 }

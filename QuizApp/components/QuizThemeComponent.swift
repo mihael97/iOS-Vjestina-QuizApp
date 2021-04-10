@@ -38,7 +38,7 @@ class QuizThemeComponent: UICollectionViewCell {
         ])
     }
     
-    private func buildView() {
+    private func buildView() {        
         quizThemeLabel = UILabel()
         quizThemeLabel.font = UIFont.boldSystemFont(ofSize: 20)
         quizThemeLabel.textColor = .yellow
@@ -47,6 +47,7 @@ class QuizThemeComponent: UICollectionViewCell {
         quizCollection.register(QuizTableCell.self, forCellWithReuseIdentifier: cellId)
         quizCollection.dataSource = self
         quizCollection.delegate = self
+        quizCollection.backgroundColor = .purple
         
         self.addSubview(quizThemeLabel)
         self.addSubview(quizCollection)
@@ -80,6 +81,10 @@ extension QuizThemeComponent:UICollectionViewDataSource {
 
 extension QuizThemeComponent:UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: quizCollection.frame.width, height: 100)
+        return CGSize(width: quizCollection.frame.width, height: 120)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return CGFloat(10)
     }
 }
