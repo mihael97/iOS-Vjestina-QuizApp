@@ -128,23 +128,22 @@ class QuizzesViewController: UIViewController {
     
     @objc
     private func fetchQuizzes(button: UIButton) {
-//        let arrayQuizzes = dataService.fetchQuizes().filter{ $0.title.uppercased().contains("NBA") || $0.description.uppercased().contains("NBA") || $0.questions.uppercased().contains("NBA")}
         let arrayQuizzes = dataService.fetchQuizes()
-//        let count = arrayQuizzes.reduce{ $0.questions.filter( $0.title.uppercased().contains("NBA")).count }
-        
-        quizzes = [:]
-        
-        for quiz in arrayQuizzes {
-            if quizzes[quiz.category] != nil {
-                quizzes[quiz.category]?.append(quiz)
-            } else {
-                quizzes[quiz.category] = [quiz]
+        let count = arrayQuizzes.map{ $0.questions.filter{ $0.question.uppercased().contains("NBA") }.count }.reduce(0, +)
+                        
+        quizzes = arrayQuizzes.reduce([:] as! [QuizCategory: [Quiz]], {
+                a, b in
+                    var map:[QuizCategory: [Quiz]] = a
+                    var value = map[b.category,default: []]
+                    value.append(b)
+                    map[b.category] = value
+                    return map
             }
-        }
-        
+        )
+                
         noQuizView.isHidden = true
         funFactLabel.isHidden = false
-        numberOfQuizzesLabel.text = String(format: numberOfQuizzesTemplate, arrayQuizzes.count)
+        numberOfQuizzesLabel.text = String(format: numberOfQuizzesTemplate, count)
         numberOfQuizzesLabel.numberOfLines = 0
         quizCollection.isHidden = false
         quizCollection.reloadData()

@@ -57,7 +57,7 @@ class QuizTableCell: UICollectionViewCell {
         // title label
         titleLabel = UILabel()
         titleLabel.textColor = .white
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 15)
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
         titleLabel.numberOfLines = 0
         titleLabel.lineBreakMode = .byWordWrapping
         
@@ -66,6 +66,7 @@ class QuizTableCell: UICollectionViewCell {
         
         //description label
         descriptionLabel = UILabel()
+        descriptionLabel.font = UIFont.systemFont(ofSize: 15)
         descriptionLabel.lineBreakMode = .byWordWrapping
         descriptionLabel.numberOfLines = 0
         descriptionLabel.textColor = .white
