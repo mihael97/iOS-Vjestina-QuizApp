@@ -10,9 +10,10 @@ import Foundation
 import UIKit
 
 class LevelRating: UIView {
+    private let ICON_ACTIVE: UIImage = UIImage(systemName: "suit.diamond.fill")?.withTintColor(.yellow)
+
     private var difficultyIcon: UIImageView!
     private var difficultyLabel: UILabel!
-    private let ICON_ACTIVE = UIImage(systemName: "suit.diamond.fill")?.withTintColor(.yellow)
     
     override init(frame: CGRect) {
         super.init(frame: frame)

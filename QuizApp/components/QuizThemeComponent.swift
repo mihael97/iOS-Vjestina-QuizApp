@@ -10,10 +10,11 @@ import Foundation
 import UIKit
 
 class QuizThemeComponent: UICollectionViewCell {
+    private let cellId = "cellId"
+
     private var quizThemeLabel:UILabel!
     private var quizzes: [Quiz] = []
     private var quizCollection:UICollectionView!
-    private let cellId = "cellId"
     
     override init(frame: CGRect) {
         super.init(frame:frame)

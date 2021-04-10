@@ -13,6 +13,7 @@ class PasswordField: UITextField {
     private let offsetOfField:Int64 = 5
     private let openEyeImageName: UIImage? = UIImage(systemName: "eye")?.withTintColor(.black)
     private let closeEyeImageName: UIImage? = UIImage(systemName: "eye.slash")?.withTintColor(.black)
+    
     private var passwordShowButton: UIButton!
     
     override init(frame: CGRect) {

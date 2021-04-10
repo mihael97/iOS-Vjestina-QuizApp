@@ -17,16 +17,15 @@ class QuizTableCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupCell()
         buildView()
-        addConstraints()
+        setConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func addConstraints() {
+    private func setConstraints() {
         quizImage.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -48,12 +47,10 @@ class QuizTableCell: UICollectionViewCell {
             descriptionLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 5),
         ])
     }
-    
-    private func setupCell() {
-        self.backgroundColor = .systemPurple
-    }
-    
+        
     private func buildView() {
+        self.backgroundColor = .systemPurple
+
         // title label
         titleLabel = UILabel()
         titleLabel.textColor = .white

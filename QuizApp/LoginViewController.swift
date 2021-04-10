@@ -14,33 +14,21 @@ class LoginViewController: UIViewController {
     private let radiusOfField:Int64 = 5
     private let fieldsWidth  = CGFloat(300)
     private let fieldsHeight = CGFloat(40)
+    private let dataService: DataService = DataService()
 
     private var appNameLabel: UILabel!
     private var usernameTextField: UITextField!
     private var passwordField: PasswordField!
     private var loginButton: UIButton!
-    private var dataService: DataService!
-    private var isFalseLogin = true
     private var falseLoginLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        dataService = DataService()
-        buildViews()
+        buildView()
+        setConstraints()
     }
-    
-    private func buildViews() {
-        createViewComponents()
-        styleView()
-    }
-    
-    private func styleView() {
-        appNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        usernameTextField.translatesAutoresizingMaskIntoConstraints = false
-        passwordField.translatesAutoresizingMaskIntoConstraints = false
-        loginButton.translatesAutoresizingMaskIntoConstraints = false
-        falseLoginLabel.translatesAutoresizingMaskIntoConstraints = false
 
+    private func setConstraints() {
         NSLayoutConstraint.activate([
             appNameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             appNameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
@@ -68,7 +56,7 @@ class LoginViewController: UIViewController {
         loginButton.layer.cornerRadius = CGFloat(radiusOfField)
     }
     
-    private func createViewComponents() {
+    private func buildView() {
         view.backgroundColor = .purple
 
         // Quiz app Styling
@@ -111,11 +99,16 @@ class LoginViewController: UIViewController {
         setRoundShape()
         
         // Add layouts
-        view.addSubview(appNameLabel)
-        view.addSubview(usernameTextField)
-        view.addSubview(passwordField)
-        view.addSubview(loginButton)
-        view.addSubview(falseLoginLabel)
+        addSubview(subView: appNameLabel)
+        addSubview(subView: usernameTextField)
+        addSubview(subView: passwordField)
+        addSubview(subView: loginButton)
+        addSubview(subView: falseLoginLabel)
+    }
+    
+    private func addSubview(subView: UIView) {
+        view.addSubview(subView)
+        subView.translatesAutoresizingMaskIntoConstraints = false
     }
     
     private func addDidChangeTrigger(element: UITextField) {
@@ -137,7 +130,7 @@ class LoginViewController: UIViewController {
     
     @objc
     func textFieldDidChange(_:UITextField)  {
-        if(isFalseLogin) {
+        if(!falseLoginLabel.isHidden) {
             falseLoginLabel.isHidden = true
         }
         if(usernameTextField.text!.count != 0 && passwordField.text!.count != 0 ) {

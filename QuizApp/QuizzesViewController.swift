@@ -15,27 +15,20 @@ class QuizzesViewController: UIViewController {
     private var fetchQuizzesButton: UIButton!
     private var funFactLabel: UILabel!
     private var numberOfQuizzesLabel: UILabel!
-    private var quizCollection:UICollectionView!
-    private let numberOfQuizzesTemplate = "There are %d questions that contains the word \"NBA\""
+    private var quizCollection: UICollectionView!
     private var noQuizView: NoQuizView!
     private var quizzes: [QuizCategory:[Quiz]] = [:]
-    let fontName = "ArialRoundedMTBold"
-    let customCellIdentifier = "customCell"
+    private let fontName: String = "ArialRoundedMTBold"
+    private let customCellIdentifier: String = "customCell"
+    private let numberOfQuizzesTemplate: String = "There are %d questions that contains the word \"NBA\""
     
     override func viewDidLoad() {
         dataService = DataService()
         buildView()
-        arangeOnScreen()
+        setConstraints()
     }
         
-    private func arangeOnScreen() {
-        quizNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        fetchQuizzesButton.translatesAutoresizingMaskIntoConstraints = false
-        funFactLabel.translatesAutoresizingMaskIntoConstraints = false
-        numberOfQuizzesLabel.translatesAutoresizingMaskIntoConstraints = false
-        noQuizView.translatesAutoresizingMaskIntoConstraints = false
-        quizCollection.translatesAutoresizingMaskIntoConstraints = false
-        
+    private func setConstraints() {
         NSLayoutConstraint.activate([
             quizNameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             quizNameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
@@ -46,6 +39,7 @@ class QuizzesViewController: UIViewController {
             funFactLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
             numberOfQuizzesLabel.topAnchor.constraint(equalTo: funFactLabel.bottomAnchor, constant: 10),
             numberOfQuizzesLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            numberOfQuizzesLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
             noQuizView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             noQuizView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             quizCollection.topAnchor.constraint(equalTo: numberOfQuizzesLabel.bottomAnchor, constant: 20),
@@ -102,7 +96,6 @@ class QuizzesViewController: UIViewController {
         numberOfQuizzesLabel.font = UIFont(name: fontName, size: 20)
         numberOfQuizzesLabel.textColor = .white
         numberOfQuizzesLabel.numberOfLines = 0
-        numberOfQuizzesLabel.preferredMaxLayoutWidth = view.frame.width
         numberOfQuizzesLabel.lineBreakMode = .byWordWrapping
                 
         // No quiz view
@@ -118,18 +111,26 @@ class QuizzesViewController: UIViewController {
         quizCollection.delegate = self
          
         // Add to subview
-        view.addSubview(quizNameLabel)
-        view.addSubview(fetchQuizzesButton)
-        view.addSubview(funFactLabel)
-        view.addSubview(numberOfQuizzesLabel)
-        view.addSubview(noQuizView)
-        view.addSubview(quizCollection)
+        addSubview(subView: quizNameLabel)
+        addSubview(subView: fetchQuizzesButton)
+        addSubview(subView: funFactLabel)
+        addSubview(subView: numberOfQuizzesLabel)
+        addSubview(subView: noQuizView)
+        addSubview(subView: quizCollection)
+    }
+    
+    private func addSubview(subView: UIView) {
+        view.addSubview(subView)
+        subView.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private func findTitlesWithNBA(quizzes: [Quiz]) -> Int {
+        return quizzes.map{ $0.questions.filter{ $0.question.uppercased().contains("NBA") }.count }.reduce(0, +)
     }
     
     @objc
     private func fetchQuizzes(button: UIButton) {
         let arrayQuizzes = dataService.fetchQuizes()
-        let count = arrayQuizzes.map{ $0.questions.filter{ $0.question.uppercased().contains("NBA") }.count }.reduce(0, +)
                         
         quizzes = arrayQuizzes.reduce([:] as! [QuizCategory: [Quiz]], {
                 a, b in
@@ -143,7 +144,7 @@ class QuizzesViewController: UIViewController {
                 
         noQuizView.isHidden = true
         funFactLabel.isHidden = false
-        numberOfQuizzesLabel.text = String(format: numberOfQuizzesTemplate, count)
+        numberOfQuizzesLabel.text = String(format: numberOfQuizzesTemplate, findTitlesWithNBA(quizzes: arrayQuizzes))
         numberOfQuizzesLabel.numberOfLines = 0
         quizCollection.isHidden = false
         quizCollection.reloadData()
