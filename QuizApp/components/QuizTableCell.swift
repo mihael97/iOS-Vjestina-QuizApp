@@ -9,13 +9,15 @@
 import Foundation
 import UIKit
 
-class QuizTableCell: UITableViewCell {
-    var quiz: Quiz?
+class QuizTableCell: UICollectionViewCell {
     private var titleLabel: UILabel!
-    private var imageUI: UIImageView!
+    private var quizImage: UIImageView!
+    private var descriptionLabel: UILabel!
+    private var levelRating: LevelRating!
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupCell()
         buildView()
         addConstraints()
     }
@@ -24,28 +26,65 @@ class QuizTableCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func addConstraints() {
-        if let quizImage = imageUI {
-            quizImage.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                quizImage.trailingAnchor.constraint(equalTo: self.trailingAnchor)
-            ])
-        }
+    private func addConstraints() {
+        quizImage.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
+        levelRating.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            quizImage.topAnchor.constraint(equalTo: self.topAnchor, constant: 5),
+            quizImage.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 5),
+            quizImage.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -5),
+            quizImage.widthAnchor.constraint(equalToConstant: 100),
+            quizImage.heightAnchor.constraint(equalToConstant: 20),
+            titleLabel.leadingAnchor.constraint(equalTo:quizImage.trailingAnchor, constant: 5),
+            titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 25),
+            titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -5),
+            levelRating.topAnchor.constraint(equalTo: self.topAnchor, constant: 5),
+            levelRating.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
+            descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5),
+            descriptionLabel.leadingAnchor.constraint(equalTo: quizImage.trailingAnchor, constant: 5),
+            descriptionLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: 5),
+        ])
     }
     
-    func buildView() {
-        if let quiz = quiz {
-            // title label
-            titleLabel = UILabel()
-            titleLabel.text = quiz.title
-            titleLabel.backgroundColor = .purple
-            titleLabel.textColor = .white
-            
-            // image
-            imageUI = UIImageView()
-            let url = URL(string: quiz.imageUrl)
-            let data = try? Data(contentsOf: url!)
-            imageUI.image = UIImage(data: data!)
-        }
+    private func setupCell() {
+        self.backgroundColor = .systemPurple
+    }
+    
+    private func buildView() {
+        // title label
+        titleLabel = UILabel()
+        titleLabel.textColor = .white
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 15)
+        titleLabel.numberOfLines = 0
+        titleLabel.lineBreakMode = .byWordWrapping
+        
+        // image
+        quizImage = UIImageView()
+        
+        //description label
+        descriptionLabel = UILabel()
+        descriptionLabel.lineBreakMode = .byWordWrapping
+        descriptionLabel.numberOfLines = 0
+        descriptionLabel.textColor = .white
+        
+        //rating starts
+        levelRating = LevelRating()
+        
+        self.addSubview(titleLabel)
+        self.addSubview(quizImage)
+        self.addSubview(descriptionLabel)
+        self.addSubview(levelRating)
+    }
+    
+    public func setUp(quiz:Quiz) {
+        titleLabel.text = quiz.title
+        descriptionLabel.text=quiz.description
+
+        quizImage.image = UIImage(named: "download.jpeg")
+        levelRating.setUp(rating: quiz.level)
+        print(quiz.level)
     }
 }
