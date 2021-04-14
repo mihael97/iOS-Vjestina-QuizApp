@@ -9,8 +9,8 @@
 import Foundation
 import UIKit
 
-class NoQuizView: UIView {
-    private var noQuizImage: UIImageView!
+class QuizLoadingErrorComponent: UIView {
+    private var noQuizIcon: UIImageView!
     private var noQuizLabel: UILabel!
     
     override init(frame: CGRect) {
@@ -24,13 +24,13 @@ class NoQuizView: UIView {
     }
     
     private func setConstraints() {
+        noQuizIcon.translatesAutoresizingMaskIntoConstraints = false
         noQuizLabel.translatesAutoresizingMaskIntoConstraints = false
-        noQuizImage.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            noQuizImage.topAnchor.constraint(equalTo: self.topAnchor, constant: 0),
-            noQuizImage.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            noQuizLabel.topAnchor.constraint(equalTo: noQuizImage.bottomAnchor, constant: 30),
+            noQuizIcon.topAnchor.constraint(equalTo: self.topAnchor, constant: 0),
+            noQuizIcon.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            noQuizLabel.topAnchor.constraint(equalTo: noQuizIcon.bottomAnchor, constant: 30),
             noQuizLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
         ])
     }
@@ -48,13 +48,13 @@ class NoQuizView: UIView {
         """
         
         // no quiz image
-        noQuizImage = UIImageView()
+        noQuizIcon = UIImageView()
         let largeFont = UIFont.systemFont(ofSize: 50)
         let configuration = UIImage.SymbolConfiguration(font: largeFont)
         let image = UIImage(systemName: "xmark.circle", withConfiguration: configuration)?.withTintColor(.white)
-        noQuizImage.image = image
+        noQuizIcon.image = image
         
-        self.addSubview(noQuizImage)
+        self.addSubview(noQuizIcon)
         self.addSubview(noQuizLabel)
     }
 }
