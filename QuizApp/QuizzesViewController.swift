@@ -14,11 +14,10 @@ class QuizzesViewController: UIViewController {
     private var quizNameLabel: UILabel!
     private var fetchQuizzesButton: UIButton!
     private var funFactLabel: FunFactLabel!
-    private var quizCollection: UICollectionView!
+    private var quizCollection: QuizCollection!
     private var noLoadedQuizView: NoQuizLoadedComponent!
     private var quizzes: [QuizCategory:[Quiz]] = [:]
     private let fontName: String = "ArialRoundedMTBold"
-    private let customCellIdentifier: String = "customCell"
     
     override func viewDidLoad() {
         dataService = DataService()
@@ -71,12 +70,7 @@ class QuizzesViewController: UIViewController {
         noLoadedQuizView.isHidden = false
         
         // Table
-        quizCollection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-        quizCollection.backgroundColor = .purple
-        quizCollection.isHidden = true
-        quizCollection.register(QuizThemeComponent.self, forCellWithReuseIdentifier: customCellIdentifier)
-        quizCollection.dataSource = self
-        quizCollection.delegate = self
+        quizCollection = QuizCollection(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
          
         // Add to subview
         addSubview(subView: quizNameLabel)
@@ -115,26 +109,7 @@ class QuizzesViewController: UIViewController {
         quizCollection.isHidden = false
         if !quizzes.isEmpty {
             noLoadedQuizView.isHidden = true
-            quizCollection.reloadData()
+            quizCollection.update(quizzes: quizzes)
         }
-    }
-}
-
-extension QuizzesViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return quizzes.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: customCellIdentifier, for: indexPath) as! QuizThemeComponent
-        cell.setUp(quizzes: Array(quizzes)[indexPath.row].value)
-        return cell
-    }
-  
-}
-
-extension QuizzesViewController: UICollectionViewDelegateFlowLayout   {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: 200)
     }
 }
