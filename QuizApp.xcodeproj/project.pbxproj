@@ -26,6 +26,7 @@
 		5243C0C12618746300194D35 /* QuizzesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5243C0C02618746300194D35 /* QuizzesViewController.swift */; };
 		5243C0C92618DD7E00194D35 /* QuizTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5243C0C82618DD7E00194D35 /* QuizTableCell.swift */; };
 		5256ADD9261B5BED006DE011 /* PasswordField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5256ADD8261B5BED006DE011 /* PasswordField.swift */; };
+		528D6CB0262A24A600078921 /* QuizViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528D6CAF262A24A500078921 /* QuizViewController.swift */; };
 		52B41053261F8DAC0013422E /* QuizLoadingErrorComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B41052261F8DAC0013422E /* QuizLoadingErrorComponent.swift */; };
 		52F6C7F22621C53B0003AFA1 /* LevelRating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F6C7F12621C53B0003AFA1 /* LevelRating.swift */; };
 /* End PBXBuildFile section */
@@ -53,6 +54,7 @@
 		5243C0C02618746300194D35 /* QuizzesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizzesViewController.swift; sourceTree = "<group>"; };
 		5243C0C82618DD7E00194D35 /* QuizTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizTableCell.swift; sourceTree = "<group>"; };
 		5256ADD8261B5BED006DE011 /* PasswordField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordField.swift; sourceTree = "<group>"; };
+		528D6CAF262A24A500078921 /* QuizViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizViewController.swift; sourceTree = "<group>"; };
 		52B41052261F8DAC0013422E /* QuizLoadingErrorComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizLoadingErrorComponent.swift; sourceTree = "<group>"; };
 		52F6C7F12621C53B0003AFA1 /* LevelRating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelRating.swift; sourceTree = "<group>"; };
 		BEF5C387EE323CF29BD97309 /* Pods-QuizApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuizApp.debug.xcconfig"; path = "Target Support Files/Pods-QuizApp/Pods-QuizApp.debug.xcconfig"; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 				522CA4ED2617851D008BAE7B /* DataServiceProtocol.swift */,
 				522CA4F82617874E008BAE7B /* DataService.swift */,
 				5243C0C02618746300194D35 /* QuizzesViewController.swift */,
+				528D6CAF262A24A500078921 /* QuizViewController.swift */,
 			);
 			path = QuizApp;
 			sourceTree = "<group>";
@@ -261,6 +264,7 @@
 				522CA4F326178604008BAE7B /* Quiz.swift in Sources */,
 				5243C0C12618746300194D35 /* QuizzesViewController.swift in Sources */,
 				52F6C7F22621C53B0003AFA1 /* LevelRating.swift in Sources */,
+				528D6CB0262A24A600078921 /* QuizViewController.swift in Sources */,
 				522CA4EE2617851D008BAE7B /* DataServiceProtocol.swift in Sources */,
 				5219969926273241008478DA /* NoQuizLoadedComponent.swift in Sources */,
 				522CA4F7261786A8008BAE7B /* QuizCategory.swift in Sources */,
