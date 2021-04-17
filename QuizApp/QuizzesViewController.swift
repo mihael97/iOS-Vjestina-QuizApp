@@ -72,6 +72,7 @@ class QuizzesViewController: UIViewController {
         
         // Table
         quizCollection = QuizCollection(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        quizCollection.controller=self
          
         // Add to subview
         addSubview(subView: quizNameLabel)
