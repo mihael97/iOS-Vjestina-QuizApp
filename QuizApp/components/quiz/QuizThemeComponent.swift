@@ -78,6 +78,10 @@ extension QuizThemeComponent:UICollectionViewDataSource {
         cell.setUp(quiz: quizzes[indexPath.row])
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let controller = QuizViewController(quiz: quizzes[indexPath.row])
+    }
 }
 
 extension QuizThemeComponent:UICollectionViewDelegateFlowLayout {

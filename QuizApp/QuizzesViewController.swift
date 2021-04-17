@@ -46,6 +46,7 @@ class QuizzesViewController: UIViewController {
     
     private func buildView() {
         view.backgroundColor = .purple
+        navigationItem.hidesBackButton = true
         
         // Quiz name label
         quizNameLabel = UILabel()

@@ -124,7 +124,8 @@ class LoginViewController: UIViewController {
                 falseLoginLabel.isHidden = false
                 break
             case .success:
-                print("Loggin is successful")
+            
+                self.navigationController?.pushViewController(QuizzesViewController(), animated: true)
         }
     }
     
