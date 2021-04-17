@@ -15,6 +15,7 @@ class QuizThemeComponent: UICollectionViewCell {
     private var quizThemeLabel:UILabel!
     private var quizzes: [Quiz] = []
     private var quizCollection:UICollectionView!
+    weak public var controller: UIViewController!
     
     override init(frame: CGRect) {
         super.init(frame:frame)
@@ -81,6 +82,7 @@ extension QuizThemeComponent:UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let controller = QuizViewController(quiz: quizzes[indexPath.row])
+        self.controller.navigationController?.pushViewController(controller, animated: true)
     }
 }
 
