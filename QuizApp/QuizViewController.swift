@@ -11,6 +11,8 @@ import UIKit
 
 class QuizViewController: UIViewController {
     private let quiz:Quiz
+    private var questionLabel: UILabel!
+    private var questionIndex: Int!
     
     init(quiz:Quiz) {
         self.quiz=quiz
@@ -22,6 +24,27 @@ class QuizViewController: UIViewController {
     }
     
     override func viewDidLoad() {
-        print("Quiz controller")
+        buildView()
+        setConstraints()
+    }
+    
+    private func setConstraints() {
+        NSLayoutConstraint.activate([
+            questionLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 10),
+            questionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+        ])
+    }
+    
+    private func buildView() {
+        questionIndex=1
+        questionLabel=UILabel()
+        questionLabel.text = "\(1)/\(quiz.questions.count)"
+        
+        addToSubview(component: questionLabel)
+    }
+    
+    private func addToSubview(component: UIView) {
+        component.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(component)
     }
 }
