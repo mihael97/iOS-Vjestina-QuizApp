@@ -10,9 +10,9 @@ import Foundation
 import UIKit
 
 class QuizViewController: UIViewController {
+    private let offset: CGFloat = 10
     private let quiz:Quiz
-    private var questionLabel: UILabel!
-    private var questionIndex: Int!
+    private var quizQuestion: QuizQuestion!
     
     init(quiz:Quiz) {
         self.quiz=quiz
@@ -29,18 +29,20 @@ class QuizViewController: UIViewController {
     }
     
     private func setConstraints() {
+        let safeArea = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
-            questionLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 10),
-            questionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
+            quizQuestion.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: offset),
+            quizQuestion.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: offset),
+            quizQuestion.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -offset),
+            quizQuestion.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -offset),
         ])
     }
     
     private func buildView() {
-        questionIndex=1
-        questionLabel=UILabel()
-        questionLabel.text = "\(1)/\(quiz.questions.count)"
-        
-        addToSubview(component: questionLabel)
+        view.backgroundColor = .purple
+        quizQuestion = QuizQuestion()
+        quizQuestion.setQuiz(quiz: quiz)
+        addToSubview(component: quizQuestion)
     }
     
     private func addToSubview(component: UIView) {
