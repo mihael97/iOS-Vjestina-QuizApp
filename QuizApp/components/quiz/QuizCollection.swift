@@ -11,6 +11,7 @@ import UIKit
 
 class QuizCollection: UICollectionView {
     private let customCellIdentifier: String = "customCell"
+    weak public var controller: UIViewController?
     private var quizzes: [QuizCategory:[Quiz]] = [:]
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
@@ -45,6 +46,7 @@ extension QuizCollection: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: customCellIdentifier, for: indexPath) as! QuizThemeComponent
+        cell.controller=self.controller
         cell.setUp(quizzes: Array(quizzes)[indexPath.row].value)
         return cell
     }
