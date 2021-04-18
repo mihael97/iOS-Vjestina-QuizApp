@@ -13,11 +13,14 @@ class QuizQuestion: UIView {
     public var quiz:Quiz!
     private var questionIndexLabel: UILabel!
     private var questionLabel: UILabel!
-    private var questionIndex: Int = 0
-    private var questionAnswers: QuestionAnswers!
+    private var answerButtons: [AnswerButton]!
+    private var questionIndex:Int=0
+
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        buildView()
+        setConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -32,9 +35,6 @@ class QuizQuestion: UIView {
             questionLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 0),
             questionLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: 0),
             questionLabel.bottomAnchor.constraint(equalTo: safeArea.topAnchor, constant: 150),
-            questionAnswers.leadingAnchor.constraint(equalTo:safeArea.leadingAnchor, constant: 0),
-            questionAnswers.trailingAnchor.constraint(equalTo:safeArea.trailingAnchor, constant: 0),
-            questionAnswers.bottomAnchor.constraint(equalTo: safeArea.topAnchor, constant: 200)
         ])
     }
     
@@ -50,35 +50,19 @@ class QuizQuestion: UIView {
         questionLabel.font = UIFont.boldSystemFont(ofSize: 25)
         questionLabel.numberOfLines = 0
         questionLabel.lineBreakMode = .byWordWrapping
-        
-        questionAnswers = QuestionAnswers()
-        
-        advanceWithQuestion()
-        
+                        
         addToSubview(component: questionIndexLabel)
         addToSubview(component: questionLabel)
-        addToSubview(component: questionAnswers)
     }
-    
+        
     private func addToSubview(component: UIView) {
         component.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(component)
     }
     
-    private func advanceWithQuestion() {
-        questionIndex+=1
-        if questionIndex >= quiz.questions.count {
-            return
-        }
-        questionIndexLabel.text = "\(String(describing: questionIndex))/\(quiz.questions.count)"
-        let question:Question = quiz.questions[questionIndex-1]
-        questionAnswers.setUp(question: question)
-        questionLabel.text=question.question
+    public func setQuiz(index:Int, quiz: Quiz) {
+        questionIndexLabel.text="\(index+1)/\(quiz.questions.count)"
+        questionLabel.text=quiz.questions[index].question
     }
     
-    public func setQuiz(quiz: Quiz) {
-        self.quiz=quiz
-        buildView()
-        setConstraints()
-    }
 }
