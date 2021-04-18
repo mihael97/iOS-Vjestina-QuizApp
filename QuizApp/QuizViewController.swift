@@ -15,9 +15,11 @@ class QuizViewController: UIViewController {
     private var quizQuestion: QuizQuestion!
     private var questionIndex: Int=0
     private var answerButtons: [AnswerButton]!
+    private var correctAnswers:Int
     
     init(quiz:Quiz) {
         self.quiz=quiz
+        correctAnswers = self.quiz.questions.count
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -44,7 +46,7 @@ class QuizViewController: UIViewController {
             constraints.append(element.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20))
 
             if i==0 {
-                constraints.append(element.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 200))
+                constraints.append(element.topAnchor.constraint(equalTo: quizQuestion.bottomAnchor, constant: 40))
             } else {
                 constraints.append(element.topAnchor.constraint(equalTo: answerButtons[i-1].bottomAnchor, constant: 20))
             }
@@ -62,7 +64,8 @@ class QuizViewController: UIViewController {
         answerButtons=[]
         for _ in 0...3 {
             let button = AnswerButton()
-            button.addTarget(self, action: #selector(QuizViewController.didClicked(_:)), for: .touchUpInside)
+            button.addTarget(self, action: #selector(QuizViewController.answerClicked(_:)), for: .touchUpInside)
+            button.layer.cornerRadius = CGFloat(10)
             answerButtons.append(button)
             addToSubview(component: button)
         }
@@ -71,11 +74,12 @@ class QuizViewController: UIViewController {
     }
     
     @objc
-    private func didClicked(_ sender:AnswerButton) {
+    private func answerClicked(_ sender:AnswerButton) {
         let correctAnswer:Int=quiz.questions[questionIndex-1].correctAnswer
         answerButtons[correctAnswer].backgroundColor = .green
         if correctAnswer != sender.getIndex() {
             answerButtons[sender.getIndex()].backgroundColor = .red
+            self.correctAnswers-=1
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
             self.advanceInQuestion()
@@ -83,6 +87,11 @@ class QuizViewController: UIViewController {
     }
     
     private func advanceInQuestion() {
+        if questionIndex==quiz.questions.count {
+            let controller = QuizResultViewController(correct: correctAnswers, total: quiz.questions.count)
+            self.navigationController?.pushViewController(controller, animated: true)
+            return
+        }
         quizQuestion.setQuiz(index: questionIndex, quiz: quiz)
         for (i, answer) in quiz.questions[questionIndex].answers.enumerated() {
             answerButtons[i].backgroundColor = .systemPurple
