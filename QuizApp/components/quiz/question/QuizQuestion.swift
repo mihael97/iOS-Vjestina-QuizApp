@@ -29,6 +29,7 @@ class QuizQuestion: UIView {
     
     private func setConstraints() {
         let safeArea = self.safeAreaLayoutGuide
+
         NSLayoutConstraint.activate([
             questionIndexLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 20),
             questionIndexLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 0),
@@ -51,7 +52,7 @@ class QuizQuestion: UIView {
         questionLabel.font = UIFont.boldSystemFont(ofSize: 25)
         questionLabel.numberOfLines = 0
         questionLabel.lineBreakMode = .byWordWrapping
-                        
+                
         addToSubview(component: questionIndexLabel)
         addToSubview(component: questionLabel)
     }
@@ -61,7 +62,7 @@ class QuizQuestion: UIView {
         self.addSubview(component)
     }
     
-    public func setQuiz(index:Int, quiz: Quiz) {
+    public func setQuestion(index:Int, quiz: Quiz) {
         questionIndexLabel.text="\(index+1)/\(quiz.questions.count)"
         questionLabel.text=quiz.questions[index].question
     }
