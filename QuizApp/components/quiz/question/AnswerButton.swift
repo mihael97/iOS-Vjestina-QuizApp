@@ -2,7 +2,7 @@
 //  AnswerButton.swift
 //  QuizApp
 //
-//  Created by five on 17/04/2021.
+//  Created by five on 18/04/2021.
 //  Copyright © 2021 five. All rights reserved.
 //
 
@@ -10,9 +10,9 @@ import Foundation
 import UIKit
 
 class AnswerButton: UIButton {
-    public var answerIndex:Int!
+    private var index:Int=0
     override init(frame: CGRect) {
-        super.init(frame:frame)
+        super.init(frame: frame)
         buildView()
     }
     
@@ -22,11 +22,15 @@ class AnswerButton: UIButton {
     
     private func buildView() {
         self.backgroundColor = .systemPurple
-        self.layer.cornerRadius = CGFloat(15)
+        self.setTitleColor(.white, for: .normal)
     }
     
-    public func setUp(title:String, index:Int) {
-        answerIndex=index
+    public func setUp(title: String, index:Int) {
         self.setTitle(title, for: .normal)
+        self.index=index
+    }
+    
+    public func getIndex()->Int {
+        return self.index
     }
 }
