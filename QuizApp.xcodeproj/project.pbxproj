@@ -27,8 +27,7 @@
 		5256ADD9261B5BED006DE011 /* PasswordField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5256ADD8261B5BED006DE011 /* PasswordField.swift */; };
 		528D6CB0262A24A600078921 /* QuizViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528D6CAF262A24A500078921 /* QuizViewController.swift */; };
 		529C1ACD262B67790068F41F /* QuizQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529C1ACC262B67790068F41F /* QuizQuestion.swift */; };
-		529C1ACF262B808A0068F41F /* QuestionAnswers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529C1ACE262B808A0068F41F /* QuestionAnswers.swift */; };
-		529C1AD1262B827E0068F41F /* AnswerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529C1AD0262B827E0068F41F /* AnswerButton.swift */; };
+		529E1EDB262C320F00EBDAB3 /* AnswerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529E1EDA262C320F00EBDAB3 /* AnswerButton.swift */; };
 		52B41053261F8DAC0013422E /* QuizLoadingErrorComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B41052261F8DAC0013422E /* QuizLoadingErrorComponent.swift */; };
 		52EB6A5B2630705800A3C189 /* CustomSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EB6A5A2630705800A3C189 /* CustomSectionHeader.swift */; };
 		52F6C7F22621C53B0003AFA1 /* LevelRating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F6C7F12621C53B0003AFA1 /* LevelRating.swift */; };
@@ -58,8 +57,7 @@
 		5256ADD8261B5BED006DE011 /* PasswordField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordField.swift; sourceTree = "<group>"; };
 		528D6CAF262A24A500078921 /* QuizViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizViewController.swift; sourceTree = "<group>"; };
 		529C1ACC262B67790068F41F /* QuizQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizQuestion.swift; sourceTree = "<group>"; };
-		529C1ACE262B808A0068F41F /* QuestionAnswers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionAnswers.swift; sourceTree = "<group>"; };
-		529C1AD0262B827E0068F41F /* AnswerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerButton.swift; sourceTree = "<group>"; };
+		529E1EDA262C320F00EBDAB3 /* AnswerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerButton.swift; sourceTree = "<group>"; };
 		52B41052261F8DAC0013422E /* QuizLoadingErrorComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizLoadingErrorComponent.swift; sourceTree = "<group>"; };
 		52EB6A5A2630705800A3C189 /* CustomSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSectionHeader.swift; sourceTree = "<group>"; };
 		52F6C7F12621C53B0003AFA1 /* LevelRating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelRating.swift; sourceTree = "<group>"; };
@@ -161,8 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				529C1ACC262B67790068F41F /* QuizQuestion.swift */,
-				529C1ACE262B808A0068F41F /* QuestionAnswers.swift */,
-				529C1AD0262B827E0068F41F /* AnswerButton.swift */,
+				529E1EDA262C320F00EBDAB3 /* AnswerButton.swift */,
 			);
 			path = question;
 			sourceTree = "<group>";
@@ -284,12 +281,11 @@
 				528D6CB0262A24A600078921 /* QuizViewController.swift in Sources */,
 				522CA4EE2617851D008BAE7B /* DataServiceProtocol.swift in Sources */,
 				5219969926273241008478DA /* NoQuizLoadedComponent.swift in Sources */,
-				529C1ACF262B808A0068F41F /* QuestionAnswers.swift in Sources */,
+				529E1EDB262C320F00EBDAB3 /* AnswerButton.swift in Sources */,
 				522CA4F7261786A8008BAE7B /* QuizCategory.swift in Sources */,
 				522CA4D626174960008BAE7B /* AppDelegate.swift in Sources */,
 				529C1ACD262B67790068F41F /* QuizQuestion.swift in Sources */,
 				5219969B26273B83008478DA /* FunFactLabel.swift in Sources */,
-				529C1AD1262B827E0068F41F /* AnswerButton.swift in Sources */,
 				522CA4F526178660008BAE7B /* Question.swift in Sources */,
 				522CA4D826174960008BAE7B /* SceneDelegate.swift in Sources */,
 				52EB6A5B2630705800A3C189 /* CustomSectionHeader.swift in Sources */,
