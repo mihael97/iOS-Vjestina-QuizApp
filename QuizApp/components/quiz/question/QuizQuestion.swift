@@ -32,9 +32,10 @@ class QuizQuestion: UIView {
         NSLayoutConstraint.activate([
             questionIndexLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 20),
             questionIndexLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 0),
+            questionLabel.topAnchor.constraint(equalTo: questionIndexLabel.bottomAnchor, constant: 50),
             questionLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 0),
             questionLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: 0),
-            questionLabel.bottomAnchor.constraint(equalTo: safeArea.topAnchor, constant: 150),
+            questionLabel.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: 0),
         ])
     }
     
