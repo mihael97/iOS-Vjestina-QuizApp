@@ -58,7 +58,6 @@ class QuizViewController: UIViewController {
     private func buildView() {
         view.backgroundColor = .purple
         quizQuestion = QuizQuestion()
-        quizQuestion.setQuiz(index: questionIndex, quiz: quiz)
         addToSubview(component: quizQuestion)
         
         answerButtons=[]
@@ -92,7 +91,7 @@ class QuizViewController: UIViewController {
             self.navigationController?.pushViewController(controller, animated: true)
             return
         }
-        quizQuestion.setQuiz(index: questionIndex, quiz: quiz)
+        quizQuestion.setQuestion(index: questionIndex, quiz: quiz)
         for (i, answer) in quiz.questions[questionIndex].answers.enumerated() {
             answerButtons[i].backgroundColor = .systemPurple
             answerButtons[i].setUp(title: answer,index: i)
