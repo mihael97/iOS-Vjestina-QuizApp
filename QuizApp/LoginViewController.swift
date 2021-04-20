@@ -136,7 +136,7 @@ class LoginViewController: UIViewController {
                 break
             case .success:
             
-                self.navigationController?.pushViewController(QuizzesViewController(), animated: true)
+                self.navigationController?.pushViewController(TabBarController(), animated: true)
         }
     }
     
