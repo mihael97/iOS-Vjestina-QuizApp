@@ -73,6 +73,6 @@ class QuizResultViewController: UIViewController {
     
     @objc
     private func navigate(_ sender: UIButton) {
-        self.navigationController?.pushViewController(QuizzesViewController(), animated: true)
+        self.navigationController?.pushViewController(TabBarController(), animated: true)
     }
 }

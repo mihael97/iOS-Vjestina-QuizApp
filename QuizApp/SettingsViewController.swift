@@ -18,9 +18,10 @@ class SettingsViewController: UIViewController {
         buildView()
         setConstraints()
     }
-    
+        
     private func setConstraints() {
         let safeArea = view.safeAreaLayoutGuide
+        let width = min(view.frame.width*0.5, 200)
         
         NSLayoutConstraint.activate([
             usernameLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 10),
@@ -28,11 +29,14 @@ class SettingsViewController: UIViewController {
             username.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 5),
             username.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 10),
             logOutButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            logOutButton.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -10)
+            logOutButton.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -10),
+            logOutButton.widthAnchor.constraint(equalToConstant: width)
         ])
     }
     
     private func buildView() {
+        view.backgroundColor = .purple
+        
         usernameLabel = UILabel()
         usernameLabel.textColor = .white
         usernameLabel.font = UIFont.boldSystemFont(ofSize: 15)
@@ -48,6 +52,7 @@ class SettingsViewController: UIViewController {
         logOutButton.setTitleColor(.red, for: .normal)
         logOutButton.setTitle("Log out", for: .normal)
         logOutButton.addTarget(self, action: #selector(logOut), for: .touchUpInside)
+        logOutButton.layer.cornerRadius = 10
         
         addSubview(element: usernameLabel)
         addSubview(element: username)
