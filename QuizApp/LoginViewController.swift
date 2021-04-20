@@ -81,7 +81,8 @@ class LoginViewController: UIViewController {
         usernameTextField.layer.cornerRadius = CGFloat(radiusOfField)
         usernameTextField.backgroundColor = .systemPurple
         usernameTextField.textColor = .black
-        usernameTextField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0);
+        usernameTextField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
+        usernameTextField.autocapitalizationType = .none
         addDidChangeTrigger(element: usernameTextField)
         
         // Password field Styling
