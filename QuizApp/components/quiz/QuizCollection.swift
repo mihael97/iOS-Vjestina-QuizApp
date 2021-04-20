@@ -46,7 +46,7 @@ extension QuizCollection: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: customCellIdentifier, for: indexPath) as! QuizThemeComponent
-        cell.controller=self.controller
+        cell.controller = self.controller
         cell.setUp(quizzes: Array(quizzes)[indexPath.row].value)
         return cell
     }

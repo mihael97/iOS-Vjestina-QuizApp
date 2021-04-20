@@ -11,7 +11,6 @@ import UIKit
 
 class QuizThemeComponent: UICollectionViewCell {
     private let cellId = "cellId"
-
     private var quizThemeLabel:UILabel!
     private var quizzes: [Quiz] = []
     private var quizCollection:UICollectionView!
