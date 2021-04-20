@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 class AnswerButton: UIButton {
-    private var index:Int=0
+    private var index: Int = 0
     override init(frame: CGRect) {
         super.init(frame: frame)
         buildView()
@@ -30,7 +30,8 @@ class AnswerButton: UIButton {
         self.index=index
     }
     
-    public func getIndex()->Int {
+    public func getIndex() -> Int {
         return self.index
     }
+    
 }
