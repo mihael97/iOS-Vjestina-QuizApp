@@ -24,39 +24,30 @@ class QuizzesViewController: UIViewController {
         buildView()
         setConstraints()
     }
-    
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        self.navigationController?.setNavigationBarHidden(true, animated: false)
-//    }
-//    
-//    override func viewWillDisappear(_ animated: Bool) {
-//        super.viewWillDisappear(animated)
-//        self.navigationController?.setNavigationBarHidden(false, animated: false)
-//    }
-        
+            
     private func setConstraints() {
+        let safeArea = view.safeAreaLayoutGuide
+        
         NSLayoutConstraint.activate([
-            quizNameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            quizNameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
+            quizNameLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+            quizNameLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 100),
             fetchQuizzesButton.topAnchor.constraint(equalTo: quizNameLabel.bottomAnchor, constant: 30),
-            fetchQuizzesButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            fetchQuizzesButton.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
             fetchQuizzesButton.widthAnchor.constraint(equalToConstant: 300),
             funFactLabel.topAnchor.constraint(equalTo: fetchQuizzesButton.bottomAnchor, constant: 60),
-            funFactLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
-            funFactLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),
-            noLoadedQuizView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            noLoadedQuizView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            funFactLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -10),
+            funFactLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 10),
+            noLoadedQuizView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+            noLoadedQuizView.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor),
             quizCollection.topAnchor.constraint(equalTo: funFactLabel.bottomAnchor, constant: 20),
-            quizCollection.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            quizCollection.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            quizCollection.bottomAnchor.constraint(equalTo:view.bottomAnchor, constant: -10)
+            quizCollection.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
+            quizCollection.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
+            quizCollection.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -10)
         ])
     }
     
     private func buildView() {
         view.backgroundColor = .purple
-        navigationItem.hidesBackButton = true
         
         // Quiz name label
         quizNameLabel = UILabel()
