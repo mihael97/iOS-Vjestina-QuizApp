@@ -25,7 +25,8 @@ class QuizCollection: UICollectionView {
     private func buildView() {
         self.backgroundColor = .purple
         self.isHidden = true
-        self.register(QuizThemeComponent.self, forCellWithReuseIdentifier: customCellIdentifier)
+        self.register(QuizTableCell.self, forCellWithReuseIdentifier: customCellIdentifier)
+        self.register(CustomSectionHeader.self, forSupplementaryViewOfKind:UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
         self.dataSource = self
         self.delegate = self
     }
@@ -36,25 +37,38 @@ class QuizCollection: UICollectionView {
         self.reloadData()
     }
     
-    
 }
 
 extension QuizCollection: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return quizzes.count
+    }
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return Array(quizzes)[section].value.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: customCellIdentifier, for: indexPath) as! QuizThemeComponent
-        cell.controller=self.controller
-        cell.setUp(quizzes: Array(quizzes)[indexPath.row].value)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: customCellIdentifier, for: indexPath) as! QuizTableCell
+        cell.setUp(quiz: Array(quizzes)[indexPath.section].value[indexPath.row])
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let collectionView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as! CustomSectionHeader
+        
+        collectionView.setUpHeader(header: Array(quizzes)[indexPath.section].key.rawValue)
+        
+        return collectionView
     }
   
 }
 
-extension QuizCollection: UICollectionViewDelegateFlowLayout   {
+extension QuizCollection: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: 200)
+        return CGSize(width: collectionView.frame.width, height: 100)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.frame.width, height: self.frame.height*0.1)
     }
 }
