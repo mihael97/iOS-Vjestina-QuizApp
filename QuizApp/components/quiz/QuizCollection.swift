@@ -60,15 +60,20 @@ extension QuizCollection: UICollectionViewDataSource {
         
         return collectionView
     }
+    
   
 }
 
 extension QuizCollection: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: 100)
+        return CGSize(width: collectionView.frame.width, height: self.frame.height*0.3)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: collectionView.frame.width, height: self.frame.height*0.1)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.controller?.navigationController?.pushViewController(QuizViewController(quiz: Array(quizzes)[indexPath.section].value[indexPath.row]), animated: true)
     }
 }

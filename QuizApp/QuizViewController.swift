@@ -10,7 +10,6 @@ import Foundation
 import UIKit
 
 class QuizViewController: UIViewController {
-    private let offset: CGFloat = 10
     private let quiz:Quiz
     private var quizQuestion: QuizQuestion!
     private var questionIndex: Int=0
@@ -44,6 +43,9 @@ class QuizViewController: UIViewController {
     
     private func setConstraints() {
         let safeArea = view.safeAreaLayoutGuide
+        let offset: CGFloat = 0.025*max(view.frame.width, view.frame.height)
+
+        
         NSLayoutConstraint.activate([
             quizQuestion.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: offset),
             quizQuestion.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: offset),
@@ -52,13 +54,13 @@ class QuizViewController: UIViewController {
         
         var constraints:[NSLayoutConstraint]=[]
         for (i, element) in answerButtons.enumerated() {
-            constraints.append(element.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20))
-            constraints.append(element.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20))
+            constraints.append(element.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: offset*2))
+            constraints.append(element.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -offset*2))
 
             if i==0 {
-                constraints.append(element.topAnchor.constraint(equalTo: quizQuestion.bottomAnchor, constant: 40))
+                constraints.append(element.topAnchor.constraint(equalTo: quizQuestion.bottomAnchor, constant: offset*2))
             } else {
-                constraints.append(element.topAnchor.constraint(equalTo: answerButtons[i-1].bottomAnchor, constant: 20))
+                constraints.append(element.topAnchor.constraint(equalTo: answerButtons[i-1].bottomAnchor, constant: offset))
             }
         }
 
