@@ -30,7 +30,7 @@ class NoQuizLoadedComponent: UIView {
             noLoadedQuizIcon.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             noLoadedQuizIcon.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             noLoadedQuizLabel.centerXAnchor.constraint(equalTo:self.centerXAnchor),
-            noLoadedQuizLabel.topAnchor.constraint(equalTo: noLoadedQuizIcon.bottomAnchor, constant: 20)
+            noLoadedQuizLabel.topAnchor.constraint(equalTo: noLoadedQuizIcon.bottomAnchor, constant: 0.1*max(frame.width, frame.height))
         ])
     }
     

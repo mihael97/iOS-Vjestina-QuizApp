@@ -21,15 +21,16 @@ class SettingsViewController: UIViewController {
         
     private func setConstraints() {
         let safeArea = view.safeAreaLayoutGuide
-        let width = min(view.frame.width*0.5, 200)
+        let width = max(view.frame.width*0.5, 200)
+        let offset = 0.05*max(view.frame.width, view.frame.height)
         
         NSLayoutConstraint.activate([
-            usernameLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 10),
-            usernameLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 10),
-            username.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: 5),
-            username.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 10),
-            logOutButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            logOutButton.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -10),
+            usernameLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: offset),
+            usernameLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: offset),
+            username.topAnchor.constraint(equalTo: usernameLabel.bottomAnchor, constant: offset/2),
+            username.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: offset),
+            logOutButton.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+            logOutButton.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -offset),
             logOutButton.widthAnchor.constraint(equalToConstant: width)
         ])
     }

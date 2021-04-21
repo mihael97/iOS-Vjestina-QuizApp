@@ -39,22 +39,25 @@ class LoginViewController: UIViewController {
     }
 
     private func setConstraints() {
+        let safeArea = view.safeAreaLayoutGuide
+        let offset = 0.05*max(view.frame.width, view.frame.height)
+        
         NSLayoutConstraint.activate([
-            appNameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            appNameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
-            falseLoginLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            falseLoginLabel.bottomAnchor.constraint(equalTo:usernameTextField.topAnchor ,constant: -10),
-            falseLoginLabel.widthAnchor.constraint(equalToConstant:  200),
+            appNameLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+            appNameLabel.topAnchor.constraint(equalTo: usernameTextField.topAnchor, constant: -offset*3),
+            falseLoginLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+            falseLoginLabel.bottomAnchor.constraint(equalTo:usernameTextField.topAnchor ,constant: -offset/2),
+            falseLoginLabel.widthAnchor.constraint(equalToConstant:  offset*5),
             usernameTextField.widthAnchor.constraint(equalToConstant: fieldsWidth),
             usernameTextField.heightAnchor.constraint(equalToConstant: fieldsHeight),
-            usernameTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            usernameTextField.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            usernameTextField.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+            usernameTextField.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor),
             passwordField.widthAnchor.constraint(equalToConstant: fieldsWidth),
             passwordField.heightAnchor.constraint(equalToConstant: fieldsHeight),
-            passwordField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            passwordField.topAnchor.constraint(equalTo: usernameTextField.bottomAnchor, constant: 10),
-            loginButton.topAnchor.constraint(equalTo: passwordField.bottomAnchor, constant: 20),
-            loginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            passwordField.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+            passwordField.topAnchor.constraint(equalTo: usernameTextField.bottomAnchor, constant: offset/2),
+            loginButton.topAnchor.constraint(equalTo: passwordField.bottomAnchor, constant: offset/2),
+            loginButton.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
             loginButton.widthAnchor.constraint(equalToConstant: fieldsWidth),
             loginButton.heightAnchor.constraint(equalToConstant: fieldsHeight)
         ])
