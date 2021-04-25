@@ -69,7 +69,7 @@ class QuizViewController: UIViewController {
     
     private func buildView() {
         view.backgroundColor = .purple
-        quizQuestion = QuizQuestion()
+        quizQuestion = QuizQuestion(quiz: quiz, frame: .zero)
         addToSubview(component: quizQuestion)
         
         answerButtons=[]
@@ -81,32 +81,43 @@ class QuizViewController: UIViewController {
             addToSubview(component: button)
         }
         
-        advanceInQuestion()
+        advanceInQuestion(answer: .EMPTY)
     }
     
     @objc
     private func answerClicked(_ sender:AnswerButton) {
         let correctAnswer:Int=quiz.questions[questionIndex-1].correctAnswer
         answerButtons[correctAnswer].backgroundColor = .green
+        var response: QuizQuestionResponse = .CORRECT
         if correctAnswer != sender.getIndex() {
             answerButtons[sender.getIndex()].backgroundColor = .red
             self.correctAnswers-=1
+            response = .INCORRECT
         }
+        
+        for (i, element) in answerButtons.enumerated() {
+            if i == sender.getIndex() {
+                continue
+            }
+            element.isEnabled = false
+        }
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-            self.advanceInQuestion()
+            self.advanceInQuestion(answer: response)
         }
     }
     
-    private func advanceInQuestion() {
+    private func advanceInQuestion(answer: QuizQuestionResponse) {
         if questionIndex==quiz.questions.count {
             let controller = QuizResultViewController(correct: correctAnswers, total: quiz.questions.count)
             self.navigationController?.pushViewController(controller, animated: true)
             return
         }
-        quizQuestion.setQuestion(index: questionIndex, quiz: quiz)
+        quizQuestion.setQuestion(index: questionIndex, quiz: quiz, correct: answer)
         for (i, answer) in quiz.questions[questionIndex].answers.enumerated() {
             answerButtons[i].backgroundColor = .systemPurple
             answerButtons[i].setUp(title: answer,index: i)
+            answerButtons[i].isEnabled = true
         }
         questionIndex+=1
     }
