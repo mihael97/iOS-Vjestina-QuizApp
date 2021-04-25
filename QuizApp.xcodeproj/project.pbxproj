@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		521142CC2635A9D3007ADF40 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521142CB2635A9D3007ADF40 /* ProgressBar.swift */; };
+		521142CC2635A9D3007ADF40 /* QuestionTrackerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521142CB2635A9D3007ADF40 /* QuestionTrackerView.swift */; };
+		521142CE2635CD2E007ADF40 /* QuizQuestionResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521142CD2635CD2E007ADF40 /* QuizQuestionResponse.swift */; };
 		5219969926273241008478DA /* NoQuizLoadedComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5219969826273241008478DA /* NoQuizLoadedComponent.swift */; };
 		5219969B26273B83008478DA /* FunFactLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5219969A26273B83008478DA /* FunFactLabel.swift */; };
 		5219969D26274892008478DA /* QuizCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5219969C26274892008478DA /* QuizCollection.swift */; };
@@ -39,7 +40,8 @@
 
 /* Begin PBXFileReference section */
 		51F5B9844C7C7EDE09A8B67A /* Pods-QuizApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuizApp.release.xcconfig"; path = "Target Support Files/Pods-QuizApp/Pods-QuizApp.release.xcconfig"; sourceTree = "<group>"; };
-		521142CB2635A9D3007ADF40 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
+		521142CB2635A9D3007ADF40 /* QuestionTrackerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionTrackerView.swift; sourceTree = "<group>"; };
+		521142CD2635CD2E007ADF40 /* QuizQuestionResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizQuestionResponse.swift; sourceTree = "<group>"; };
 		5219969826273241008478DA /* NoQuizLoadedComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoQuizLoadedComponent.swift; sourceTree = "<group>"; };
 		5219969A26273B83008478DA /* FunFactLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunFactLabel.swift; sourceTree = "<group>"; };
 		5219969C26274892008478DA /* QuizCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizCollection.swift; sourceTree = "<group>"; };
@@ -162,7 +164,7 @@
 				52199697262731EB008478DA /* quiz */,
 				5256ADD8261B5BED006DE011 /* PasswordField.swift */,
 				5219969A26273B83008478DA /* FunFactLabel.swift */,
-				521142CB2635A9D3007ADF40 /* ProgressBar.swift */,
+				521142CB2635A9D3007ADF40 /* QuestionTrackerView.swift */,
 			);
 			path = components;
 			sourceTree = "<group>";
@@ -172,6 +174,7 @@
 			children = (
 				529C1ACC262B67790068F41F /* QuizQuestion.swift */,
 				529E1EDA262C320F00EBDAB3 /* AnswerButton.swift */,
+				521142CD2635CD2E007ADF40 /* QuizQuestionResponse.swift */,
 			);
 			path = question;
 			sourceTree = "<group>";
@@ -291,6 +294,7 @@
 				5243C0C12618746300194D35 /* QuizzesViewController.swift in Sources */,
 				52F6C7F22621C53B0003AFA1 /* LevelRating.swift in Sources */,
 				528D6CB0262A24A600078921 /* QuizViewController.swift in Sources */,
+				521142CE2635CD2E007ADF40 /* QuizQuestionResponse.swift in Sources */,
 				52BCA46E262F708B0005134C /* TabBarController.swift in Sources */,
 				522CA4EE2617851D008BAE7B /* DataServiceProtocol.swift in Sources */,
 				5219969926273241008478DA /* NoQuizLoadedComponent.swift in Sources */,
@@ -305,7 +309,7 @@
 				522CA4D826174960008BAE7B /* SceneDelegate.swift in Sources */,
 				52EB6A5B2630705800A3C189 /* CustomSectionHeader.swift in Sources */,
 				52B41053261F8DAC0013422E /* QuizLoadingErrorComponent.swift in Sources */,
-				521142CC2635A9D3007ADF40 /* ProgressBar.swift in Sources */,
+				521142CC2635A9D3007ADF40 /* QuestionTrackerView.swift in Sources */,
 				5243C0C92618DD7E00194D35 /* QuizTableCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
