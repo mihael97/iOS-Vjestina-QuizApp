@@ -13,8 +13,8 @@ class QuizQuestion: UIView {
     public var quiz:Quiz!
     private var questionIndexLabel: UILabel!
     private var questionLabel: UILabel!
-    private var answerButtons: [AnswerButton]!
     private var questionIndex:Int=0
+    private var progressBar: ProgressBar!
 
     
     override init(frame: CGRect) {
@@ -34,7 +34,9 @@ class QuizQuestion: UIView {
         NSLayoutConstraint.activate([
             questionIndexLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 20),
             questionIndexLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 0),
-            questionLabel.topAnchor.constraint(equalTo: questionIndexLabel.bottomAnchor, constant: 50),
+            progressBar.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor, constant: 0),
+            progressBar.topAnchor.constraint(equalTo: questionIndexLabel.bottomAnchor, constant: self.frame.height*0.2),
+            questionLabel.topAnchor.constraint(equalTo: progressBar.bottomAnchor, constant: 50),
             questionLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 0),
             questionLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: 0),
             questionLabel.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: 0),
@@ -53,9 +55,12 @@ class QuizQuestion: UIView {
         questionLabel.font = UIFont.boldSystemFont(ofSize: 25)
         questionLabel.numberOfLines = 0
         questionLabel.lineBreakMode = .byWordWrapping
+        
+        progressBar = ProgressBar()
                 
         addToSubview(component: questionIndexLabel)
         addToSubview(component: questionLabel)
+        addToSubview(component: progressBar)
     }
         
     private func addToSubview(component: UIView) {
@@ -66,6 +71,7 @@ class QuizQuestion: UIView {
     public func setQuestion(index:Int, quiz: Quiz) {
         questionIndexLabel.text="\(index+1)/\(quiz.questions.count)"
         questionLabel.text=quiz.questions[index].question
+        progressBar.setProgress(Float(index)/Float(quiz.questions.count), animated: true)
     }
     
 }
