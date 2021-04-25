@@ -10,15 +10,16 @@ import Foundation
 import UIKit
 
 class QuizQuestion: UIView {
-    public var quiz:Quiz!
+    private var quiz:Quiz!
     private var questionIndexLabel: UILabel!
     private var questionLabel: UILabel!
     private var questionIndex:Int=0
-    private var progressBar: ProgressBar!
+    private var progressBar: QuestionTrackerView!
 
     
-    override init(frame: CGRect) {
+    init(quiz: Quiz, frame: CGRect) {
         super.init(frame: frame)
+        self.quiz = quiz
         buildView()
         setConstraints()
     }
@@ -35,7 +36,10 @@ class QuizQuestion: UIView {
             questionIndexLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 20),
             questionIndexLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 0),
             progressBar.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor, constant: 0),
-            progressBar.topAnchor.constraint(equalTo: questionIndexLabel.bottomAnchor, constant: self.frame.height*0.2),
+            progressBar.topAnchor.constraint(equalTo: questionIndexLabel.bottomAnchor, constant: 10),
+            progressBar.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 0),
+            progressBar.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: 0),
+            progressBar.heightAnchor.constraint(equalToConstant: 30),
             questionLabel.topAnchor.constraint(equalTo: progressBar.bottomAnchor, constant: 50),
             questionLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 0),
             questionLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: 0),
@@ -56,7 +60,8 @@ class QuizQuestion: UIView {
         questionLabel.numberOfLines = 0
         questionLabel.lineBreakMode = .byWordWrapping
         
-        progressBar = ProgressBar()
+        progressBar = QuestionTrackerView()
+        progressBar.setUp(numberOfQuestions: quiz.questions.count)
                 
         addToSubview(component: questionIndexLabel)
         addToSubview(component: questionLabel)
@@ -68,10 +73,10 @@ class QuizQuestion: UIView {
         self.addSubview(component)
     }
     
-    public func setQuestion(index:Int, quiz: Quiz) {
+    public func setQuestion(index:Int, quiz: Quiz, correct: QuizQuestionResponse) {
         questionIndexLabel.text="\(index+1)/\(quiz.questions.count)"
         questionLabel.text=quiz.questions[index].question
-        progressBar.setProgress(Float(index)/Float(quiz.questions.count), animated: true)
+        progressBar.updateQuestion(index: index-1, correct: correct)
     }
     
 }
