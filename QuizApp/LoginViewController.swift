@@ -37,10 +37,15 @@ class LoginViewController: UIViewController {
         super.viewWillDisappear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        setConstraints()
+    }
 
     private func setConstraints() {
         let safeArea = view.safeAreaLayoutGuide
-        let offset = 0.05*max(view.frame.width, view.frame.height)
+        let offset = 0.05*max(view.frame.height, view.frame.width)
         
         NSLayoutConstraint.activate([
             appNameLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),

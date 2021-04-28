@@ -18,6 +18,11 @@ class SettingsViewController: UIViewController {
         buildView()
         setConstraints()
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        setConstraints()
+    }
         
     private func setConstraints() {
         let safeArea = view.safeAreaLayoutGuide

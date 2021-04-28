@@ -15,7 +15,7 @@ class QuizQuestion: UIView {
     private var questionLabel: UILabel!
     private var questionIndex:Int=0
     private var progressBar: QuestionTrackerView!
-
+    
     
     init(quiz: Quiz, frame: CGRect) {
         super.init(frame: frame)
@@ -28,19 +28,25 @@ class QuizQuestion: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func updateConstraints() {
+        super.updateConstraints()
+        setConstraints()
+        progressBar.setNeedsUpdateConstraints()
+    }
+    
     
     private func setConstraints() {
         let safeArea = self.safeAreaLayoutGuide
+        let offset = 0.1*max(self.frame.width, self.frame.height)
 
         NSLayoutConstraint.activate([
-            questionIndexLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 20),
+            questionIndexLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: offset),
             questionIndexLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 0),
             progressBar.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor, constant: 0),
-            progressBar.topAnchor.constraint(equalTo: questionIndexLabel.bottomAnchor, constant: 10),
+            progressBar.topAnchor.constraint(equalTo: questionIndexLabel.bottomAnchor, constant: max(offset, 10)),
             progressBar.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 0),
             progressBar.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: 0),
-            progressBar.heightAnchor.constraint(equalToConstant: 30),
-            questionLabel.topAnchor.constraint(equalTo: progressBar.bottomAnchor, constant: 50),
+            questionLabel.topAnchor.constraint(equalTo: progressBar.bottomAnchor, constant: max(offset, 10)),
             questionLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 0),
             questionLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: 0),
             questionLabel.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: 0),
