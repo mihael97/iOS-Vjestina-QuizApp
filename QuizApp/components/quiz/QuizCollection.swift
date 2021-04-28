@@ -11,15 +11,13 @@ import UIKit
 
 class QuizCollection: UICollectionView {
     private let customCellIdentifier: String = "customCell"
-    weak public var controller: UIViewController?
+    public var router: AppRouterProtocol!
     private var quizzes: [QuizCategory:[Quiz]] = [:]
-    override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
-        super.init(frame: frame, collectionViewLayout: layout)
-        buildView()
-    }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    convenience init(router: AppRouterProtocol) {
+        self.init(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        self.router = router
+        buildView()
     }
     
     private func buildView() {
@@ -74,6 +72,6 @@ extension QuizCollection: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.controller?.navigationController?.pushViewController(QuizViewController(quiz: Array(quizzes)[indexPath.section].value[indexPath.row]), animated: true)
+        router.showQuizViewController(quiz: Array(quizzes)[indexPath.section].value[indexPath.row])
     }
 }

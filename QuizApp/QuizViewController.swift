@@ -10,20 +10,18 @@ import Foundation
 import UIKit
 
 class QuizViewController: UIViewController {
-    private let quiz:Quiz
+    private var quiz: Quiz!
     private var quizQuestion: QuizQuestion!
     private var questionIndex: Int=0
     private var answerButtons: [AnswerButton]!
-    private var correctAnswers:Int
-    
-    init(quiz:Quiz) {
-        self.quiz=quiz
-        correctAnswers = self.quiz.questions.count
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    private var correctAnswers: Int!
+    private var router: AppRouterProtocol!
+        
+    convenience init (quiz: Quiz, router: AppRouterProtocol) {
+        self.init()
+        self.quiz = quiz
+        self.correctAnswers = quiz.questions.count
+        self.router = router
     }
     
     override func viewDidLoad() {
@@ -118,7 +116,7 @@ class QuizViewController: UIViewController {
     
     private func advanceInQuestion(answer: QuizQuestionResponse) {
         if questionIndex==quiz.questions.count {
-            let controller = QuizResultViewController(correct: correctAnswers, total: quiz.questions.count)
+            let controller = QuizResultViewController(correct: correctAnswers, total: quiz.questions.count, router: router)
             self.navigationController?.pushViewController(controller, animated: true)
             return
         }
