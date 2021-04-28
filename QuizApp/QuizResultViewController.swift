@@ -12,19 +12,20 @@ import UIKit
 class QuizResultViewController: UIViewController {
     private var quizResultLabel: UILabel!
     private var finishQuizButton:UIButton!
-    private let correctAnswers: Int
-    private let totalAnswers: Int
-    
-    init(correct: Int, total: Int) {
+    private var correctAnswers: Int!
+    private var totalAnswers: Int!
+    private var router: AppRouterProtocol!
+        
+    convenience init (correct: Int, total: Int, router: AppRouterProtocol) {
+        self.init()
         self.correctAnswers=correct
         self.totalAnswers=total
-        super.init(nibName: nil, bundle: nil)
-        buildView()
-        setConstraints()
+        self.router = router
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    override func viewDidLoad() {
+        buildView()
+        setConstraints()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -61,7 +62,7 @@ class QuizResultViewController: UIViewController {
     private func buildView() {
         view.backgroundColor = .purple
         quizResultLabel=UILabel()
-        quizResultLabel.text="\(self.correctAnswers) / \(self.totalAnswers)"
+        quizResultLabel.text="\(self.correctAnswers!) / \(self.totalAnswers!)"
         quizResultLabel.textColor = .white
         quizResultLabel.font = UIFont.boldSystemFont(ofSize: 50)
         
@@ -78,6 +79,6 @@ class QuizResultViewController: UIViewController {
     
     @objc
     private func navigate(_ sender: UIButton) {
-        self.navigationController?.pushViewController(TabBarController(), animated: true)
+        router.showTabBarController()
     }
 }

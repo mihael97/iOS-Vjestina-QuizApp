@@ -10,6 +10,8 @@ import Foundation
 import UIKit
 
 class QuizzesViewController: UIViewController {
+    private let fontName: String = "ArialRoundedMTBold"
+
     private var dataService: DataService!
     private var quizNameLabel: UILabel!
     private var fetchQuizzesButton: UIButton!
@@ -17,7 +19,12 @@ class QuizzesViewController: UIViewController {
     private var quizCollection: QuizCollection!
     private var noLoadedQuizView: NoQuizLoadedComponent!
     private var quizzes: [QuizCategory:[Quiz]] = [:]
-    private let fontName: String = "ArialRoundedMTBold"
+    private var router: AppRouterProtocol!
+    
+    convenience init(router: AppRouterProtocol) {
+        self.init()
+        self.router = router
+    }
     
     override func viewDidLoad() {
         dataService = DataService()
@@ -79,8 +86,7 @@ class QuizzesViewController: UIViewController {
         noLoadedQuizView.isHidden = false
         
         // Table
-        quizCollection = QuizCollection(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-        quizCollection.controller=self
+        quizCollection = QuizCollection(router: router)
          
         // Add to subview
         addSubview(subView: quizNameLabel)

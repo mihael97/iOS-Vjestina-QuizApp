@@ -13,6 +13,12 @@ class SettingsViewController: UIViewController {
     private var usernameLabel: UILabel!
     private var username: UILabel!
     private var logOutButton: UIButton!
+    private var router: AppRouterProtocol!
+    
+    convenience init(router: AppRouterProtocol) {
+        self.init()
+        self.router = router
+    }
     
     override func viewDidLoad() {
         buildView()
@@ -72,6 +78,6 @@ class SettingsViewController: UIViewController {
     
     @objc
     private func logOut(_:UIButton) {
-        self.navigationController?.popToRootViewController(animated: true)
+        router.popToRoot()
     }
 }

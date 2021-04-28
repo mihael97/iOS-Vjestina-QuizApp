@@ -10,13 +10,12 @@ import Foundation
 import UIKit
 
 class TabBarController: UITabBarController {
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        setUpFooter()
-    }
+    private var router: AppRouterProtocol!
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    convenience init(router: AppRouterProtocol) {
+        self.init()
+        self.router = router
+        setUpFooter()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -25,9 +24,9 @@ class TabBarController: UITabBarController {
     }
     
     private func setUpFooter() {
-        let quizzesController = QuizzesViewController()
+        let quizzesController = QuizzesViewController(router: router)
         quizzesController.tabBarItem = UITabBarItem(title: "Quiz", image: .add, selectedImage: .add)
-        let settingsController = SettingsViewController()
+        let settingsController = SettingsViewController(router: router)
         settingsController.tabBarItem = UITabBarItem(title: "Settings", image: .add, selectedImage:
         .add)
         self.viewControllers = [quizzesController, settingsController]

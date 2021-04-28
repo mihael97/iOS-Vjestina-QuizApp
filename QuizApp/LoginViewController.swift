@@ -15,12 +15,18 @@ class LoginViewController: UIViewController {
     private let fieldsWidth  = CGFloat(300)
     private let fieldsHeight = CGFloat(40)
     private let dataService: DataService = DataService()
+    private var router: AppRouterProtocol!
 
     private var appNameLabel: UILabel!
     private var usernameTextField: UITextField!
     private var passwordField: PasswordField!
     private var loginButton: UIButton!
     private var falseLoginLabel: UILabel!
+    
+    convenience init(router: AppRouterProtocol) {
+        self.init()
+        self.router = router
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -144,7 +150,7 @@ class LoginViewController: UIViewController {
                 break
             case .success:
             
-                self.navigationController?.pushViewController(TabBarController(), animated: true)
+                router.showTabBarController()
         }
     }
     
