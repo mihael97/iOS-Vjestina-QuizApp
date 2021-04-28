@@ -164,7 +164,6 @@
 				52199697262731EB008478DA /* quiz */,
 				5256ADD8261B5BED006DE011 /* PasswordField.swift */,
 				5219969A26273B83008478DA /* FunFactLabel.swift */,
-				521142CB2635A9D3007ADF40 /* QuestionTrackerView.swift */,
 			);
 			path = components;
 			sourceTree = "<group>";
@@ -172,6 +171,7 @@
 		529C1ACB262B67520068F41F /* question */ = {
 			isa = PBXGroup;
 			children = (
+				521142CB2635A9D3007ADF40 /* QuestionTrackerView.swift */,
 				529C1ACC262B67790068F41F /* QuizQuestion.swift */,
 				529E1EDA262C320F00EBDAB3 /* AnswerButton.swift */,
 				521142CD2635CD2E007ADF40 /* QuizQuestionResponse.swift */,

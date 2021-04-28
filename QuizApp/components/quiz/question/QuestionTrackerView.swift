@@ -28,19 +28,19 @@ class QuestionTrackerView: UIView {
             addSubview(rectangle)
         }
     }
+    
+    override func updateConstraints() {
+        super.updateConstraints()
+        setSizes(numberOfQuestions: self.numberOfQuestions)
+        setConstraints()
+    }
         
     private func setConstraints() {
         let safeArea = self.safeAreaLayoutGuide
         for (i, element) in progressRectangles.enumerated() {
             var constraints: [NSLayoutConstraint] = []
-            if i==0 {
-                constraints.append(element.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 0))
-            } else {
+            if i != 0 {
                 constraints.append(element.leadingAnchor.constraint(equalTo: progressRectangles[i-1].trailingAnchor, constant: CGFloat(offsetBetweenBlocks)))
-            }
-            
-            if i==(progressRectangles.count-1) {
-                constraints.append(element.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: 0))
             }
             
             constraints.append(contentsOf: [
@@ -55,10 +55,22 @@ class QuestionTrackerView: UIView {
         }
     }
     
-    public func setUp(numberOfQuestions: Int) {
+    private func setSizes(numberOfQuestions: Int) {
         self.numberOfQuestions = numberOfQuestions
-        offsetBetweenBlocks = Float(UIScreen.main.bounds.width)*0.2 / Float(numberOfQuestions-1)
-        blockWidth = Float(UIScreen.main.bounds.width)*0.7 / Float(numberOfQuestions)
+        
+        var width: CGFloat = -1
+        if self.frame.width < self.frame.height {
+            width = UIScreen.main.bounds.height
+        } else {
+            width = UIScreen.main.bounds.width
+        }
+
+        offsetBetweenBlocks = Float(width)*0.2 / Float(numberOfQuestions-1)
+        blockWidth = Float(width)*0.7 / Float(numberOfQuestions)
+    }
+    
+    public func setUp(numberOfQuestions: Int) {
+        setSizes(numberOfQuestions: numberOfQuestions)
         buildView()
         setConstraints()
     }

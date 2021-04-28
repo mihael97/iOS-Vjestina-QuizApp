@@ -41,6 +41,12 @@ class QuizViewController: UIViewController {
         self.navigationController?.navigationBar.isHidden = true
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        quizQuestion.setNeedsUpdateConstraints()
+        setConstraints()
+    }
+    
     private func setConstraints() {
         let safeArea = view.safeAreaLayoutGuide
         let offset: CGFloat = 0.025*max(view.frame.width, view.frame.height)
@@ -61,6 +67,9 @@ class QuizViewController: UIViewController {
                 constraints.append(element.topAnchor.constraint(equalTo: quizQuestion.bottomAnchor, constant: offset*2))
             } else {
                 constraints.append(element.topAnchor.constraint(equalTo: answerButtons[i-1].bottomAnchor, constant: offset))
+//                if i==answerButtons.count-1 {
+//                    constraints.append(element.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: 0))
+//                }
             }
         }
 

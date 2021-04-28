@@ -37,6 +37,11 @@ class QuizResultViewController: UIViewController {
         self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        setConstraints()
+    }
+    
     private func setConstraints() {
         quizResultLabel.translatesAutoresizingMaskIntoConstraints = false
         finishQuizButton.translatesAutoresizingMaskIntoConstraints = false
