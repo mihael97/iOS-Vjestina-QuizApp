@@ -55,7 +55,7 @@ class QuizViewController: UIViewController {
         appNameLabel.font = UIFont(name: "ArialRoundedMTBold", size: 25.0)
         appNameLabel.textColor = .systemYellow
         navigationItem.titleView = appNameLabel
-        self.navigationController?.navigationBar.tintColor = .purple
+        self.navigationController?.navigationBar.barTintColor = .purple
     }
     
     @objc
