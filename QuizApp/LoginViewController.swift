@@ -108,7 +108,7 @@ class LoginViewController: UIViewController {
         // Login button
         loginButton = UIButton()
         loginButton.setTitle("Login", for: .normal)
-        loginButton.backgroundColor = .systemGray4
+        loginButton.backgroundColor = .systemGray2
         loginButton.addTarget(self, action: #selector(self.login), for: .touchUpInside)
         loginButton.isHighlighted = false
         loginButton.setTitleColor(.purple, for: .normal)
