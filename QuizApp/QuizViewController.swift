@@ -25,6 +25,7 @@ class QuizViewController: UIViewController {
     }
     
     override func viewDidLoad() {
+        setNavbar()
         buildView()
         setConstraints()
     }
@@ -43,6 +44,23 @@ class QuizViewController: UIViewController {
         super.viewDidLayoutSubviews()
         quizQuestion.setNeedsUpdateConstraints()
         setConstraints()
+    }
+    
+    private func setNavbar() {
+        let image = UIImage(systemName: "chevron.left")
+        navigationItem.leftBarButtonItem =  UIBarButtonItem(image: image, style: .done, target: self, action: #selector(popBack))
+        
+        let appNameLabel = UILabel()
+        appNameLabel.text = "Pop Quiz"
+        appNameLabel.font = UIFont(name: "ArialRoundedMTBold", size: 25.0)
+        appNameLabel.textColor = .systemYellow
+        navigationItem.titleView = appNameLabel
+        self.navigationController?.navigationBar.barTintColor = .purple
+    }
+    
+    @objc
+    func popBack() {
+        router.popBack()
     }
     
     private func setConstraints() {
@@ -65,9 +83,6 @@ class QuizViewController: UIViewController {
                 constraints.append(element.topAnchor.constraint(equalTo: quizQuestion.bottomAnchor, constant: offset*2))
             } else {
                 constraints.append(element.topAnchor.constraint(equalTo: answerButtons[i-1].bottomAnchor, constant: offset))
-//                if i==answerButtons.count-1 {
-//                    constraints.append(element.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: 0))
-//                }
             }
         }
 
