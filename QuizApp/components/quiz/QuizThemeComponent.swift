@@ -11,10 +11,10 @@ import UIKit
 
 class QuizThemeComponent: UICollectionViewCell {
     private let cellId = "cellId"
-
     private var quizThemeLabel:UILabel!
     private var quizzes: [Quiz] = []
     private var quizCollection:UICollectionView!
+    weak public var controller: UIViewController!
     
     override init(frame: CGRect) {
         super.init(frame:frame)
@@ -77,6 +77,11 @@ extension QuizThemeComponent:UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as! QuizTableCell
         cell.setUp(quiz: quizzes[indexPath.row])
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let controller = QuizViewController(quiz: quizzes[indexPath.row])
+        self.controller.navigationController?.pushViewController(controller, animated: true)
     }
 }
 

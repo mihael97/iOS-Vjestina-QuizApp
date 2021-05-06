@@ -10,8 +10,7 @@ import Foundation
 import UIKit
 
 class LevelRating: UIView {
-    private let ICON_ACTIVE: UIImage = UIImage(systemName: "suit.diamond.fill")?.withTintColor(.yellow)
-
+    private let ICON_ACTIVE: String = "suit.diamond.fill"
     private var difficultyIcon: UIImageView!
     private var difficultyLabel: UILabel!
     
@@ -40,7 +39,7 @@ class LevelRating: UIView {
         difficultyLabel.textColor = .white
         
         difficultyIcon = UIImageView()
-        difficultyIcon.image = ICON_ACTIVE
+        difficultyIcon.image = UIImage(systemName: ICON_ACTIVE)?.withTintColor(.yellow)
         
         self.addSubview(difficultyIcon)
         self.addSubview(difficultyLabel)

@@ -15,6 +15,7 @@ class LoginViewController: UIViewController {
     private let fieldsWidth  = CGFloat(300)
     private let fieldsHeight = CGFloat(40)
     private let dataService: DataService = DataService()
+    private var router: AppRouterProtocol!
 
     private var appNameLabel: UILabel!
     private var usernameTextField: UITextField!
@@ -22,29 +23,52 @@ class LoginViewController: UIViewController {
     private var loginButton: UIButton!
     private var falseLoginLabel: UILabel!
     
+    convenience init(router: AppRouterProtocol) {
+        self.init()
+        self.router = router
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         buildView()
         setConstraints()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        setConstraints()
+    }
 
     private func setConstraints() {
+        let safeArea = view.safeAreaLayoutGuide
+        let offset = 0.05*max(view.frame.height, view.frame.width)
+        
         NSLayoutConstraint.activate([
-            appNameLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            appNameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
-            falseLoginLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            falseLoginLabel.bottomAnchor.constraint(equalTo:usernameTextField.topAnchor ,constant: -10),
-            falseLoginLabel.widthAnchor.constraint(equalToConstant:  200),
+            appNameLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+            appNameLabel.topAnchor.constraint(equalTo: usernameTextField.topAnchor, constant: -offset*3),
+            falseLoginLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+            falseLoginLabel.bottomAnchor.constraint(equalTo:usernameTextField.topAnchor ,constant: -offset/2),
+            falseLoginLabel.widthAnchor.constraint(equalToConstant:  offset*5),
             usernameTextField.widthAnchor.constraint(equalToConstant: fieldsWidth),
             usernameTextField.heightAnchor.constraint(equalToConstant: fieldsHeight),
-            usernameTextField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            usernameTextField.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            usernameTextField.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+            usernameTextField.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor),
             passwordField.widthAnchor.constraint(equalToConstant: fieldsWidth),
             passwordField.heightAnchor.constraint(equalToConstant: fieldsHeight),
-            passwordField.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            passwordField.topAnchor.constraint(equalTo: usernameTextField.bottomAnchor, constant: 10),
-            loginButton.topAnchor.constraint(equalTo: passwordField.bottomAnchor, constant: 20),
-            loginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            passwordField.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+            passwordField.topAnchor.constraint(equalTo: usernameTextField.bottomAnchor, constant: offset/2),
+            loginButton.topAnchor.constraint(equalTo: passwordField.bottomAnchor, constant: offset/2),
+            loginButton.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
             loginButton.widthAnchor.constraint(equalToConstant: fieldsWidth),
             loginButton.heightAnchor.constraint(equalToConstant: fieldsHeight)
         ])
@@ -71,7 +95,8 @@ class LoginViewController: UIViewController {
         usernameTextField.layer.cornerRadius = CGFloat(radiusOfField)
         usernameTextField.backgroundColor = .systemPurple
         usernameTextField.textColor = .black
-        usernameTextField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0);
+        usernameTextField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
+        usernameTextField.autocapitalizationType = .none
         addDidChangeTrigger(element: usernameTextField)
         
         // Password field Styling
@@ -83,7 +108,7 @@ class LoginViewController: UIViewController {
         // Login button
         loginButton = UIButton()
         loginButton.setTitle("Login", for: .normal)
-        loginButton.backgroundColor = .systemGray4
+        loginButton.backgroundColor = .systemGray2
         loginButton.addTarget(self, action: #selector(self.login), for: .touchUpInside)
         loginButton.isHighlighted = false
         loginButton.setTitleColor(.purple, for: .normal)
@@ -124,7 +149,8 @@ class LoginViewController: UIViewController {
                 falseLoginLabel.isHidden = false
                 break
             case .success:
-                print("Loggin is successful")
+            
+                router.showTabBarController()
         }
     }
     
