@@ -24,11 +24,14 @@ class TabBarController: UITabBarController {
     }
     
     private func setUpFooter() {
+        let fontAttributes = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 20.0)]
+        UITabBarItem.appearance().setTitleTextAttributes(fontAttributes, for: .normal)
+
         let quizzesController = QuizzesViewController(router: router)
-        quizzesController.tabBarItem = UITabBarItem(title: "Quiz", image: .add, selectedImage: .add)
+        quizzesController.tabBarItem = UITabBarItem(title: "Quiz", image: nil, selectedImage: nil)
         let settingsController = SettingsViewController(router: router)
-        settingsController.tabBarItem = UITabBarItem(title: "Settings", image: .add, selectedImage:
-        .add)
+        settingsController.tabBarItem = UITabBarItem(title: "Settings", image: nil, selectedImage:
+        nil)
         self.viewControllers = [quizzesController, settingsController]
     }
 }
