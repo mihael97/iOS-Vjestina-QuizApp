@@ -32,6 +32,9 @@
 		5256ADD9261B5BED006DE011 /* PasswordField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5256ADD8261B5BED006DE011 /* PasswordField.swift */; };
 		525B380E264980FF00D63530 /* NoInternetConnectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525B380D264980FF00D63530 /* NoInternetConnectionView.swift */; };
 		525B381526498E5A00D63530 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525B381426498E5A00D63530 /* NetworkManager.swift */; };
+		525B381A26499D6600D63530 /* LeaderboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525B381926499D6500D63530 /* LeaderboardViewController.swift */; };
+		525B381C2649A20A00D63530 /* LeaderboardResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525B381B2649A20A00D63530 /* LeaderboardResult.swift */; };
+		525B38202649A58100D63530 /* NetworkServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525B381F2649A58100D63530 /* NetworkServiceProtocol.swift */; };
 		528D6CB0262A24A600078921 /* QuizViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528D6CAF262A24A500078921 /* QuizViewController.swift */; };
 		529C1ACD262B67790068F41F /* QuizQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529C1ACC262B67790068F41F /* QuizQuestion.swift */; };
 		529E1EDB262C320F00EBDAB3 /* AnswerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529E1EDA262C320F00EBDAB3 /* AnswerButton.swift */; };
@@ -71,6 +74,9 @@
 		5256ADD8261B5BED006DE011 /* PasswordField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordField.swift; sourceTree = "<group>"; };
 		525B380D264980FF00D63530 /* NoInternetConnectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoInternetConnectionView.swift; sourceTree = "<group>"; };
 		525B381426498E5A00D63530 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		525B381926499D6500D63530 /* LeaderboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardViewController.swift; sourceTree = "<group>"; };
+		525B381B2649A20A00D63530 /* LeaderboardResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LeaderboardResult.swift; path = QuizApp/model/LeaderboardResult.swift; sourceTree = SOURCE_ROOT; };
+		525B381F2649A58100D63530 /* NetworkServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceProtocol.swift; sourceTree = "<group>"; };
 		528D6CAF262A24A500078921 /* QuizViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizViewController.swift; sourceTree = "<group>"; };
 		529C1ACC262B67790068F41F /* QuizQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizQuestion.swift; sourceTree = "<group>"; };
 		529E1EDA262C320F00EBDAB3 /* AnswerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerButton.swift; sourceTree = "<group>"; };
@@ -148,6 +154,7 @@
 		522CA4D426174960008BAE7B /* QuizApp */ = {
 			isa = PBXGroup;
 			children = (
+				525B381E2649A54500D63530 /* network */,
 				525B380F264987C300D63530 /* reachability */,
 				520317F52639E6690012EBAB /* coordinator */,
 				5243C0C72618DD4A00194D35 /* components */,
@@ -166,6 +173,7 @@
 				529E1EDC262C3C5F00EBDAB3 /* QuizResultViewController.swift */,
 				52BCA469262F65770005134C /* SettingsViewController.swift */,
 				52BCA46D262F708B0005134C /* TabBarController.swift */,
+				525B381926499D6500D63530 /* LeaderboardViewController.swift */,
 			);
 			path = QuizApp;
 			sourceTree = "<group>";
@@ -173,6 +181,7 @@
 		522CA4EF26178578008BAE7B /* model */ = {
 			isa = PBXGroup;
 			children = (
+				525B381B2649A20A00D63530 /* LeaderboardResult.swift */,
 				522CA4F0261785CD008BAE7B /* LoginStatus.swift */,
 				522CA4F226178604008BAE7B /* Quiz.swift */,
 				522CA4F426178660008BAE7B /* Question.swift */,
@@ -198,6 +207,14 @@
 				525B381426498E5A00D63530 /* NetworkManager.swift */,
 			);
 			path = reachability;
+			sourceTree = "<group>";
+		};
+		525B381E2649A54500D63530 /* network */ = {
+			isa = PBXGroup;
+			children = (
+				525B381F2649A58100D63530 /* NetworkServiceProtocol.swift */,
+			);
+			path = network;
 			sourceTree = "<group>";
 		};
 		529C1ACB262B67520068F41F /* question */ = {
@@ -231,7 +248,6 @@
 				522CA4CE26174960008BAE7B /* Sources */,
 				522CA4CF26174960008BAE7B /* Frameworks */,
 				522CA4D026174960008BAE7B /* Resources */,
-				B44C761D5C3911C693090DE7 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -311,23 +327,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		B44C761D5C3911C693090DE7 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-QuizApp/Pods-QuizApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-QuizApp/Pods-QuizApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-QuizApp/Pods-QuizApp-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -341,6 +340,7 @@
 				522CA4F1261785CD008BAE7B /* LoginStatus.swift in Sources */,
 				520317F92639E75C0012EBAB /* AppRouter.swift in Sources */,
 				5219969D26274892008478DA /* QuizCollection.swift in Sources */,
+				525B381C2649A20A00D63530 /* LeaderboardResult.swift in Sources */,
 				522CA4F326178604008BAE7B /* Quiz.swift in Sources */,
 				5243C0C12618746300194D35 /* QuizzesViewController.swift in Sources */,
 				52F6C7F22621C53B0003AFA1 /* LevelRating.swift in Sources */,
@@ -348,11 +348,13 @@
 				521142CE2635CD2E007ADF40 /* QuizQuestionResponse.swift in Sources */,
 				52BCA46E262F708B0005134C /* TabBarController.swift in Sources */,
 				522CA4EE2617851D008BAE7B /* DataServiceProtocol.swift in Sources */,
+				525B381A26499D6600D63530 /* LeaderboardViewController.swift in Sources */,
 				5219969926273241008478DA /* NoQuizLoadedComponent.swift in Sources */,
 				529E1EDB262C320F00EBDAB3 /* AnswerButton.swift in Sources */,
 				522CA4F7261786A8008BAE7B /* QuizCategory.swift in Sources */,
 				522CA4D626174960008BAE7B /* AppDelegate.swift in Sources */,
 				52BCA46A262F65770005134C /* SettingsViewController.swift in Sources */,
+				525B38202649A58100D63530 /* NetworkServiceProtocol.swift in Sources */,
 				525B381526498E5A00D63530 /* NetworkManager.swift in Sources */,
 				529C1ACD262B67790068F41F /* QuizQuestion.swift in Sources */,
 				5219969B26273B83008478DA /* FunFactLabel.swift in Sources */,

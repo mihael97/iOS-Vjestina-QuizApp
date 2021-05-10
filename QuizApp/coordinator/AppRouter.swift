@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 class AppRouter: AppRouterProtocol {
-        
+
     private let navigationController: UINavigationController!
     
     init(navigationController: UINavigationController) {
@@ -58,9 +58,17 @@ class AppRouter: AppRouterProtocol {
         window?.makeKeyAndVisible()
     }
     
-    func showQuizResult(correctAnswers:Int, total: Int) {
-        let controller = QuizResultViewController(correct: correctAnswers, total: total, router: self)
+    func showQuizResult(quizId: Int, correctAnswers:Int, total: Int) {
+        let controller = QuizResultViewController(quizId: quizId, correct: correctAnswers, total: total, router: self)
         self.navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    func showQuizLeaderboard(quizId: Int) {
+        navigationController.present(LeaderboardViewController(quizId: quizId, router: self), animated: true)
+    }
+    
+    func dismissQuizLeaderBoard() {
+        navigationController.dismiss(animated: true)
     }
     
 }
