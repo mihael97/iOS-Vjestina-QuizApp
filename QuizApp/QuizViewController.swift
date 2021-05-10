@@ -131,7 +131,7 @@ class QuizViewController: UIViewController {
     
     private func advanceInQuestion(answer: QuizQuestionResponse) {
         if questionIndex==quiz.questions.count {
-            router.showQuizResult(correctAnswers: correctAnswers, total: quiz.questions.count)
+            router.showQuizResult(quizId: quiz.id, correctAnswers: correctAnswers, total: quiz.questions.count)
             return
         }
         quizQuestion.setQuestion(index: questionIndex, quiz: quiz, correct: answer)

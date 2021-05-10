@@ -17,4 +17,6 @@ protocol AppRouterProtocol {
     func popToRoot()
     func popBack()
     func setScreen(window: UIWindow?)
+    func showQuizLeaderboard(quizId: Int)
+    func dismissQuizLeaderBoard()
 }
