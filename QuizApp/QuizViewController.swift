@@ -131,7 +131,7 @@ class QuizViewController: UIViewController {
     
     private func advanceInQuestion(answer: QuizQuestionResponse) {
         if questionIndex==quiz.questions.count {
-            let controller = QuizResultViewController(correct: correctAnswers, total: quiz.questions.count, router: router)
+            let controller = QuizResultViewController(quizId: quiz.id,correct: correctAnswers, total: quiz.questions.count, router: router)
             self.navigationController?.pushViewController(controller, animated: true)
             return
         }
