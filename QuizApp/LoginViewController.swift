@@ -22,12 +22,13 @@ class LoginViewController: UIViewController {
     private var passwordField: PasswordField!
     private var loginButton: UIButton!
     private var falseLoginLabel: UILabel!
+    private var noConnectionView: NoInternetConnectionView!
     
     convenience init(router: AppRouterProtocol) {
         self.init()
         self.router = router
     }
-    
+            
     override func viewDidLoad() {
         super.viewDidLoad()
         buildView()
@@ -54,6 +55,10 @@ class LoginViewController: UIViewController {
         let offset = 0.05*max(view.frame.height, view.frame.width)
         
         NSLayoutConstraint.activate([
+            noConnectionView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 0),
+            noConnectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: 0),
+            noConnectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 0),
+            noConnectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: 0),
             appNameLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
             appNameLabel.topAnchor.constraint(equalTo: usernameTextField.topAnchor, constant: -offset*3),
             falseLoginLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
@@ -82,7 +87,10 @@ class LoginViewController: UIViewController {
     
     private func buildView() {
         view.backgroundColor = .purple
-
+        
+        // No connection
+        noConnectionView = NoInternetConnectionView()
+        
         // Quiz app Styling
         appNameLabel = UILabel()
         appNameLabel.text = "Pop Quiz"
@@ -129,6 +137,20 @@ class LoginViewController: UIViewController {
         addSubview(subView: passwordField)
         addSubview(subView: loginButton)
         addSubview(subView: falseLoginLabel)
+        addSubview(subView: noConnectionView)
+        
+        setConnectionLayout(status: NetworkManager.networkManager.isInternetConnected())
+    }
+    
+    private func setConnectionLayout(status: Bool) {
+        appNameLabel.isHidden = !status
+        usernameTextField.isHidden = !status
+        passwordField.isHidden = !status
+        loginButton.isHidden = !status
+        noConnectionView.isHidden = status
+        if !falseLoginLabel.isHidden {
+            falseLoginLabel.isHidden = !status
+        }
     }
     
     private func addSubview(subView: UIView) {
@@ -165,5 +187,13 @@ class LoginViewController: UIViewController {
             loginButton.backgroundColor = .systemGray2
         }
     }
+        
+}
 
+extension LoginViewController: NetworkManagerListener {
+    func networkStatusChanged(status: Bool) {
+        setConnectionLayout(status: status)
+    }
+    
+    
 }
