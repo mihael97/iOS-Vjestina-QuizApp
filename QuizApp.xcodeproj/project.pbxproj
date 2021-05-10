@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -155,7 +155,6 @@
 			isa = PBXGroup;
 			children = (
 				525B381E2649A54500D63530 /* network */,
-				525B380F264987C300D63530 /* reachability */,
 				520317F52639E6690012EBAB /* coordinator */,
 				5243C0C72618DD4A00194D35 /* components */,
 				522CA4EF26178578008BAE7B /* model */,
@@ -212,6 +211,7 @@
 		525B381E2649A54500D63530 /* network */ = {
 			isa = PBXGroup;
 			children = (
+				525B380F264987C300D63530 /* reachability */,
 				525B381F2649A58100D63530 /* NetworkServiceProtocol.swift */,
 			);
 			path = network;

@@ -14,7 +14,8 @@ class LoginViewController: UIViewController {
     private let radiusOfField:Int64 = 5
     private let fieldsWidth  = CGFloat(300)
     private let fieldsHeight = CGFloat(40)
-    private let dataService: DataService = DataService()
+//    private let dataService: DataService = DataService()
+    private let manager: NetworkServiceProtocol = NetworkServiceProtocol()
     private var router: AppRouterProtocol!
 
     private var appNameLabel: UILabel!
@@ -164,16 +165,27 @@ class LoginViewController: UIViewController {
     
     @objc
     func login(sender: UIButton!) {
-        let response :LoginStatus = dataService.login(email: usernameTextField.text ?? "", password: passwordField.text ?? "")
-        switch response {
-            case .error(_,let message):
-                print("Loggin failed with error: \(message)")
-                falseLoginLabel.isHidden = false
-                break
-            case .success:
-            
-                router.showTabBarController()
+//        let response :LoginStatus = dataService.login(email: usernameTextField.text ?? "", password: passwordField.text ?? "")
+//        switch response {
+//            case .error(_,let message):
+//                print("Loggin failed with error: \(message)")
+//                falseLoginLabel.isHidden = false
+//                break
+//            case .success:
+//
+//                router.showTabBarController()
+//        }
+        print(passwordField.text ?? "")
+        manager.login(username: usernameTextField.text ?? "", password: passwordField.text ?? "") { (response) in
+            DispatchQueue.main.async {
+                if response {
+                    self.router.showTabBarController()
+                } else {
+                    self.falseLoginLabel.isHidden = false
+                }
+            }
         }
+        
     }
     
     @objc
@@ -194,6 +206,4 @@ extension LoginViewController: NetworkManagerListener {
     func networkStatusChanged(status: Bool) {
         setConnectionLayout(status: status)
     }
-    
-    
 }
