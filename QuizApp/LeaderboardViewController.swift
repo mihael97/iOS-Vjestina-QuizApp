@@ -30,9 +30,14 @@ class LeaderboardViewController: UIViewController {
     }
     
     private func fetchData() {
-        networkService.fetchLeaderboard(quizId: 1, completation: {(result: [LeaderboardResult]) -> Void in
-            self.results = result
-            self.table.reloadData()
+        networkService.fetchLeaderboard(quizId: 1, completation: {response in
+            switch response {
+                case .success(let data):
+                    self.results = data
+                    self.table.reloadData()
+                case .failure(_):
+                    print("Error")
+            }
         })
     }
     

@@ -8,12 +8,12 @@
 
 import Foundation
 
-struct LoginData:Codable{
-    var token: String
-    var usedId: Int
+struct LoginData: Codable {
+    let token: String
+    let userId: Int
     
-    enum LoginDataKeys: String, CodingKey {
-        case token = "token"
+    enum CodingKeys: String, CodingKey {
+        case token
         case userId = "user_id"
     }
 }
@@ -59,71 +59,75 @@ class NetworkServiceProtocol {
             }
             guard let data=data else {completation(.failure(.noDataError)); return}
             guard let response = response as? HTTPURLResponse else {completation(.failure(.serverError)); return;}
-            if response.statusCode != 200 {
+            if response.statusCode != 201 {
+                print(response.statusCode)
                 completation(.failure(.serverError))
                 return
             }
-            guard let loginData:LoginData=try? JSONDecoder().decode(LoginData.self, from: data) else {completation(.failure(.decodingError)); return}
             
+            guard let loginData: LoginData = try? JSONDecoder().decode(LoginData.self, from: data)  else   {completation(.failure(.decodingError)); return}
             self.userDefaults.set(loginData.token, forKey: self.API_TOKEN_KEY)
-            self.userDefaults.set(loginData.usedId, forKey: self.USER_ID_KEY)
-            
+            self.userDefaults.set(loginData.userId, forKey: self.USER_ID_KEY)
+    
             completation(.success(true))
         }.resume()
     }
     
-    func fetchLeaderboard(quizId: Int, completation: @escaping (_ response: [LeaderboardResult])->Void) -> Void  {
+    func fetchLeaderboard(quizId: Int, completation: @escaping (Result<[LeaderboardResult], RequestError>)->Void) -> Void  {
         let session = URLSession(configuration: URLSessionConfiguration.default)
         var params = [String:String]()
         params["query_id"]=String(quizId)
         let component = createComponent(path: "/api/score", params: params)
-        guard let url=component.url else {completation([]); return}
+        guard let url=component.url else {completation(.failure(.serverError)); return}
 
         var urlRequest = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 60)
         urlRequest.httpMethod = "GET"
+        urlRequest.setValue(userDefaults.string(forKey: API_TOKEN_KEY), forHTTPHeaderField: "Authorization")
         
         session.dataTask(with: urlRequest) {
             (data, response, error) in
             if error != nil {
-                completation([])
+                completation(.failure(.clientError))
                 return;
             }
-            guard let response = response as? HTTPURLResponse else {completation([]); return;}
+            guard let response = response as? HTTPURLResponse else {completation(.failure(.serverError)); return;}
             if response.statusCode != 200 {
-                completation([])
+                completation(.failure(.serverError))
                 return
             }
-            guard let data=data else {completation([]);return;}
-            guard let parsedData: [LeaderboardResult] = try? JSONDecoder().decode([LeaderboardResult].self, from: data) else {completation([]);return;}
-            completation(parsedData)
+            guard let data=data else {completation(.failure(.noDataError));return;}
+            guard let parsedData: [LeaderboardResult] = try? JSONDecoder().decode([LeaderboardResult].self, from: data) else {completation(.failure(.decodingError));return;}
+            completation(.success(parsedData))
         }.resume()
     }
         
-    func fetchQuizzes(completation: @escaping (_ response: [Quiz])->Void) {
+    func fetchQuizzes(completation: @escaping (Result<[Quiz], RequestError>)->Void) {
         let session = URLSession(configuration: URLSessionConfiguration.default)
         let component = createComponent(path: "/api/quizzes")
-        guard let url=component.url else {completation([]); return}
+        guard let url=component.url else {completation(.failure(.serverError)); return}
 
         var urlRequest = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 60)
         urlRequest.httpMethod = "GET"
+        urlRequest.setValue(userDefaults.string(forKey: API_TOKEN_KEY), forHTTPHeaderField: "Authorization")
+
         session.dataTask(with: urlRequest) {
             (data, response, error) in
             if error != nil {
-                completation([])
+                completation(.failure(.clientError))
                 return
             }
-            guard let response = response as? HTTPURLResponse else {completation([]); return}
+            guard let response = response as? HTTPURLResponse else {completation(.failure(.serverError)); return}
             if response.statusCode != 200 {
-                completation([])
+                completation(.failure(.serverError))
                 return
             }
-            guard let data = data else {completation([]); return}
-            guard let parsedData: [Quiz] = try? JSONDecoder().decode([Quiz].self, from: data) else {completation([]); return}
-            completation(parsedData)
+            guard let data = data else {completation(.failure(.noDataError)); return}
+            guard let parsedData: QuizzesDto = try? JSONDecoder().decode(QuizzesDto.self, from: data) else {completation(.failure(.decodingError));return}
+            completation(.success(parsedData.quizzes))
         }.resume()
     }
     
-    func publishQuizResults(quizResult: QuizResult) {
+    func publishQuizResults(quizId: Int, time: Double, numberOfCorrectAnswers: Int, completation: @escaping (Result<Bool, RequestError>)->Void) {
         let session = URLSession(configuration: .default)
         let component = createComponent(path: "/api/result")
         guard let url = component.url else {return}
@@ -131,14 +135,37 @@ class NetworkServiceProtocol {
         var urlRequest = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 60)
         urlRequest.httpMethod = "POST"
         urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        urlRequest.setValue(userDefaults.string(forKey: API_TOKEN_KEY), forHTTPHeaderField: "Authorization")
+                        
+        let bodyJson: Dictionary<String, Any> = [
+            "quiz_id": quizId,
+            "user_id": userDefaults.integer(forKey: USER_ID_KEY),
+            "time": time,
+            "no_of_correct": numberOfCorrectAnswers
+        ]
+        guard let body = try? JSONSerialization.data(withJSONObject: bodyJson) else {completation(.failure(.clientError));return}
+        urlRequest.httpBody = body
+        
         session.dataTask(with: urlRequest) {
             (data, response, error) in
                 if error != nil {
+                    completation(.failure(.clientError))
                     return
                 }
                 guard let response = response as? HTTPURLResponse else {return}
-                if response.statusCode != 200 {
-                    return
+                switch response.statusCode {
+                    case 401:
+                        completation(.failure(.clientError))
+                    case 403:
+                        completation(.failure(.clientError))
+                    case 404:
+                        completation(.failure(.clientError))
+                    case 400:
+                        completation(.failure(.clientError))
+                    case 200:
+                        completation(.success(true))
+                    default:
+                        completation(.failure(.clientError))
                 }
         }.resume()
     }

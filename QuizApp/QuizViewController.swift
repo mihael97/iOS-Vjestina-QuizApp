@@ -16,12 +16,14 @@ class QuizViewController: UIViewController {
     private var answerButtons: [AnswerButton]!
     private var correctAnswers: Int!
     private var router: AppRouterProtocol!
+    private var manager: NetworkServiceProtocol!
         
-    convenience init (quiz: Quiz, router: AppRouterProtocol) {
+    convenience init (quiz: Quiz, router: AppRouterProtocol, manager: NetworkServiceProtocol) {
         self.init()
         self.quiz = quiz
         self.correctAnswers = quiz.questions.count
         self.router = router
+        self.manager = manager
     }
     
     override func viewDidLoad() {
@@ -131,7 +133,17 @@ class QuizViewController: UIViewController {
     
     private func advanceInQuestion(answer: QuizQuestionResponse) {
         if questionIndex==quiz.questions.count {
-            router.showQuizResult(quizId: quiz.id, correctAnswers: correctAnswers, total: quiz.questions.count)
+            manager.publishQuizResults(quizId: quiz.id, time: 0.0, numberOfCorrectAnswers: correctAnswers) {
+              (response) in
+                DispatchQueue.main.async {
+                    switch response {
+                        case .success:
+                            self.router.showQuizResult(quizId: self.quiz.id, correctAnswers: self.correctAnswers, total: self.quiz.questions.count)
+                        case .failure(_):
+                            print("Failure")
+                    }
+                }
+            }
             return
         }
         quizQuestion.setQuestion(index: questionIndex, quiz: quiz, correct: answer)
