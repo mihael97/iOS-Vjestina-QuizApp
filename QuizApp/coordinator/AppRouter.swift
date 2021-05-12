@@ -44,7 +44,7 @@ class AppRouter: AppRouterProtocol {
     }
         
     func showLoginController() {
-        navigationController.popToRootViewController(animated: true)
+        navigationController.setViewControllers([LoginViewController(router: self)], animated: true)
     }
     
     func showQuizViewController(quiz: Quiz) {
@@ -56,6 +56,11 @@ class AppRouter: AppRouterProtocol {
         navigationController.pushViewController(controller, animated: true)
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
+    }
+    
+    func showQuizResult(correctAnswers:Int, total: Int) {
+        let controller = QuizResultViewController(correct: correctAnswers, total: total, router: self)
+        self.navigationController?.pushViewController(controller, animated: true)
     }
     
 }

@@ -13,6 +13,7 @@ protocol AppRouterProtocol {
     func showLoginController()
     func showTabBarController()
     func showQuizViewController(quiz: Quiz)
+    func showQuizResult(correctAnswers: Int, total: Int)
     func popToRoot()
     func popBack()
     func setScreen(window: UIWindow?)
