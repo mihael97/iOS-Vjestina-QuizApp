@@ -9,7 +9,7 @@
 import Foundation
 
 
-struct LeaderboardResult {
+struct LeaderboardResult:Codable {
     var username: String = ""
     var score: String?
 }
