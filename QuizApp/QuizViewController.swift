@@ -17,6 +17,7 @@ class QuizViewController: UIViewController {
     private var correctAnswers: Int!
     private var router: AppRouterProtocol!
     private var manager: NetworkServiceProtocol!
+    private var startTime: Int64! = -1
         
     convenience init (quiz: Quiz, router: AppRouterProtocol, manager: NetworkServiceProtocol) {
         self.init()
@@ -132,8 +133,13 @@ class QuizViewController: UIViewController {
     }
     
     private func advanceInQuestion(answer: QuizQuestionResponse) {
+        if questionIndex == 0 {
+            startTime = Int64(Date().timeIntervalSince1970*1000)
+        }
         if questionIndex==quiz.questions.count {
-            manager.publishQuizResults(quizId: quiz.id, time: 0.0, numberOfCorrectAnswers: correctAnswers) {
+            let timeConsumption: Double = Double(Int64(Date().timeIntervalSince1970*1000)-startTime)/1000
+            startTime = -1
+            manager.publishQuizResults(quizId: quiz.id, time: timeConsumption, numberOfCorrectAnswers: correctAnswers) {
               (response) in
                 DispatchQueue.main.async {
                     switch response {
