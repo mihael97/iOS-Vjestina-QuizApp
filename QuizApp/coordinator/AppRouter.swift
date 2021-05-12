@@ -12,9 +12,11 @@ import UIKit
 class AppRouter: AppRouterProtocol {
 
     private let navigationController: UINavigationController!
+    private let networkManager: NetworkServiceProtocol!
     
     init(navigationController: UINavigationController) {
         self.navigationController = navigationController
+        self.networkManager = NetworkServiceProtocol()
     }
     
     func popToRoot() {
@@ -38,21 +40,21 @@ class AppRouter: AppRouterProtocol {
         if let found = found {
             self.navigationController.popToViewController(found, animated: true)
         } else {
-            let vc = TabBarController(router: self)
+            let vc = TabBarController(router: self, networkManager: networkManager)
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
         
     func showLoginController() {
-        navigationController.setViewControllers([LoginViewController(router: self)], animated: true)
+        navigationController.setViewControllers([LoginViewController(router: self, manager: networkManager)], animated: true)
     }
     
     func showQuizViewController(quiz: Quiz) {
-        navigationController.pushViewController(QuizViewController(quiz: quiz, router: self), animated: true)
+        navigationController.pushViewController(QuizViewController(quiz: quiz, router: self, manager: networkManager), animated: true)
     }
     
     func setScreen(window: UIWindow?) {
-        let controller = LoginViewController(router: self)
+        let controller = LoginViewController(router: self, manager: networkManager)
         navigationController.pushViewController(controller, animated: true)
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()

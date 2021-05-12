@@ -14,7 +14,7 @@ struct Question:Codable {
     let answers: [String]
     let correctAnswer: Int
     
-    enum QuestionKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey {
         case id
         case question
         case answers

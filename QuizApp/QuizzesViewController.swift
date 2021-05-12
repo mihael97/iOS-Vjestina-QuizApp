@@ -12,7 +12,6 @@ import UIKit
 class QuizzesViewController: UIViewController {
     private let fontName: String = "ArialRoundedMTBold"
 
-    private var dataService: DataService!
     private var quizNameLabel: UILabel!
     private var fetchQuizzesButton: UIButton!
     private var funFactLabel: FunFactLabel!
@@ -20,14 +19,15 @@ class QuizzesViewController: UIViewController {
     private var noLoadedQuizView: NoQuizLoadedComponent!
     private var quizzes: [QuizCategory:[Quiz]] = [:]
     private var router: AppRouterProtocol!
+    private var networkManager: NetworkServiceProtocol!
     
-    convenience init(router: AppRouterProtocol) {
+    convenience init(router: AppRouterProtocol, networkManager: NetworkServiceProtocol) {
         self.init()
         self.router = router
+        self.networkManager = networkManager
     }
     
     override func viewDidLoad() {
-        dataService = DataService()
         buildView()
         setConstraints()
     }
@@ -107,25 +107,34 @@ class QuizzesViewController: UIViewController {
 
     @objc
     private func fetchQuizzes(button: UIButton) {
-        let arrayQuizzes = dataService.fetchQuizes()
-                        
-        quizzes = arrayQuizzes.reduce([:] as! [QuizCategory: [Quiz]], {
-                a, b in
-                    var map:[QuizCategory: [Quiz]] = a
-                    var value = map[b.category,default: []]
-                    value.append(b)
-                    map[b.category] = value
-                    return map
+        networkManager.fetchQuizzes(completation: {response in
+                DispatchQueue.main.async {
+                    switch response {
+                        case .failure:
+                            self.noLoadedQuizView.isHidden = false
+                        case .success(let arrayQuizzes):
+                            self.quizzes = arrayQuizzes.reduce([:] as! [QuizCategory: [Quiz]], {
+                                    a, b in
+                                        var map:[QuizCategory: [Quiz]] = a
+                                        var value = map[b.category,default: []]
+                                        value.append(b)
+                                        map[b.category] = value
+                                        return map
+                                }
+                            )
+                                    
+                            self.funFactLabel.isHidden = false
+                            self.funFactLabel.update(value: self.findTitlesWithNBA(quizzes: arrayQuizzes))
+                            
+                            self.quizCollection.isHidden = false
+                            if !self.quizzes.isEmpty {
+                                self.noLoadedQuizView.isHidden = true
+                                self.quizCollection.update(quizzes: self.quizzes)
+                            }
+                    }
+                }
             }
         )
-                
-        funFactLabel.isHidden = false
-        funFactLabel.update(value: findTitlesWithNBA(quizzes: arrayQuizzes))
-        
-        quizCollection.isHidden = false
-        if !quizzes.isEmpty {
-            noLoadedQuizView.isHidden = true
-            quizCollection.update(quizzes: quizzes)
-        }
+                        
     }
 }

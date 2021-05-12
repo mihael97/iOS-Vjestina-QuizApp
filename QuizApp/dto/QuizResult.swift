@@ -14,7 +14,7 @@ struct QuizResult: Codable {
     var time: Double
     var numberOfCorrectAnswers: Int
     
-    enum QuizResultKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey {
         case quizId = "quiz_id"
         case userId = "user_id"
         case time
