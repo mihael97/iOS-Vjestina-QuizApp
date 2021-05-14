@@ -127,10 +127,10 @@ class NetworkServiceProtocol {
         }.resume()
     }
     
-    func publishQuizResults(quizId: Int, time: Double, numberOfCorrectAnswers: Int, completation: @escaping (Result<Bool, RequestError>)->Void) {
+    func publishQuizResults(quizId: Int, time: Double, numberOfCorrectAnswers: Int, completation: @escaping (Result<Bool, ResponseCodeError>)->Void) {
         let session = URLSession(configuration: .default)
         let component = createComponent(path: "/api/result")
-        guard let url = component.url else {return}
+        guard let url = component.url else {completation(.failure(.serverError));return}
         
         var urlRequest = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 60)
         urlRequest.httpMethod = "POST"
@@ -155,13 +155,13 @@ class NetworkServiceProtocol {
                 guard let response = response as? HTTPURLResponse else {return}
                 switch response.statusCode {
                     case 401:
-                        completation(.failure(.clientError))
+                        completation(.failure(.unAuthorized))
                     case 403:
-                        completation(.failure(.clientError))
+                        completation(.failure(.forbidden))
                     case 404:
-                        completation(.failure(.clientError))
+                        completation(.failure(.notFound))
                     case 400:
-                        completation(.failure(.clientError))
+                        completation(.failure(.badRequest))
                     case 200:
                         completation(.success(true))
                     default:

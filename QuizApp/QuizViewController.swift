@@ -18,6 +18,7 @@ class QuizViewController: UIViewController {
     private var router: AppRouterProtocol!
     private var manager: NetworkServiceProtocol!
     private var startTime: Int64! = -1
+    private var errorLabel: UILabel!
         
     convenience init (quiz: Quiz, router: AppRouterProtocol, manager: NetworkServiceProtocol) {
         self.init()
@@ -88,6 +89,9 @@ class QuizViewController: UIViewController {
                 constraints.append(element.topAnchor.constraint(equalTo: answerButtons[i-1].bottomAnchor, constant: offset))
             }
         }
+        
+        constraints.append(errorLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor, constant: 0))
+        constraints.append(errorLabel.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -offset))
 
         NSLayoutConstraint.activate(constraints)
     }
@@ -96,6 +100,10 @@ class QuizViewController: UIViewController {
         view.backgroundColor = .purple
         quizQuestion = QuizQuestion(quiz: quiz, frame: .zero)
         addToSubview(component: quizQuestion)
+        errorLabel = UILabel()
+        errorLabel.textColor = .red
+        errorLabel.backgroundColor = .white
+        addToSubview(component: errorLabel)
         
         answerButtons=[]
         for _ in 0...3 {
@@ -145,8 +153,19 @@ class QuizViewController: UIViewController {
                     switch response {
                         case .success:
                             self.router.showQuizResult(quizId: self.quiz.id, correctAnswers: self.correctAnswers, total: self.quiz.questions.count)
-                        case .failure(_):
-                            print("Failure")
+                        case .failure(let status):
+                            switch status {
+                                case .badRequest:
+                                    self.errorLabel.text = "One of the body params is not defined"
+                                case .unAuthorized:
+                                    self.errorLabel.text = "Without token or token doesn't exist"
+                                case .notFound:
+                                    self.errorLabel.text = "Quiz not found"
+                                case .forbidden:
+                                    self.errorLabel.text = "Token doesn't exist for this 'user_id'"
+                                default:
+                                    self.errorLabel.text = "Undefined error"
+                            }
                     }
                 }
             }
