@@ -66,7 +66,7 @@ class AppRouter: AppRouterProtocol {
     }
     
     func showQuizLeaderboard(quizId: Int) {
-        navigationController.present(LeaderboardViewController(quizId: quizId, router: self), animated: true)
+        navigationController.present(LeaderboardViewController(quizId: quizId, router: self, manager: networkManager), animated: true)
     }
     
     func dismissQuizLeaderBoard() {

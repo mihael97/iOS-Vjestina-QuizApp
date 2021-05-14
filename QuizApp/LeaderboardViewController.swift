@@ -10,17 +10,19 @@ import Foundation
 import UIKit
 
 class LeaderboardViewController: UIViewController {
-    private let cellId: String = "cellId"
-    private let networkService: NetworkServiceProtocol = NetworkServiceProtocol()
+    private let headerCellId: String = "headerCellId"
+    private let bodyCellId: String = "bodtCellId"
     private var quizId: Int!
     private var router: AppRouterProtocol!
     private var results: [LeaderboardResult] = []
     private var table: UITableView!
+    private var manager: NetworkServiceProtocol!
     
-    convenience init (quizId: Int, router: AppRouterProtocol) {
+    convenience init (quizId: Int, router: AppRouterProtocol, manager: NetworkServiceProtocol) {
         self.init()
         self.router = router
         self.quizId = quizId
+        self.manager = manager
     }
     
     override func viewDidLoad() {
@@ -30,7 +32,7 @@ class LeaderboardViewController: UIViewController {
     }
     
     private func fetchData() {
-        networkService.fetchLeaderboard(quizId: 1, completation: {response in
+        manager.fetchLeaderboard(quizId: quizId, completation: {response in
             switch response {
                 case .success(let data):
                     self.results = data
@@ -46,7 +48,8 @@ class LeaderboardViewController: UIViewController {
         self.view.addSubview(table)
         
         self.table.dataSource = self
-        self.table.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
+        self.table.register(UITableViewCell.self, forCellReuseIdentifier: headerCellId)
+        self.table.register(UITableViewCell.self, forCellReuseIdentifier: bodyCellId)
     }
     
     private func setConstraints() {
@@ -65,7 +68,15 @@ extension LeaderboardViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellId, for: indexPath)
-        return cell
+        var cell: UITableViewCell? = nil
+        
+        if indexPath.row == 0 {
+            cell = tableView.dequeueReusableCell(withIdentifier: headerCellId)
+        } else {
+            cell = tableView.dequeueReusableCell(withIdentifier: bodyCellId)
+        }
+        
+        return cell!
     }
+
 }
