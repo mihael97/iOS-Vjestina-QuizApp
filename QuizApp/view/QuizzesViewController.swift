@@ -20,14 +20,16 @@ class QuizzesViewController: UIViewController {
     private var quizzes: [QuizCategory:[Quiz]] = [:]
     private var router: AppRouterProtocol!
     private var networkManager: NetworkServiceProtocol!
+    private var presenter: QuizzesPresenter!
     
     convenience init(router: AppRouterProtocol, networkManager: NetworkServiceProtocol) {
         self.init()
         self.router = router
-        self.networkManager = networkManager
+        self.presenter = QuizzesPresenter(networkManager: networkManager, router: router)
     }
     
     override func viewDidLoad() {
+        self.presenter.setQuizzesViewDelegate(delegate: self)
         buildView()
         setConstraints()
     }
@@ -101,40 +103,37 @@ class QuizzesViewController: UIViewController {
         subView.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    private func findTitlesWithNBA(quizzes: [Quiz]) -> Int {
-        return quizzes.map{ $0.questions.filter{ $0.question.uppercased().contains("NBA") }.count }.reduce(0, +)
+    private func findTitlesWithNBA(mapQuizzes: [QuizCategory:[Quiz]]) -> Int {
+        var sum=0
+        for item in mapQuizzes {
+            sum+=item.value.map{ $0.questions.filter{ $0.question.uppercased().contains("NBA") }.count }.reduce(0, +)
+        }
+        return sum
     }
 
     @objc
     private func fetchQuizzes(button: UIButton) {
-        networkManager.fetchQuizzes(completation: {response in
-                DispatchQueue.main.async {
-                    switch response {
-                        case .failure:
-                            self.noLoadedQuizView.isHidden = false
-                        case .success(let arrayQuizzes):
-                            self.quizzes = arrayQuizzes.reduce([:] as! [QuizCategory: [Quiz]], {
-                                    a, b in
-                                        var map:[QuizCategory: [Quiz]] = a
-                                        var value = map[b.category,default: []]
-                                        value.append(b)
-                                        map[b.category] = value
-                                        return map
-                                }
-                            )
-                                    
-                            self.funFactLabel.isHidden = false
-                            self.funFactLabel.update(value: self.findTitlesWithNBA(quizzes: arrayQuizzes))
-                            
-                            self.quizCollection.isHidden = false
-                            if !self.quizzes.isEmpty {
-                                self.noLoadedQuizView.isHidden = true
-                                self.quizCollection.update(quizzes: self.quizzes)
-                            }
-                    }
-                }
-            }
-        )
-                        
+        presenter.fetchQuizzes()
     }
+}
+
+extension QuizzesViewController: QuizzesViewDelegate {
+    
+    func getQuizzes(quizzes: [QuizCategory:[Quiz]]) {
+        if quizzes.count == 0 {
+            self.noLoadedQuizView.isHidden = false
+        } else {
+            self.quizzes = quizzes
+                    
+            self.funFactLabel.isHidden = false
+            self.funFactLabel.update(value: self.findTitlesWithNBA(mapQuizzes: quizzes))
+            
+            self.quizCollection.isHidden = false
+            if !self.quizzes.isEmpty {
+                self.noLoadedQuizView.isHidden = true
+                self.quizCollection.update(quizzes: self.quizzes)
+            }
+        }
+    }
+    
 }

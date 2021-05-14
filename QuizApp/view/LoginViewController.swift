@@ -14,23 +14,22 @@ class LoginViewController: UIViewController {
     private let radiusOfField:Int64 = 5
     private let fieldsWidth  = CGFloat(300)
     private let fieldsHeight = CGFloat(40)
-    private var manager: NetworkServiceProtocol!
-    private var router: AppRouterProtocol!
     private var appNameLabel: UILabel!
     private var usernameTextField: UITextField!
     private var passwordField: PasswordField!
     private var loginButton: UIButton!
     private var falseLoginLabel: UILabel!
     private var noConnectionView: NoInternetConnectionView!
+    private var presenter: LoginPresenter!
     
     convenience init(router: AppRouterProtocol, manager: NetworkServiceProtocol) {
         self.init()
-        self.router = router
-        self.manager = manager
+        self.presenter = LoginPresenter(networkManager: manager, router: router)
     }
             
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.presenter.setViewDelegate(delegate: self)
         buildView()
         setConstraints()
     }
@@ -139,10 +138,10 @@ class LoginViewController: UIViewController {
         addSubview(subView: falseLoginLabel)
         addSubview(subView: noConnectionView)
         
-        setConnectionLayout(status: NetworkManager.networkManager.isInternetConnected())
+        presenter.getNetworkStatus()
     }
     
-    private func setConnectionLayout(status: Bool) {
+    func updateConnectionLayout(status: Bool) {
         appNameLabel.isHidden = !status
         usernameTextField.isHidden = !status
         passwordField.isHidden = !status
@@ -164,17 +163,7 @@ class LoginViewController: UIViewController {
     
     @objc
     func login(sender: UIButton!) {
-        manager.login(username: usernameTextField.text ?? "", password: passwordField.text ?? "") { (response) in
-            DispatchQueue.main.async {
-                switch response {
-                    case .failure:
-                        self.falseLoginLabel.isHidden = false
-                    case .success:
-                        self.router.showTabBarController()
-                }
-            }
-        }
-        
+        presenter.login(username: usernameTextField.text ?? "", password: passwordField.text ?? "")
     }
     
     @objc
@@ -191,8 +180,15 @@ class LoginViewController: UIViewController {
         
 }
 
-extension LoginViewController: NetworkManagerListener {
-    func networkStatusChanged(status: Bool) {
-        setConnectionLayout(status: status)
+extension LoginViewController: LoginViewDelegate {
+    
+    func loginResultError() {
+        DispatchQueue.main.async {
+            self.falseLoginLabel.isHidden = false
+        }
+    }
+    
+    func setConnectionLayout(status: Bool) {
+        updateConnectionLayout(status: status)
     }
 }

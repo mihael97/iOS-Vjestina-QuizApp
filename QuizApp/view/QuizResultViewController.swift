@@ -10,20 +10,20 @@ import Foundation
 import UIKit
 
 class QuizResultViewController: UIViewController {
+    private var presenter: QuizResultPresenter!
     private var quizResultLabel: UILabel!
     private var quizId: Int!
     private var finishQuizButton:UIButton!
     private var leaderboardResults: UIButton!
     private var correctAnswers: Int!
     private var totalAnswers: Int!
-    private var router: AppRouterProtocol!
         
     convenience init (quizId:Int, correct: Int, total: Int, router: AppRouterProtocol) {
         self.init()
         self.quizId = quizId
         self.correctAnswers=correct
         self.totalAnswers=total
-        self.router = router
+        self.presenter = QuizResultPresenter(router: router)
     }
     
     override func viewDidLoad() {
@@ -96,11 +96,11 @@ class QuizResultViewController: UIViewController {
     
     @objc
     private func navigate(_ sender: UIButton) {
-        router.showTabBarController()
+        presenter.showTabBarController()
     }
     
     @objc
     private func leaderBoard(_ sender: UIButton)  {
-        router.showQuizLeaderboard(quizId: quizId)
+        presenter.showLeaderboard(quizId: quizId)
     }
 }
