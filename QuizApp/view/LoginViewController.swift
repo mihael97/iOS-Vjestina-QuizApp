@@ -14,7 +14,6 @@ class LoginViewController: UIViewController {
     private let radiusOfField:Int64 = 5
     private let fieldsWidth  = CGFloat(300)
     private let fieldsHeight = CGFloat(40)
-    private var router: AppRouterProtocol!
     private var appNameLabel: UILabel!
     private var usernameTextField: UITextField!
     private var passwordField: PasswordField!
@@ -25,8 +24,7 @@ class LoginViewController: UIViewController {
     
     convenience init(router: AppRouterProtocol, manager: NetworkServiceProtocol) {
         self.init()
-        self.router = router
-        self.presenter = LoginPresenter(networkManager: manager)
+        self.presenter = LoginPresenter(networkManager: manager, router: router)
     }
             
     override func viewDidLoad() {
@@ -184,14 +182,9 @@ class LoginViewController: UIViewController {
 
 extension LoginViewController: LoginViewDelegate {
     
-    func loginResult(result: Bool) {
+    func loginResultError() {
         DispatchQueue.main.async {
-            switch result {
-                case false:
-                    self.falseLoginLabel.isHidden = false
-                case true:
-                    self.router.showTabBarController()
-            }
+            self.falseLoginLabel.isHidden = false
         }
     }
     

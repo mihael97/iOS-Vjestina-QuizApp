@@ -10,10 +10,12 @@ import Foundation
 
 class QuizzesPresenter {
     private let networkManager: NetworkServiceProtocol
+    private let router: AppRouterProtocol
     weak private var delegate: QuizzesViewDelegate?
     
-    init(networkManager: NetworkServiceProtocol) {
+    init(networkManager: NetworkServiceProtocol, router: AppRouterProtocol) {
         self.networkManager = networkManager
+        self.router = router
     }
     
     func setQuizzesViewDelegate(delegate: QuizzesViewDelegate) {
