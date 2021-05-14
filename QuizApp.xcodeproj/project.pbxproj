@@ -34,6 +34,8 @@
 		525B381C2649A20A00D63530 /* LeaderboardResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525B381B2649A20A00D63530 /* LeaderboardResult.swift */; };
 		525B38202649A58100D63530 /* NetworkServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525B381F2649A58100D63530 /* NetworkServiceProtocol.swift */; };
 		528D6CB0262A24A600078921 /* QuizViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528D6CAF262A24A500078921 /* QuizViewController.swift */; };
+		5291008F264EDCCD00E632F9 /* QuizPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5291008E264EDCCD00E632F9 /* QuizPresenter.swift */; };
+		52910091264EDD0E00E632F9 /* QuizViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52910090264EDD0E00E632F9 /* QuizViewDelegate.swift */; };
 		529C1ACD262B67790068F41F /* QuizQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529C1ACC262B67790068F41F /* QuizQuestion.swift */; };
 		529E1EDB262C320F00EBDAB3 /* AnswerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529E1EDA262C320F00EBDAB3 /* AnswerButton.swift */; };
 		529E1EDD262C3C5F00EBDAB3 /* QuizResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529E1EDC262C3C5F00EBDAB3 /* QuizResultViewController.swift */; };
@@ -83,6 +85,8 @@
 		525B381B2649A20A00D63530 /* LeaderboardResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LeaderboardResult.swift; path = QuizApp/model/LeaderboardResult.swift; sourceTree = SOURCE_ROOT; };
 		525B381F2649A58100D63530 /* NetworkServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceProtocol.swift; sourceTree = "<group>"; };
 		528D6CAF262A24A500078921 /* QuizViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizViewController.swift; sourceTree = "<group>"; };
+		5291008E264EDCCD00E632F9 /* QuizPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizPresenter.swift; sourceTree = "<group>"; };
+		52910090264EDD0E00E632F9 /* QuizViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizViewDelegate.swift; sourceTree = "<group>"; };
 		529C1ACC262B67790068F41F /* QuizQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizQuestion.swift; sourceTree = "<group>"; };
 		529E1EDA262C320F00EBDAB3 /* AnswerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerButton.swift; sourceTree = "<group>"; };
 		529E1EDC262C3C5F00EBDAB3 /* QuizResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizResultViewController.swift; sourceTree = "<group>"; };
@@ -276,6 +280,7 @@
 				520317F52639E6690012EBAB /* coordinator */,
 				52DFCC17264E69C0005801AA /* LoginPresenter.swift */,
 				52DFCC1E264E7517005801AA /* QuizzesPresenter.swift */,
+				5291008E264EDCCD00E632F9 /* QuizPresenter.swift */,
 			);
 			path = presenter;
 			sourceTree = "<group>";
@@ -285,6 +290,7 @@
 			children = (
 				52DFCC19264E6B3F005801AA /* LoginViewDelegate.swift */,
 				52DFCC1C264E7492005801AA /* QuizzesViewDelegate.swift */,
+				52910090264EDD0E00E632F9 /* QuizViewDelegate.swift */,
 			);
 			path = delegates;
 			sourceTree = "<group>";
@@ -413,7 +419,9 @@
 				52DFCC1A264E6B3F005801AA /* LoginViewDelegate.swift in Sources */,
 				5219969926273241008478DA /* NoQuizLoadedComponent.swift in Sources */,
 				529E1EDB262C320F00EBDAB3 /* AnswerButton.swift in Sources */,
+				5291008F264EDCCD00E632F9 /* QuizPresenter.swift in Sources */,
 				52DFCC1D264E7492005801AA /* QuizzesViewDelegate.swift in Sources */,
+				52910091264EDD0E00E632F9 /* QuizViewDelegate.swift in Sources */,
 				522CA4F7261786A8008BAE7B /* QuizCategory.swift in Sources */,
 				522CA4D626174960008BAE7B /* AppDelegate.swift in Sources */,
 				52BCA46A262F65770005134C /* SettingsViewController.swift in Sources */,
