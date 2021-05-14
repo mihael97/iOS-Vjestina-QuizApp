@@ -45,6 +45,7 @@
 		52C6FBF3264C135E007D84B3 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C6FBF2264C135E007D84B3 /* Result.swift */; };
 		52C6FBF5264C13EB007D84B3 /* RequestError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C6FBF4264C13EB007D84B3 /* RequestError.swift */; };
 		52C6FBFA264C303C007D84B3 /* QuizzesDto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C6FBF9264C303C007D84B3 /* QuizzesDto.swift */; };
+		52DFCC14264E6303005801AA /* ResponseCodeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DFCC13264E6303005801AA /* ResponseCodeError.swift */; };
 		52EB6A5B2630705800A3C189 /* CustomSectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EB6A5A2630705800A3C189 /* CustomSectionHeader.swift */; };
 		52F6C7F22621C53B0003AFA1 /* LevelRating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52F6C7F12621C53B0003AFA1 /* LevelRating.swift */; };
 /* End PBXBuildFile section */
@@ -90,6 +91,7 @@
 		52C6FBF2264C135E007D84B3 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		52C6FBF4264C13EB007D84B3 /* RequestError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestError.swift; sourceTree = "<group>"; };
 		52C6FBF9264C303C007D84B3 /* QuizzesDto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizzesDto.swift; sourceTree = "<group>"; };
+		52DFCC13264E6303005801AA /* ResponseCodeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseCodeError.swift; sourceTree = "<group>"; };
 		52EB6A5A2630705800A3C189 /* CustomSectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSectionHeader.swift; sourceTree = "<group>"; };
 		52F6C7F12621C53B0003AFA1 /* LevelRating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelRating.swift; sourceTree = "<group>"; };
 		BEF5C387EE323CF29BD97309 /* Pods-QuizApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-QuizApp.debug.xcconfig"; path = "Target Support Files/Pods-QuizApp/Pods-QuizApp.debug.xcconfig"; sourceTree = "<group>"; };
@@ -240,6 +242,7 @@
 			children = (
 				52C6FBF2264C135E007D84B3 /* Result.swift */,
 				52C6FBF4264C13EB007D84B3 /* RequestError.swift */,
+				52DFCC13264E6303005801AA /* ResponseCodeError.swift */,
 			);
 			path = util;
 			sourceTree = "<group>";
@@ -382,6 +385,7 @@
 				52BCA46A262F65770005134C /* SettingsViewController.swift in Sources */,
 				525B38202649A58100D63530 /* NetworkServiceProtocol.swift in Sources */,
 				525B381526498E5A00D63530 /* NetworkManager.swift in Sources */,
+				52DFCC14264E6303005801AA /* ResponseCodeError.swift in Sources */,
 				529C1ACD262B67790068F41F /* QuizQuestion.swift in Sources */,
 				5219969B26273B83008478DA /* FunFactLabel.swift in Sources */,
 				525B380E264980FF00D63530 /* NoInternetConnectionView.swift in Sources */,
