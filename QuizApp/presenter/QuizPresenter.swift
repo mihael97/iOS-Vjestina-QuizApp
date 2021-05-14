@@ -21,6 +21,7 @@ class QuizPresenter  {
         self.networkManager = networkManager
         self.router = router
         self.quiz = quiz
+        self.correctAnswers = self.quiz.questions.count
     }
     
     func setQuizViewDelegate(delegate: QuizViewDelegate) {
@@ -67,7 +68,7 @@ class QuizPresenter  {
     
     func popBack() {
         DispatchQueue.main.async {
-            router.popBack()
+            self.router.popBack()
         }
     }
 }

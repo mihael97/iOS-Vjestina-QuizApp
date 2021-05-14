@@ -11,10 +11,12 @@ import Foundation
 
 class LoginPresenter {
     private let networkManager: NetworkServiceProtocol
+    private let router: AppRouterProtocol
     weak private var loginDelegate: LoginViewDelegate?
     
-    init(networkManager: NetworkServiceProtocol) {
+    init(networkManager: NetworkServiceProtocol, router: AppRouterProtocol) {
         self.networkManager = networkManager
+        self.router = router
         NetworkManager.networkManager.addObserver(observer: self)
     }
     
@@ -26,9 +28,11 @@ class LoginPresenter {
         networkManager.login(username: username, password: password) { (response) in
                 switch response {
                     case .failure:
-                        self.loginDelegate?.loginResult(result: false)
+                        self.loginDelegate?.loginResultError()
                     case .success:
-                        self.loginDelegate?.loginResult(result: true)
+                        DispatchQueue.main.async {
+                            self.router.showTabBarController()
+                        }
                 }
         }
     }

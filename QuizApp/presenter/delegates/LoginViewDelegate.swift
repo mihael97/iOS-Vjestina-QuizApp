@@ -9,6 +9,6 @@
 import Foundation
 
 protocol LoginViewDelegate: NSObjectProtocol {
-    func loginResult(result: Bool)
+    func loginResultError()
     func setConnectionLayout(status: Bool)
 }
