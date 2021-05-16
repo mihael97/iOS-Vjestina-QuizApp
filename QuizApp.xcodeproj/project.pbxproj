@@ -177,7 +177,7 @@
 				52DFCC16264E6916005801AA /* presenter */,
 				52DFCC15264E68B6005801AA /* view */,
 				52C6FBF6264C2FB0007D84B3 /* dto */,
-				525B381E2649A54500D63530 /* network */,
+				525B381E2649A54500D63530 /* service */,
 				522CA4EF26178578008BAE7B /* model */,
 				522CA4EB26177FFE008BAE7B /* zadace */,
 				522CA4D526174960008BAE7B /* AppDelegate.swift */,
@@ -220,14 +220,14 @@
 			path = reachability;
 			sourceTree = "<group>";
 		};
-		525B381E2649A54500D63530 /* network */ = {
+		525B381E2649A54500D63530 /* service */ = {
 			isa = PBXGroup;
 			children = (
 				52C6FBF1264C133D007D84B3 /* util */,
 				525B380F264987C300D63530 /* reachability */,
 				525B381F2649A58100D63530 /* NetworkServiceProtocol.swift */,
 			);
-			path = network;
+			path = service;
 			sourceTree = "<group>";
 		};
 		529C1ACB262B67520068F41F /* question */ = {
