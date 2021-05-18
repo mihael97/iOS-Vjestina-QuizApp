@@ -25,7 +25,7 @@ class QuizzesViewController: UIViewController {
     convenience init(router: AppRouterProtocol, networkManager: NetworkServiceProtocol) {
         self.init()
         self.router = router
-        self.presenter = QuizzesPresenter(networkManager: networkManager, router: router)
+        self.presenter = QuizzesPresenter(networkManager: networkManager)
     }
     
     override func viewDidLoad() {

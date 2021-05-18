@@ -16,12 +16,29 @@ extension QuizCD {
         return NSFetchRequest<QuizCD>(entityName: "QuizCD")
     }
 
-    @NSManaged public var id: Int64
-    @NSManaged public var title: String?
-    @NSManaged public var quizDescription: String?
     @NSManaged public var category: String?
-    @NSManaged public var level: Int64
+    @NSManaged public var descriptionCd: String?
+    @NSManaged public var idCD: Int32
     @NSManaged public var imageUrl: String?
-    @NSManaged public var relationship: QuestionCD?
+    @NSManaged public var level: Int32
+    @NSManaged public var title: String?
+    @NSManaged public var questions: NSSet?
+
+}
+
+// MARK: Generated accessors for questions
+extension QuizCD {
+
+    @objc(addQuestionsObject:)
+    @NSManaged public func addToQuestions(_ value: QuestionCD)
+
+    @objc(removeQuestionsObject:)
+    @NSManaged public func removeFromQuestions(_ value: QuestionCD)
+
+    @objc(addQuestions:)
+    @NSManaged public func addToQuestions(_ values: NSSet)
+
+    @objc(removeQuestions:)
+    @NSManaged public func removeFromQuestions(_ values: NSSet)
 
 }
