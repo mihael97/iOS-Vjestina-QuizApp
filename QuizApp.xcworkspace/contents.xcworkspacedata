@@ -2,16 +2,16 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:QuizApp/model/coreData/QuizCD+CoreDataClass.swift">
-   </FileRef>
-   <FileRef
-      location = "group:QuizApp/model/coreData/QuizCD+CoreDataProperties.swift">
-   </FileRef>
-   <FileRef
       location = "group:QuizApp/model/coreData/QuestionCD+CoreDataClass.swift">
    </FileRef>
    <FileRef
       location = "group:QuizApp/model/coreData/QuestionCD+CoreDataProperties.swift">
+   </FileRef>
+   <FileRef
+      location = "group:QuizApp/model/coreData/QuizCD+CoreDataClass.swift">
+   </FileRef>
+   <FileRef
+      location = "group:QuizApp/model/coreData/QuizCD+CoreDataProperties.swift">
    </FileRef>
    <FileRef
       location = "group:QuizApp.xcodeproj">

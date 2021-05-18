@@ -16,7 +16,7 @@ extension QuestionCD {
         return NSFetchRequest<QuestionCD>(entityName: "QuestionCD")
     }
 
-    @NSManaged public var answers: NSObject?
+    @NSManaged public var answers: [String]?
     @NSManaged public var correctAnswer: Int32
     @NSManaged public var idCD: Int32
     @NSManaged public var question: String?
