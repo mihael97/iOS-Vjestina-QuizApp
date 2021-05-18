@@ -41,6 +41,7 @@
 		5291008F264EDCCD00E632F9 /* QuizPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5291008E264EDCCD00E632F9 /* QuizPresenter.swift */; };
 		52910091264EDD0E00E632F9 /* QuizViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52910090264EDD0E00E632F9 /* QuizViewDelegate.swift */; };
 		52910095264EECEF00E632F9 /* QuizResultPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52910094264EECEF00E632F9 /* QuizResultPresenter.swift */; };
+		529B3B9C2654279C002FAC6E /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 529B3B9A2654279C002FAC6E /* Model.xcdatamodeld */; };
 		529C1ACD262B67790068F41F /* QuizQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529C1ACC262B67790068F41F /* QuizQuestion.swift */; };
 		529E1EDB262C320F00EBDAB3 /* AnswerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529E1EDA262C320F00EBDAB3 /* AnswerButton.swift */; };
 		529E1EDD262C3C5F00EBDAB3 /* QuizResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529E1EDC262C3C5F00EBDAB3 /* QuizResultViewController.swift */; };
@@ -101,6 +102,7 @@
 		5291008E264EDCCD00E632F9 /* QuizPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizPresenter.swift; sourceTree = "<group>"; };
 		52910090264EDD0E00E632F9 /* QuizViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizViewDelegate.swift; sourceTree = "<group>"; };
 		52910094264EECEF00E632F9 /* QuizResultPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizResultPresenter.swift; sourceTree = "<group>"; };
+		529B3B9B2654279C002FAC6E /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		529C1ACC262B67790068F41F /* QuizQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizQuestion.swift; sourceTree = "<group>"; };
 		529E1EDA262C320F00EBDAB3 /* AnswerButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerButton.swift; sourceTree = "<group>"; };
 		529E1EDC262C3C5F00EBDAB3 /* QuizResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizResultViewController.swift; sourceTree = "<group>"; };
@@ -224,6 +226,7 @@
 				522CA4DE26174962008BAE7B /* Assets.xcassets */,
 				522CA4E026174962008BAE7B /* LaunchScreen.storyboard */,
 				522CA4E326174962008BAE7B /* Info.plist */,
+				529B3B9A2654279C002FAC6E /* Model.xcdatamodeld */,
 			);
 			path = QuizApp;
 			sourceTree = "<group>";
@@ -231,6 +234,7 @@
 		522CA4EF26178578008BAE7B /* model */ = {
 			isa = PBXGroup;
 			children = (
+				529B3B9D26542AB9002FAC6E /* coreData */,
 				520BFF5E26529ED0007E9627 /* Question.swift */,
 				520BFF5A26529E9E007E9627 /* Quiz.swift */,
 				520BFF5B26529E9E007E9627 /* QuizCategory.swift */,
@@ -271,6 +275,13 @@
 				525B381F2649A58100D63530 /* NetworkServiceProtocol.swift */,
 			);
 			path = service;
+			sourceTree = "<group>";
+		};
+		529B3B9D26542AB9002FAC6E /* coreData */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = coreData;
 			sourceTree = "<group>";
 		};
 		529C1ACB262B67520068F41F /* question */ = {
@@ -459,6 +470,7 @@
 				520317F92639E75C0012EBAB /* AppRouter.swift in Sources */,
 				5219969D26274892008478DA /* QuizCollection.swift in Sources */,
 				525B381C2649A20A00D63530 /* LeaderboardResult.swift in Sources */,
+				529B3B9C2654279C002FAC6E /* Model.xcdatamodeld in Sources */,
 				52C6FBF5264C13EB007D84B3 /* RequestError.swift in Sources */,
 				5243C0C12618746300194D35 /* QuizzesViewController.swift in Sources */,
 				52F6C7F22621C53B0003AFA1 /* LevelRating.swift in Sources */,
@@ -684,6 +696,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		529B3B9A2654279C002FAC6E /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				529B3B9B2654279C002FAC6E /* Model.xcdatamodel */,
+			);
+			currentVersion = 529B3B9B2654279C002FAC6E /* Model.xcdatamodel */;
+			name = Model.xcdatamodeld;
+			path = model/Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 522CA4CA26174960008BAE7B /* Project object */;
 }
