@@ -22,7 +22,7 @@ class QuizDatabaseDataSource {
         for quiz in quizzes {
             var questions: [Question] = []
             for q in Array(quiz.questions!) as! [QuestionCD] {
-                questions.append(Question(id: Int(q.idCD), question: q.question!, answers: q.answers! as! [String], correctAnswer: Int(q.correctAnswer)))
+                questions.append(Question(id: Int(q.idCD), question: q.question!, answers: q.answers! , correctAnswer: Int(q.correctAnswer)))
             }
             coverted.append(Quiz(id: Int(quiz.idCD), title: quiz.title!, description: quiz.descriptionCd!, category: QuizCategory(rawValue: quiz.category!)!, level: Int(quiz.level), imageUrl: quiz.imageUrl!, questions: questions))
         }
@@ -52,6 +52,15 @@ class QuizDatabaseDataSource {
         cdQuiz.level = Int32(quiz.level)
         cdQuiz.descriptionCd = quiz.description
         cdQuiz.title = quiz.title
+        for question in quiz.questions {
+            let entity = NSEntityDescription.entity(forEntityName: "QuestionCD", in: managedContext)!
+            let questionCd = QuestionCD(entity: entity, insertInto: managedContext)
+            questionCd.idCD = Int32(Int(question.id))
+            questionCd.correctAnswer = Int32(Int(question.correctAnswer))
+            questionCd.question = question.question
+            questionCd.answers = question.answers
+            cdQuiz.addToQuestions(questionCd)
+        }
         try? managedContext.save()
     }
     
@@ -63,6 +72,16 @@ class QuizDatabaseDataSource {
         quizCd.level = Int32(quiz.level)
         quizCd.descriptionCd = quiz.description
         quizCd.title = quiz.title
+        quizCd.questions = NSSet()
+        for question in quiz.questions {
+            let entity = NSEntityDescription.entity(forEntityName: "QuestionCD", in: managedContext)!
+            let questionCd = QuestionCD(entity: entity, insertInto: managedContext)
+            questionCd.idCD = Int32(Int(question.id))
+            questionCd.correctAnswer = Int32(Int(question.correctAnswer))
+            questionCd.question = question.question
+            questionCd.answers = question.answers
+            quizCd.addToQuestions(questionCd)
+        }
         try? managedContext.save()
     }
     
