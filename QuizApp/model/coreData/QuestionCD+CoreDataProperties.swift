@@ -2,7 +2,7 @@
 //  QuestionCD+CoreDataProperties.swift
 //  
 //
-//  Created by five on 18/05/2021.
+//  Created by five on 20/05/2021.
 //
 //
 
@@ -20,5 +20,6 @@ extension QuestionCD {
     @NSManaged public var correctAnswer: Int32
     @NSManaged public var idCD: Int32
     @NSManaged public var question: String?
+    @NSManaged public var quiz: QuizCD?
 
 }
