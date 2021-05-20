@@ -27,6 +27,7 @@ class QuizNetworkDataSource {
                     case .success(let arrayQuizzes):
                         self.coreDataDatabase.refreshQuizzes(quizzes: arrayQuizzes)
                         quizzes = Array(arrayQuizzes)
+                        semaphore.signal()
                 }
             }
         )
