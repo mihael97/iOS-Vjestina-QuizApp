@@ -42,6 +42,16 @@ class QuizDatabaseDataSource {
         return []
     }
     
+    private func createQuestion(question: Question, context: NSManagedObjectContext)->QuestionCD{
+        let entity = NSEntityDescription.entity(forEntityName: "QuestionCD", in: context)!
+        let questionCd = QuestionCD(entity: entity, insertInto: context)
+        questionCd.idCD = Int32(Int(question.id))
+        questionCd.correctAnswer = Int32(Int(question.correctAnswer))
+        questionCd.question = question.question
+        questionCd.answers = question.answers
+        return questionCd
+    }
+    
     private func saveQuiz(quiz: Quiz) {
         let managedContext = coreDataStack.persistentContainer.viewContext
         let entity = NSEntityDescription.entity(forEntityName: "QuizCD", in: managedContext)!
@@ -53,15 +63,30 @@ class QuizDatabaseDataSource {
         cdQuiz.descriptionCd = quiz.description
         cdQuiz.title = quiz.title
         for question in quiz.questions {
-            let entity = NSEntityDescription.entity(forEntityName: "QuestionCD", in: managedContext)!
-            let questionCd = QuestionCD(entity: entity, insertInto: managedContext)
-            questionCd.idCD = Int32(Int(question.id))
-            questionCd.correctAnswer = Int32(Int(question.correctAnswer))
-            questionCd.question = question.question
-            questionCd.answers = question.answers
-            cdQuiz.addToQuestions(questionCd)
+            cdQuiz.addToQuestions(createQuestion(question: question, context: managedContext))
         }
         try? managedContext.save()
+    }
+    
+    private func updateQuestion(question: Question,  context:NSManagedObjectContext) -> QuestionCD {
+        let request: NSFetchRequest<QuestionCD> = QuestionCD.fetchRequest()
+        let predicate = NSPredicate(format: "idCD=%@", "\(question.id)")
+        request.predicate = predicate
+        do {
+            let fetchedQuestions: [QuestionCD] = try context.fetch(request)
+            if fetchedQuestions.count == 0 {
+                return createQuestion(question: question, context: context)
+            } else {
+                let questionCd = fetchedQuestions[0]
+                questionCd.idCD = Int32(Int(question.id))
+                questionCd.correctAnswer = Int32(Int(question.correctAnswer))
+                questionCd.question = "A"
+                questionCd.answers = question.answers
+                return questionCd
+            }
+        } catch (let error) {
+            fatalError("Fatal error: \(error.localizedDescription)")
+        }
     }
     
     private func updateQuiz(quizCd: QuizCD, quiz: Quiz) {
@@ -74,13 +99,10 @@ class QuizDatabaseDataSource {
         quizCd.title = quiz.title
         quizCd.questions = NSSet()
         for question in quiz.questions {
-            let entity = NSEntityDescription.entity(forEntityName: "QuestionCD", in: managedContext)!
-            let questionCd = QuestionCD(entity: entity, insertInto: managedContext)
-            questionCd.idCD = Int32(Int(question.id))
-            questionCd.correctAnswer = Int32(Int(question.correctAnswer))
-            questionCd.question = question.question
-            questionCd.answers = question.answers
-            quizCd.addToQuestions(questionCd)
+            let questionCd = updateQuestion(question: question, context: managedContext)
+//            if let questionCd=questionCd {
+                quizCd.addToQuestions(questionCd)
+//            }
         }
         try? managedContext.save()
     }
