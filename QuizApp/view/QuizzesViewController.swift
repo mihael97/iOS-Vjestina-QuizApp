@@ -13,7 +13,6 @@ class QuizzesViewController: UIViewController {
     private let fontName: String = "ArialRoundedMTBold"
 
     private var quizNameLabel: UILabel!
-    private var fetchQuizzesButton: UIButton!
     private var funFactLabel: FunFactLabel!
     private var quizCollection: QuizCollection!
     private var noLoadedQuizView: NoQuizLoadedComponent!
@@ -34,6 +33,11 @@ class QuizzesViewController: UIViewController {
         setConstraints()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        presenter.fetchQuizzes()
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         setConstraints()
@@ -47,10 +51,7 @@ class QuizzesViewController: UIViewController {
         NSLayoutConstraint.activate([
             quizNameLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
             quizNameLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: offset/2),
-            fetchQuizzesButton.topAnchor.constraint(equalTo: quizNameLabel.bottomAnchor, constant: offset/2),
-            fetchQuizzesButton.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
-            fetchQuizzesButton.widthAnchor.constraint(equalToConstant: 0.5*min(frame.width, frame.height)),
-            funFactLabel.topAnchor.constraint(equalTo: fetchQuizzesButton.bottomAnchor, constant: offset/2),
+            funFactLabel.topAnchor.constraint(equalTo: quizNameLabel.bottomAnchor, constant: offset/2),
             funFactLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -offset),
             funFactLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: offset),
             noLoadedQuizView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
@@ -71,14 +72,6 @@ class QuizzesViewController: UIViewController {
         quizNameLabel.font = UIFont(name:fontName, size: 50.0)
         quizNameLabel.textColor = .systemYellow
         
-        // Fetch quizzes button
-        fetchQuizzesButton = UIButton()
-        fetchQuizzesButton.setTitle("Get Quiz", for: .normal)
-        fetchQuizzesButton.setTitleColor(.purple, for: .normal)
-        fetchQuizzesButton.addTarget(self, action: #selector(self.fetchQuizzes), for: .touchUpInside)
-        fetchQuizzesButton.backgroundColor = .white
-        fetchQuizzesButton.layer.cornerRadius = 10
-        
         // Fun fact label
         funFactLabel = FunFactLabel()
         funFactLabel.isHidden = true
@@ -92,7 +85,6 @@ class QuizzesViewController: UIViewController {
          
         // Add to subview
         addSubview(subView: quizNameLabel)
-        addSubview(subView: fetchQuizzesButton)
         addSubview(subView: funFactLabel)
         addSubview(subView: noLoadedQuizView)
         addSubview(subView: quizCollection)

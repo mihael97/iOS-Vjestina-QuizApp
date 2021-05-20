@@ -18,7 +18,10 @@ class QuizRepository {
     }
     
     func fetchQuizzes() -> [Quiz] {
-        var quizzes = networkDatabase.fetchQuizzes()
+        var quizzes: [Quiz] = []
+        if NetworkManager.networkManager.isInternetConnected() {
+            quizzes = networkDatabase.fetchQuizzes()
+        }
         if quizzes.count == 0 {
             quizzes = coreDataDatabase.fetchQuizzes()
         }
