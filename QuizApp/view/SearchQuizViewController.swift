@@ -33,8 +33,9 @@ class SearchQuizViewController: UIViewController  {
     
     private func setConstraints() {
         NSLayoutConstraint.activate([
-            searchView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            searchView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 10)
+            searchView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 10),
+            searchView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            searchView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -10)
         ])
     }
 }
