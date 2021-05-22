@@ -10,8 +10,9 @@ import Foundation
 import UIKit
 
 class SearchBarView: UIView {
+    private let ICON_NAME: String = "magnifyingglass"
+    private var searchField: UITextField!
     private var searchButton: UIButton!
-    private var a: UIButton!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -23,26 +24,47 @@ class SearchBarView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private func setRoundShape() {
+        searchField.layer.cornerRadius = CGFloat(5)
+    }
+    
     private func buildView() {
         self.backgroundColor = .purple
         
-        searchButton = UIButton()
-        searchButton.backgroundColor = .blue
-        searchButton.setTitle("Search", for: .normal)
-        searchButton.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(searchButton)
+        searchField = UITextField()
+        searchField.backgroundColor = .systemPurple
+        searchField.textColor = .black
+        searchField.placeholder = "Type here"
+        searchField.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
+        searchField.translatesAutoresizingMaskIntoConstraints = false
+        addToSubview(element: searchField)
         
-        a = UIButton()
-        a.backgroundColor = .white
-        a.setTitle("Search", for: .normal)
-        a.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(a)
+        searchButton = UIButton()
+        searchButton.setTitle("Search", for: .normal)
+        searchButton.addTarget(self, action: #selector(self.searchButtonClicked), for: .touchUpInside)
+        searchButton.translatesAutoresizingMaskIntoConstraints = false
+        addToSubview(element: searchButton)
+        
+        setRoundShape()
+    }
+    
+    private func addToSubview(element: UIView) {
+        element.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(element)
     }
     
     private func setConstraints() {
         NSLayoutConstraint.activate([
-            searchButton.widthAnchor.constraint(equalToConstant: 300),
-            a.leadingAnchor.constraint(equalTo: searchButton.trailingAnchor, constant: 20)
+            searchField.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
+            searchField.widthAnchor.constraint(equalToConstant: 200),
+            searchField.heightAnchor.constraint(equalToConstant: 40),
+            searchButton.leadingAnchor.constraint(equalTo: searchField.trailingAnchor, constant: 10),
+            searchButton.heightAnchor.constraint(equalToConstant: 40),
         ])
+    }
+    
+    @objc
+    private func searchButtonClicked(button: UIButton!) {
+        print("Clicked")
     }
 }
