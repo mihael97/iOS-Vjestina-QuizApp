@@ -11,19 +11,21 @@ import UIKit
 
 class SearchBarView: UIView {
     private let ICON_NAME: String = "magnifyingglass"
+    private var router: AppRouterProtocol!
     private var searchField: UITextField!
     private var searchButton: UIButton!
+    private var quizCollection: QuizCollection!
+    private var presenter: SearchBarViewPresenter!
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    convenience init(router: AppRouterProtocol, networkManager: NetworkServiceProtocol) {
+        self.init(frame: .zero)
+        self.router = router
+        self.presenter = SearchBarViewPresenter(networkManager: networkManager)
+        self.presenter.setDelegate(delegate: self)
         buildView()
         setConstraints()
     }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+        
     private func setRoundShape() {
         searchField.layer.cornerRadius = CGFloat(5)
     }
@@ -45,6 +47,9 @@ class SearchBarView: UIView {
         searchButton.translatesAutoresizingMaskIntoConstraints = false
         addToSubview(element: searchButton)
         
+        quizCollection = QuizCollection(router: self.router)
+        addToSubview(element: quizCollection)
+        
         setRoundShape()
     }
     
@@ -55,16 +60,25 @@ class SearchBarView: UIView {
     
     private func setConstraints() {
         NSLayoutConstraint.activate([
+            searchField.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 0),
             searchField.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
             searchField.widthAnchor.constraint(equalToConstant: 200),
             searchField.heightAnchor.constraint(equalToConstant: 40),
             searchButton.leadingAnchor.constraint(equalTo: searchField.trailingAnchor, constant: 10),
             searchButton.heightAnchor.constraint(equalToConstant: 40),
+            quizCollection.topAnchor.constraint(equalTo: searchField.bottomAnchor, constant: 10),
+            quizCollection.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
         ])
     }
     
     @objc
     private func searchButtonClicked(button: UIButton!) {
-        print("Clicked")
+        self.presenter.fetchQuizzes(searchText: searchField.text!)
+    }
+}
+
+extension SearchBarView: SearchBarViewDelegate {
+    func searchResults(quizzes: [QuizCategory : [Quiz]]) {
+        self.quizCollection.update(quizzes: quizzes)
     }
 }

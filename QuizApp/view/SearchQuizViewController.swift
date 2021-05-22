@@ -11,11 +11,13 @@ import UIKit
 
 class SearchQuizViewController: UIViewController  {
     private var networkManager: NetworkServiceProtocol!
+    private var router: AppRouterProtocol!
     private var searchView: SearchBarView!
     
-    convenience init(networkManager: NetworkServiceProtocol) {
+    convenience init(router: AppRouterProtocol, networkManager: NetworkServiceProtocol) {
         self.init()
         self.networkManager = networkManager
+        self.router = router
     }
     
     override func viewDidLoad() {
@@ -26,7 +28,7 @@ class SearchQuizViewController: UIViewController  {
     
     private func buildView() {
         self.view.backgroundColor = .purple
-        searchView = SearchBarView()
+        searchView = SearchBarView(router: router, networkManager: networkManager)
         searchView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(searchView)
     }

@@ -28,4 +28,16 @@ class QuizRepository {
         
         return quizzes
     }
+    
+    func filterQuizzes(searchText: String) -> [QuizCategory: [Quiz]] {
+        return coreDataDatabase.filterQuizzes(searchText: searchText).reduce([:] as! [QuizCategory: [Quiz]], {
+            a, b in
+                var map:[QuizCategory: [Quiz]] = a
+                var value = map[b.category,default: []]
+                value.append(b)
+                map[b.category] = value
+                return map
+            }
+        )
+    }
 }

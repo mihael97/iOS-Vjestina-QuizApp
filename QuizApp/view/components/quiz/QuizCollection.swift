@@ -42,7 +42,8 @@ extension QuizCollection: UICollectionViewDataSource {
         return quizzes.count
     }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return Array(quizzes)[section].value.count
+        let a = Array(quizzes)[section].value.count
+        return a
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
