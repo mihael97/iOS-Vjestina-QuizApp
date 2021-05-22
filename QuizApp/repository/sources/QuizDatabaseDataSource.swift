@@ -124,4 +124,19 @@ class QuizDatabaseDataSource {
             }
         }
     }
+    
+    func filterQuizzes(searchText: String) -> [Quiz] {
+        let request: NSFetchRequest<QuizCD> = QuizCD.fetchRequest()
+        let managedContext = coreDataStack.persistentContainer.viewContext
+        do {
+            let predicate: NSPredicate = NSPredicate(format: "title CONTAINS[c] %@", searchText)
+            request.predicate = predicate
+            let results = try managedContext.fetch(request)
+            return convertToQuizzes(quizzes: results)
+        } catch let error as NSError {
+            print("Error \(error) | Info: \(error.userInfo)")
+        }
+        return []
+    }
+    
 }
