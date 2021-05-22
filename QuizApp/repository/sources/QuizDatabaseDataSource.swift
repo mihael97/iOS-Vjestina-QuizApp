@@ -80,7 +80,7 @@ class QuizDatabaseDataSource {
                 let questionCd = fetchedQuestions[0]
                 questionCd.idCD = Int32(Int(question.id))
                 questionCd.correctAnswer = Int32(Int(question.correctAnswer))
-                questionCd.question = "A"
+                questionCd.question = question.question
                 questionCd.answers = question.answers
                 return questionCd
             }
@@ -100,9 +100,7 @@ class QuizDatabaseDataSource {
         quizCd.questions = NSSet()
         for question in quiz.questions {
             let questionCd = updateQuestion(question: question, context: managedContext)
-//            if let questionCd=questionCd {
-                quizCd.addToQuestions(questionCd)
-//            }
+            quizCd.addToQuestions(questionCd)
         }
         try? managedContext.save()
     }
