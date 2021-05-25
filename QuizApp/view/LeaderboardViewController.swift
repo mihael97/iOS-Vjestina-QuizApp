@@ -24,6 +24,7 @@ class LeaderboardViewController: UIViewController {
     }
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         buildView()
         setConstraints()
         fetchData()

@@ -30,7 +30,8 @@ class QuizPresenter  {
     
     private func publishQuizResults(time: Double) {
         networkManager.publishQuizResults(quizId: quiz.id, time: time, numberOfCorrectAnswers: correctAnswers) {
-          (response) in
+          [weak self](response) in
+            guard let self=self else {return}
             switch response {
                 case .success:
                     DispatchQueue.main.async {

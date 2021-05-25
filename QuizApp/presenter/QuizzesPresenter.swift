@@ -23,18 +23,19 @@ class QuizzesPresenter {
     }
     
     func fetchQuizzes() {
-        networkManager.fetchQuizzes(completation: {response in
+        networkManager.fetchQuizzes(completation: {[weak self]response in
                 DispatchQueue.main.async {
+                    guard let self=self else {return}
                     switch response {
                         case .failure:
                             self.delegate?.getQuizzes(quizzes: [QuizCategory:[Quiz]]())
                         case .success(let arrayQuizzes):
                             self.delegate?.getQuizzes(quizzes: arrayQuizzes.reduce([:] as! [QuizCategory: [Quiz]], {
-                                    a, b in
-                                        var map:[QuizCategory: [Quiz]] = a
-                                        var value = map[b.category,default: []]
-                                        value.append(b)
-                                        map[b.category] = value
+                                    items, quiz in
+                                        var map:[QuizCategory: [Quiz]] = items
+                                        var value = map[quiz.category,default: []]
+                                        value.append(quiz)
+                                        map[quiz.category] = value
                                         return map
                                 }
                             ))

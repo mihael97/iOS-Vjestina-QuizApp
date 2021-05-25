@@ -20,12 +20,17 @@ class LoginPresenter {
         NetworkManager.networkManager.addObserver(observer: self)
     }
     
+    deinit {
+        loginDelegate = nil
+    }
+    
     func setViewDelegate(delegate: LoginViewDelegate) {
         self.loginDelegate = delegate
     }
     
     func login(username: String, password:String) {
-        networkManager.login(username: username, password: password) { (response) in
+        networkManager.login(username: username, password: password) { [weak self](response) in
+                guard let self=self else{return}
                 switch response {
                     case .failure:
                         self.loginDelegate?.loginResultError()
