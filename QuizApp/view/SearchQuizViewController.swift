@@ -38,6 +38,7 @@ class SearchQuizViewController: UIViewController {
         
         quizCollection = QuizCollection(router: router)
         quizCollection.translatesAutoresizingMaskIntoConstraints = false
+        quizCollection.isHidden = false
         view.addSubview(quizCollection)
     }
     
@@ -49,7 +50,8 @@ class SearchQuizViewController: UIViewController {
             searchBar.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
             searchBar.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 10),
             quizCollection.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
-            quizCollection.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 10)
+            quizCollection.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 10),
+            quizCollection.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -10)
         ])
     }
 }
@@ -57,5 +59,7 @@ class SearchQuizViewController: UIViewController {
 extension SearchQuizViewController: SearchBarViewDelegate {
     func searchResults(quizzes: [QuizCategory : [Quiz]]) {
         quizCollection.update(quizzes: quizzes)
+        quizCollection.isHidden = false
+        quizCollection.reloadData()
     }
 }
