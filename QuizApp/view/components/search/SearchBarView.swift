@@ -11,16 +11,16 @@ import UIKit
 
 class SearchBarView: UITextField {
     private let searchImage = UIImage(systemName: "magnifyingglass")
+    private var quizRepository: QuizRepository!
     private var searchButton: UIButton!
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    private var searchBarViewPresenter: SearchBarViewPresenter!
+    
+    convenience init(presenter: SearchBarViewPresenter) {
+        self.init(frame: .zero)
+        self.searchBarViewPresenter = presenter
         buildView()
     }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+        
     private func setLayer() {
         self.layer.cornerRadius = CGFloat(5)
         self.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
@@ -38,7 +38,7 @@ class SearchBarView: UITextField {
     
     @objc
     private func searchButtonClicked(_ button: UIButton!) {
-        print("A")
+        searchBarViewPresenter.fetchQuizzes(searchText: self.text!)
     }
     
     private func buildView() {
