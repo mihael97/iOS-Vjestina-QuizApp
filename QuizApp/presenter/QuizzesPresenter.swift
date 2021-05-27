@@ -31,7 +31,6 @@ class QuizzesPresenter {
                 value.append(b)
                 map[b.category] = value
                 return map
->>>>>>> Model
             }
         ))
     }
