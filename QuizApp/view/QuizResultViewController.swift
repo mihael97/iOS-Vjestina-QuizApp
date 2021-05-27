@@ -10,17 +10,20 @@ import Foundation
 import UIKit
 
 class QuizResultViewController: UIViewController {
+    private var presenter: QuizResultPresenter!
     private var quizResultLabel: UILabel!
+    private var quizId: Int!
     private var finishQuizButton:UIButton!
+    private var leaderboardResults: UIButton!
     private var correctAnswers: Int!
     private var totalAnswers: Int!
-    private var router: AppRouterProtocol!
         
-    convenience init (correct: Int, total: Int, router: AppRouterProtocol) {
+    convenience init (quizId:Int, correct: Int, total: Int, router: AppRouterProtocol) {
         self.init()
+        self.quizId = quizId
         self.correctAnswers=correct
         self.totalAnswers=total
-        self.router = router
+        self.presenter = QuizResultPresenter(router: router)
     }
     
     override func viewDidLoad() {
@@ -46,6 +49,7 @@ class QuizResultViewController: UIViewController {
     private func setConstraints() {
         quizResultLabel.translatesAutoresizingMaskIntoConstraints = false
         finishQuizButton.translatesAutoresizingMaskIntoConstraints = false
+        leaderboardResults.translatesAutoresizingMaskIntoConstraints = false
         
         let safeArea = view.safeAreaLayoutGuide
         let frame = view.frame
@@ -53,10 +57,19 @@ class QuizResultViewController: UIViewController {
         NSLayoutConstraint.activate([
             quizResultLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
             quizResultLabel.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor),
+            leaderboardResults.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+            leaderboardResults.bottomAnchor.constraint(equalTo: finishQuizButton.topAnchor, constant: -20),
+            leaderboardResults.widthAnchor.constraint(equalToConstant: frame.width*0.8),
             finishQuizButton.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
             finishQuizButton.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -frame.height*0.05),
             finishQuizButton.widthAnchor.constraint(equalToConstant: frame.width*0.8)
         ])
+    }
+    
+    private func addButtonStyle(button: UIButton) {
+        button.setTitleColor(.purple, for: .normal)
+        button.backgroundColor = .white
+        button.layer.cornerRadius = CGFloat(10)
     }
     
     private func buildView() {
@@ -68,17 +81,26 @@ class QuizResultViewController: UIViewController {
         
         finishQuizButton = UIButton()
         finishQuizButton.setTitle("Finish Quiz", for: .normal)
-        finishQuizButton.setTitleColor(.purple, for: .normal)
-        finishQuizButton.backgroundColor = .white
+        addButtonStyle(button: finishQuizButton)
         finishQuizButton.addTarget(self, action: #selector(QuizResultViewController.navigate(_:)), for: .touchUpInside)
-        finishQuizButton.layer.cornerRadius = CGFloat(10)
+        
+        leaderboardResults = UIButton()
+        leaderboardResults.setTitle("See leaderboard", for: .normal)
+        addButtonStyle(button: leaderboardResults)
+        leaderboardResults.addTarget(self, action: #selector(QuizResultViewController.leaderBoard(_:)), for: .touchUpInside)
         
         view.addSubview(quizResultLabel)
         view.addSubview(finishQuizButton)
+        view.addSubview(leaderboardResults)
     }
     
     @objc
     private func navigate(_ sender: UIButton) {
-        router.showTabBarController()
+        presenter.showTabBarController()
+    }
+    
+    @objc
+    private func leaderBoard(_ sender: UIButton)  {
+        presenter.showLeaderboard(quizId: quizId)
     }
 }

@@ -14,22 +14,22 @@ class LoginViewController: UIViewController {
     private let radiusOfField:Int64 = 5
     private let fieldsWidth  = CGFloat(300)
     private let fieldsHeight = CGFloat(40)
-    private let dataService: DataService = DataService()
-    private var router: AppRouterProtocol!
-
     private var appNameLabel: UILabel!
     private var usernameTextField: UITextField!
     private var passwordField: PasswordField!
     private var loginButton: UIButton!
     private var falseLoginLabel: UILabel!
+    private var noConnectionView: NoInternetConnectionView!
+    private var presenter: LoginPresenter!
     
-    convenience init(router: AppRouterProtocol) {
+    convenience init(router: AppRouterProtocol, manager: NetworkServiceProtocol) {
         self.init()
-        self.router = router
+        self.presenter = LoginPresenter(networkManager: manager, router: router)
     }
-    
+            
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.presenter.setViewDelegate(delegate: self)
         buildView()
         setConstraints()
     }
@@ -54,6 +54,10 @@ class LoginViewController: UIViewController {
         let offset = 0.05*max(view.frame.height, view.frame.width)
         
         NSLayoutConstraint.activate([
+            noConnectionView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 0),
+            noConnectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: 0),
+            noConnectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 0),
+            noConnectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: 0),
             appNameLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
             appNameLabel.topAnchor.constraint(equalTo: usernameTextField.topAnchor, constant: -offset*3),
             falseLoginLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
@@ -82,7 +86,10 @@ class LoginViewController: UIViewController {
     
     private func buildView() {
         view.backgroundColor = .purple
-
+        
+        // No connection
+        noConnectionView = NoInternetConnectionView()
+        
         // Quiz app Styling
         appNameLabel = UILabel()
         appNameLabel.text = "Pop Quiz"
@@ -129,6 +136,20 @@ class LoginViewController: UIViewController {
         addSubview(subView: passwordField)
         addSubview(subView: loginButton)
         addSubview(subView: falseLoginLabel)
+        addSubview(subView: noConnectionView)
+        
+        presenter.getNetworkStatus()
+    }
+    
+    func updateConnectionLayout(status: Bool) {
+        appNameLabel.isHidden = !status
+        usernameTextField.isHidden = !status
+        passwordField.isHidden = !status
+        loginButton.isHidden = !status
+        noConnectionView.isHidden = status
+        if !falseLoginLabel.isHidden {
+            falseLoginLabel.isHidden = !status
+        }
     }
     
     private func addSubview(subView: UIView) {
@@ -142,16 +163,7 @@ class LoginViewController: UIViewController {
     
     @objc
     func login(sender: UIButton!) {
-        let response :LoginStatus = dataService.login(email: usernameTextField.text ?? "", password: passwordField.text ?? "")
-        switch response {
-            case .error(_,let message):
-                print("Loggin failed with error: \(message)")
-                falseLoginLabel.isHidden = false
-                break
-            case .success:
-            
-                router.showTabBarController()
-        }
+        presenter.login(username: usernameTextField.text ?? "", password: passwordField.text ?? "")
     }
     
     @objc
@@ -165,5 +177,18 @@ class LoginViewController: UIViewController {
             loginButton.backgroundColor = .systemGray2
         }
     }
+        
+}
 
+extension LoginViewController: LoginViewDelegate {
+    
+    func loginResultError() {
+        DispatchQueue.main.async {
+            self.falseLoginLabel.isHidden = false
+        }
+    }
+    
+    func setConnectionLayout(status: Bool) {
+        updateConnectionLayout(status: status)
+    }
 }

@@ -12,19 +12,18 @@ import UIKit
 class QuizViewController: UIViewController {
     private var quiz: Quiz!
     private var quizQuestion: QuizQuestion!
-    private var questionIndex: Int=0
     private var answerButtons: [AnswerButton]!
-    private var correctAnswers: Int!
-    private var router: AppRouterProtocol!
+    private var errorLabel: UILabel!
+    private var presenter: QuizPresenter!
         
-    convenience init (quiz: Quiz, router: AppRouterProtocol) {
+    convenience init (quiz: Quiz, router: AppRouterProtocol, manager: NetworkServiceProtocol) {
         self.init()
         self.quiz = quiz
-        self.correctAnswers = quiz.questions.count
-        self.router = router
+        self.presenter = QuizPresenter(quiz: quiz, router: router, networkManager: manager)
     }
     
     override func viewDidLoad() {
+        presenter.setQuizViewDelegate(delegate: self)
         setNavbar()
         buildView()
         setConstraints()
@@ -60,7 +59,7 @@ class QuizViewController: UIViewController {
     
     @objc
     func popBack() {
-        router.popBack()
+        self.presenter.popBack()
     }
     
     private func setConstraints() {
@@ -85,6 +84,9 @@ class QuizViewController: UIViewController {
                 constraints.append(element.topAnchor.constraint(equalTo: answerButtons[i-1].bottomAnchor, constant: offset))
             }
         }
+        
+        constraints.append(errorLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor, constant: 0))
+        constraints.append(errorLabel.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -offset))
 
         NSLayoutConstraint.activate(constraints)
     }
@@ -93,6 +95,10 @@ class QuizViewController: UIViewController {
         view.backgroundColor = .purple
         quizQuestion = QuizQuestion(quiz: quiz, frame: .zero)
         addToSubview(component: quizQuestion)
+        errorLabel = UILabel()
+        errorLabel.textColor = .red
+        errorLabel.backgroundColor = .white
+        addToSubview(component: errorLabel)
         
         answerButtons=[]
         for _ in 0...3 {
@@ -103,48 +109,60 @@ class QuizViewController: UIViewController {
             addToSubview(component: button)
         }
         
-        advanceInQuestion(answer: .EMPTY)
+        presenter.advanceInQuestion(answer: .EMPTY)
     }
     
     @objc
     private func answerClicked(_ sender:AnswerButton) {
-        let correctAnswer:Int=quiz.questions[questionIndex-1].correctAnswer
-        answerButtons[correctAnswer].backgroundColor = .green
+        presenter.answerClicked(answerClicked: sender.getIndex())
+    }
+    
+    
+    private func addToSubview(component: UIView) {
+        component.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(component)
+    }
+}
+
+extension QuizViewController: QuizViewDelegate {
+    func answerClickedResult(correctResult: Int, wrongResult: Int?) {
+        answerButtons[correctResult].backgroundColor = .green
         var response: QuizQuestionResponse = .CORRECT
-        if correctAnswer != sender.getIndex() {
-            answerButtons[sender.getIndex()].backgroundColor = .red
-            self.correctAnswers-=1
+        if let wrongResult = wrongResult {
+            answerButtons[wrongResult].backgroundColor = .red
             response = .INCORRECT
         }
         
-        for (i, element) in answerButtons.enumerated() {
-            if i == sender.getIndex() {
-                continue
-            }
+        for (_, element) in answerButtons.enumerated() {
             element.isEnabled = false
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-            self.advanceInQuestion(answer: response)
+            self.presenter.advanceInQuestion(answer: response)
         }
     }
     
-    private func advanceInQuestion(answer: QuizQuestionResponse) {
-        if questionIndex==quiz.questions.count {
-            router.showQuizResult(correctAnswers: correctAnswers, total: quiz.questions.count)
-            return
-        }
-        quizQuestion.setQuestion(index: questionIndex, quiz: quiz, correct: answer)
+    func advanceInQuestion(result: QuizQuestionResponse, questionIndex: Int) {
+        quizQuestion.setQuestion(index: questionIndex, quiz: quiz, correct: result)
         for (i, answer) in quiz.questions[questionIndex].answers.enumerated() {
             answerButtons[i].backgroundColor = .systemPurple
             answerButtons[i].setUp(title: answer,index: i)
             answerButtons[i].isEnabled = true
         }
-        questionIndex+=1
     }
     
-    private func addToSubview(component: UIView) {
-        component.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(component)
+    func questionPublishError(result: ResponseCodeError) {
+        switch result {
+            case .badRequest:
+                self.errorLabel.text = "One of the body params is not defined"
+            case .unAuthorized:
+                self.errorLabel.text = "Without token or token doesn't exist"
+            case .notFound:
+                self.errorLabel.text = "Quiz not found"
+            case .forbidden:
+                self.errorLabel.text = "Token doesn't exist for this 'user_id'"
+            default:
+                self.errorLabel.text = "Undefined error"
+        }
     }
 }
