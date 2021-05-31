@@ -10,12 +10,14 @@ import Foundation
 
 class QuizzesPresenter {
     private let networkManager: NetworkServiceProtocol
+    private let repository: QuizRepository
     private let router: AppRouterProtocol
     weak private var delegate: QuizzesViewDelegate?
     
-    init(networkManager: NetworkServiceProtocol, router: AppRouterProtocol) {
+    init(router:AppRouterProtocol, networkManager: NetworkServiceProtocol) {
         self.networkManager = networkManager
         self.router = router
+        self.repository = QuizRepository(networkManager: networkManager)
     }
     
     func setQuizzesViewDelegate(delegate: QuizzesViewDelegate) {
@@ -23,25 +25,23 @@ class QuizzesPresenter {
     }
     
     func fetchQuizzes() {
-        networkManager.fetchQuizzes(completation: {[weak self]response in
-                DispatchQueue.main.async {
-                    guard let self=self else {return}
-                    switch response {
-                        case .failure:
-                            self.delegate?.getQuizzes(quizzes: [QuizCategory:[Quiz]]())
-                        case .success(let arrayQuizzes):
-                            self.delegate?.getQuizzes(quizzes: arrayQuizzes.reduce([:] as! [QuizCategory: [Quiz]], {
-                                    items, quiz in
-                                        var map:[QuizCategory: [Quiz]] = items
-                                        var value = map[quiz.category,default: []]
-                                        value.append(quiz)
-                                        map[quiz.category] = value
-                                        return map
-                                }
-                            ))
+        repository.fetchQuizzes() {
+            [weak self] quizzes in
+                self?.delegate?.getQuizzes(quizzes: quizzes.reduce([:] as! [QuizCategory: [Quiz]], {
+                    a, b in
+                        var map:[QuizCategory: [Quiz]] = a
+                        var value = map[b.category,default: []]
+                        value.append(b)
+                        map[b.category] = value
+                        return map
                     }
-                }
-            }
-        )
+                ))
+        }
+    }
+}
+
+extension QuizzesPresenter: ShowQuizExtension {
+    func showQuiz(quiz: Quiz) {
+        router.showQuizViewController(quiz: quiz)
     }
 }

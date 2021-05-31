@@ -31,9 +31,11 @@ class TabBarController: UITabBarController {
 
         let quizzesController = QuizzesViewController(router: router, networkManager: networkManager)
         quizzesController.tabBarItem = UITabBarItem(title: "Quiz", image: nil, selectedImage: nil)
+        let searchController = SearchQuizViewController(router: router, networkManager: networkManager)
+        searchController.tabBarItem = UITabBarItem(title: "Search", image: nil, selectedImage: nil)
         let settingsController = SettingsViewController(router: router)
         settingsController.tabBarItem = UITabBarItem(title: "Settings", image: nil, selectedImage:
         nil)
-        self.viewControllers = [quizzesController, settingsController]
+        self.viewControllers = [quizzesController, searchController, settingsController]
     }
 }
