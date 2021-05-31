@@ -32,11 +32,28 @@ class LoginViewController: UIViewController {
         self.presenter.setViewDelegate(delegate: self)
         buildView()
         setConstraints()
+        
+        //pop label animation
+        appNameLabel.transform = CGAffineTransform(scaleX: 0, y: 0)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: false)
+        
+        //animate pop label
+        UIView.animate(withDuration: 1.5, animations: {
+                self.appNameLabel.transform = .identity
+            }
+        )
+        UIView.animate(withDuration: 1.5, delay: 2, animations: {
+            self.appNameLabel.alpha = 0
+        }, completion: {_ in
+            UIView.animate(withDuration: 1.5, animations: {
+                    self.appNameLabel.alpha = 1
+                }
+            )
+        })
     }
     
     override func viewWillDisappear(_ animated: Bool) {
