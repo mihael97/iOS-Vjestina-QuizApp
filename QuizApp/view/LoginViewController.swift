@@ -58,32 +58,43 @@ class LoginViewController: UIViewController {
                 self.appNameLabel.transform = .identity
             }
         )
-        UIView.animate(withDuration: 1.5, delay: 2, animations: {
-            self.appNameLabel.alpha = 0
-        }, completion: {_ in
-            UIView.animate(withDuration: 1.5, animations: {
+        UIView.animate(withDuration: 1.5, delay: 2,
+           animations: {
+                self.appNameLabel.alpha = 0
+            },
+            completion: {_ in
+                UIView.animate(withDuration: 1.5, animations: {
                     self.appNameLabel.alpha = 1
-                }
-            )
-        })
+                })
+            }
+        )
         
         //username
-        UIView.animate(withDuration: 1.5, delay: 0.25, animations: {
-            self.usernameTextField.transform = .identity
-            self.usernameTextField.alpha = 1
-        })
+        UIView.animate(withDuration: 1.5, delay: 0.25,
+            options: [.curveEaseOut],
+            animations: {
+                self.usernameTextField.transform = .identity
+                self.usernameTextField.alpha = 1
+            }
+        )
         
         // password
-        UIView.animate(withDuration: 1.5, delay: 0.5, animations: {
-            self.passwordField.transform = .identity
-            self.passwordField.alpha = 1
-        })
+        UIView.animate(withDuration: 1.5, delay: 0.5,
+            options: [.curveEaseOut],
+            animations: {
+                self.passwordField.transform = .identity
+                self.passwordField.alpha = 1
+            }
+        )
         
         // login button
-        UIView.animate(withDuration: 1.5, delay:0.75 ,animations: {
-            self.loginButton.transform = .identity
-            self.loginButton.alpha = 1
-        })
+        UIView.animate(withDuration: 1.5, delay:0.75,
+            options: [.curveEaseOut],
+            animations: {
+                self.loginButton.transform = .identity
+                self.loginButton.alpha = 1
+            }
+        )
     }
     
     override func viewWillDisappear(_ animated: Bool) {
