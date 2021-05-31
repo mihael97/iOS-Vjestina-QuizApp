@@ -17,21 +17,15 @@ class QuizNetworkDataSource {
         self.coreDataDatabase = coreDataDatabase
     }
     
-    func fetchQuizzes () -> [Quiz]{
-        let semaphore = DispatchSemaphore(value: 0)
-        var quizzes: [Quiz] = []
+    func fetchQuizzes (completion: @escaping ([Quiz])->Void) {
         networkManager.fetchQuizzes(completation: {response in
                 switch response {
                     case .failure:
-                        quizzes = []
+                        completion([])
                     case .success(let arrayQuizzes):
-                        self.coreDataDatabase.refreshQuizzes(quizzes: arrayQuizzes)
-                        quizzes = Array(arrayQuizzes)
-                        semaphore.signal()
+                        completion(arrayQuizzes)
                 }
             }
         )
-        semaphore.wait()
-        return quizzes
     }
 }

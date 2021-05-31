@@ -17,16 +17,23 @@ class QuizRepository {
         self.networkDatabase = QuizNetworkDataSource(networkManager: networkManager, coreDataDatabase: self.coreDataDatabase)
     }
     
-    func fetchQuizzes() -> [Quiz] {
-        var quizzes: [Quiz] = []
+    func fetchQuizzes(completion: @escaping ([Quiz])->Void) {
         if NetworkManager.networkManager.isInternetConnected() {
-            quizzes = networkDatabase.fetchQuizzes()
+            networkDatabase.fetchQuizzes() {
+                [weak self] quizzes in
+                guard let self = self else { return }
+                DispatchQueue.main.async {
+                    self.coreDataDatabase.refreshQuizzes(quizzes: quizzes)
+                    var quizzes = self.coreDataDatabase.fetchQuizzes()
+                    if quizzes.count == 0 {
+                        quizzes = self.coreDataDatabase.fetchQuizzes()
+                    }
+                    completion(quizzes)
+                }
+            }
+        } else {
+            completion(self.coreDataDatabase.fetchQuizzes())
         }
-        if quizzes.count == 0 {
-            quizzes = coreDataDatabase.fetchQuizzes()
-        }
-        
-        return quizzes
     }
     
     func filterQuizzes(searchText: String) -> [QuizCategory: [Quiz]] {

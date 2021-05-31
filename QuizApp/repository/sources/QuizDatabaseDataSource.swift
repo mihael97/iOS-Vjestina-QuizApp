@@ -43,10 +43,9 @@ class QuizDatabaseDataSource {
     }
     
     private func createQuestion(question: Question, context: NSManagedObjectContext)->QuestionCD{
-        let entity = NSEntityDescription.entity(forEntityName: "QuestionCD", in: context)!
-        let questionCd = QuestionCD(entity: entity, insertInto: context)
+        let questionCd = QuestionCD(context: context)
         questionCd.idCD = Int32(Int(question.id))
-        questionCd.correctAnswer = Int32(Int(question.correctAnswer))
+        questionCd.correctAnswer = Int32(question.correctAnswer)
         questionCd.question = question.question
         questionCd.answers = question.answers
         return questionCd

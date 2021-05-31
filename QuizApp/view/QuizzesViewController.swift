@@ -24,7 +24,7 @@ class QuizzesViewController: UIViewController {
     convenience init(router: AppRouterProtocol, networkManager: NetworkServiceProtocol) {
         self.init()
         self.router = router
-        self.presenter = QuizzesPresenter(networkManager: networkManager)
+        self.presenter = QuizzesPresenter(router:router, networkManager: networkManager)
     }
     
     override func viewDidLoad() {
@@ -81,7 +81,7 @@ class QuizzesViewController: UIViewController {
         noLoadedQuizView.isHidden = false
         
         // Table
-        quizCollection = QuizCollection(router: router)
+        quizCollection = QuizCollection(presenter: presenter)
          
         // Add to subview
         addSubview(subView: quizNameLabel)

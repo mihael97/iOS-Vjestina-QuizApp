@@ -11,10 +11,12 @@ import Foundation
 class QuizzesPresenter {
     private let networkManager: NetworkServiceProtocol
     private let repository: QuizRepository
+    private let router: AppRouterProtocol
     weak private var delegate: QuizzesViewDelegate?
     
-    init(networkManager: NetworkServiceProtocol) {
+    init(router:AppRouterProtocol, networkManager: NetworkServiceProtocol) {
         self.networkManager = networkManager
+        self.router = router
         self.repository = QuizRepository(networkManager: networkManager)
     }
     
@@ -23,15 +25,23 @@ class QuizzesPresenter {
     }
     
     func fetchQuizzes() {
-        let quizzes: [Quiz] = repository.fetchQuizzes()
-        self.delegate?.getQuizzes(quizzes: quizzes.reduce([:] as! [QuizCategory: [Quiz]], {
-            a, b in
-                var map:[QuizCategory: [Quiz]] = a
-                var value = map[b.category,default: []]
-                value.append(b)
-                map[b.category] = value
-                return map
-            }
-        ))
+        repository.fetchQuizzes() {
+            [weak self] quizzes in
+                self?.delegate?.getQuizzes(quizzes: quizzes.reduce([:] as! [QuizCategory: [Quiz]], {
+                    a, b in
+                        var map:[QuizCategory: [Quiz]] = a
+                        var value = map[b.category,default: []]
+                        value.append(b)
+                        map[b.category] = value
+                        return map
+                    }
+                ))
+        }
+    }
+}
+
+extension QuizzesPresenter: ShowQuizExtension {
+    func showQuiz(quiz: Quiz) {
+        router.showQuizViewController(quiz: quiz)
     }
 }

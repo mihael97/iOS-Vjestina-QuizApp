@@ -9,11 +9,13 @@
 import Foundation
 
 class SearchBarViewPresenter {
-    private var coreDataStack:QuizRepository?
+    private var repository:QuizRepository?
+    private var router: AppRouterProtocol!
     weak private var delegate: SearchBarViewDelegate?
     
-    init(networkManager: NetworkServiceProtocol) {
-        self.coreDataStack = QuizRepository(networkManager: networkManager)
+    init(networkManager: NetworkServiceProtocol, router: AppRouterProtocol) {
+        self.repository = QuizRepository(networkManager: networkManager)
+        self.router = router
     }
         
     func setDelegate(delegate: SearchBarViewDelegate) {
@@ -21,7 +23,13 @@ class SearchBarViewPresenter {
     }
     
     func fetchQuizzes(searchText: String) {
-        delegate?.searchResults(quizzes: coreDataStack!.filterQuizzes(searchText: searchText))
+        delegate?.searchResults(quizzes: repository!.filterQuizzes(searchText: searchText))
     }
     
+}
+
+extension SearchBarViewPresenter: ShowQuizExtension {
+    func showQuiz(quiz: Quiz) {
+        router.showQuizViewController(quiz: quiz)
+    }
 }

@@ -20,7 +20,7 @@ class SearchQuizViewController: UIViewController {
         self.init()
         self.router = router
         self.networkManager = networkManager
-        self.presenter = SearchBarViewPresenter(networkManager: networkManager)
+        self.presenter = SearchBarViewPresenter(networkManager: networkManager, router: self.router)
         self.presenter.setDelegate(delegate: self)
     }
         
@@ -36,7 +36,7 @@ class SearchQuizViewController: UIViewController {
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(searchBar)
         
-        quizCollection = QuizCollection(router: router)
+        quizCollection = QuizCollection(presenter: presenter)
         quizCollection.translatesAutoresizingMaskIntoConstraints = false
         quizCollection.isHidden = false
         view.addSubview(quizCollection)

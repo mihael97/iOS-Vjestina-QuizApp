@@ -11,12 +11,12 @@ import UIKit
 
 class QuizCollection: UICollectionView {
     private let customCellIdentifier: String = "customCell"
-    public var router: AppRouterProtocol!
+    public var presenter: ShowQuizExtension!
     private var quizzes: [QuizCategory:[Quiz]] = [:]
     
-    convenience init(router: AppRouterProtocol) {
+    convenience init(presenter: ShowQuizExtension) {
         self.init(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-        self.router = router
+        self.presenter = presenter
         buildView()
     }
     
@@ -73,6 +73,6 @@ extension QuizCollection: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        router.showQuizViewController(quiz: Array(quizzes)[indexPath.section].value[indexPath.row])
+        presenter.showQuiz(quiz: Array(quizzes)[indexPath.section].value[indexPath.row])
     }
 }
