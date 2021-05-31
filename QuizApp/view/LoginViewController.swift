@@ -35,6 +35,18 @@ class LoginViewController: UIViewController {
         
         //pop label animation
         appNameLabel.transform = CGAffineTransform(scaleX: 0, y: 0)
+        
+        //username animation
+        usernameTextField.transform = usernameTextField.transform.translatedBy(x: -self.view.frame.width, y: 0)
+        usernameTextField.alpha = 0
+        
+        //password animation
+        passwordField.transform = passwordField.transform.translatedBy(x: -self.view.frame.width, y: 0)
+        passwordField.alpha = 0
+        
+        //login animation
+        loginButton.transform = loginButton.transform.translatedBy(x: -self.view.frame.width, y: 0)
+        loginButton.alpha = 1
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -53,6 +65,24 @@ class LoginViewController: UIViewController {
                     self.appNameLabel.alpha = 1
                 }
             )
+        })
+        
+        //username
+        UIView.animate(withDuration: 1.5, delay: 0.25, animations: {
+            self.usernameTextField.transform = .identity
+            self.usernameTextField.alpha = 1
+        })
+        
+        // password
+        UIView.animate(withDuration: 1.5, delay: 0.5, animations: {
+            self.passwordField.transform = .identity
+            self.passwordField.alpha = 1
+        })
+        
+        // login button
+        UIView.animate(withDuration: 1.5, delay:0.75 ,animations: {
+            self.loginButton.transform = .identity
+            self.loginButton.alpha = 1
         })
     }
     
