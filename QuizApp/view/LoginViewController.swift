@@ -239,22 +239,35 @@ class LoginViewController: UIViewController {
             loginButton.backgroundColor = .systemGray2
         }
     }
+    
+    public func getQuizLabel()-> UILabel {
+        return appNameLabel
+    }
         
 }
 
 extension LoginViewController: LoginViewDelegate {
-    private func move() {
-        appNameLabel.transform = CGAffineTransform(scaleX: 0, y: 0)
-        usernameTextField.transform = CGAffineTransform(scaleX: 0, y: 0)
-        passwordField.transform = CGAffineTransform(scaleX: 0, y: 0)
-    }
     
     func loginSuccessful() {
-        move()
         UIView.animate(withDuration: 1.5, animations: {
-            self.appNameLabel.transform = .identity
-            self.usernameTextField.transform = .identity
-            self.passwordField.transform = .identity
+            DispatchQueue.main.sync {
+                self.appNameLabel.transform = CGAffineTransform(translationX: 0, y:  -self.view.frame.height)
+            }
+        })
+        UIView.animate(withDuration: 1.5, delay: 0.25, animations: {
+            DispatchQueue.main.sync {
+                self.usernameTextField.transform = CGAffineTransform(translationX: 0, y:  -self.view.frame.height)
+            }
+        })
+        UIView.animate(withDuration: 1.5, delay: 0.50, animations: {
+            DispatchQueue.main.sync {
+                self.passwordField.transform = CGAffineTransform(translationX: 0, y:  -self.view.frame.height)
+            }
+        })
+        UIView.animate(withDuration: 1.5, delay: 0.75, animations: {
+            DispatchQueue.main.sync {
+                self.loginButton.transform = CGAffineTransform(translationX: 0, y:  -self.view.frame.height)
+            }
         }, completion: {_ in
             self.presenter.moveToQuizzes()
         })
