@@ -32,7 +32,26 @@ class LoginViewController: UIViewController {
         self.presenter.setViewDelegate(delegate: self)
         buildView()
         setConstraints()
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        setAnimation()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        setConstraints()
+    }
+    
+    private func setAnimation() {
+        //set starting point
         //pop label animation
         appNameLabel.transform = CGAffineTransform(scaleX: 0, y: 0)
         
@@ -47,11 +66,6 @@ class LoginViewController: UIViewController {
         //login animation
         loginButton.transform = loginButton.transform.translatedBy(x: -self.view.frame.width, y: 0)
         loginButton.alpha = 1
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
         
         //animate pop label
         UIView.animate(withDuration: 1.5, animations: {
@@ -95,16 +109,6 @@ class LoginViewController: UIViewController {
                 self.loginButton.alpha = 1
             }
         )
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        setConstraints()
     }
 
     private func setConstraints() {
@@ -239,6 +243,23 @@ class LoginViewController: UIViewController {
 }
 
 extension LoginViewController: LoginViewDelegate {
+    private func move() {
+        appNameLabel.transform = CGAffineTransform(scaleX: 0, y: 0)
+        usernameTextField.transform = CGAffineTransform(scaleX: 0, y: 0)
+        passwordField.transform = CGAffineTransform(scaleX: 0, y: 0)
+    }
+    
+    func loginSuccessful() {
+        move()
+        UIView.animate(withDuration: 1.5, animations: {
+            self.appNameLabel.transform = .identity
+            self.usernameTextField.transform = .identity
+            self.passwordField.transform = .identity
+        }, completion: {_ in
+            self.presenter.moveToQuizzes()
+        })
+    }
+    
     
     func loginResultError() {
         DispatchQueue.main.async {
