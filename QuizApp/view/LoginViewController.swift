@@ -37,6 +37,7 @@ class LoginViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: false)
+        setAnimation()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -47,6 +48,67 @@ class LoginViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         setConstraints()
+    }
+    
+    private func setAnimation() {
+        //set starting point
+        //pop label animation
+        appNameLabel.transform = CGAffineTransform(scaleX: 0, y: 0)
+        
+        //username animation
+        usernameTextField.transform = usernameTextField.transform.translatedBy(x: -self.view.frame.width, y: 0)
+        usernameTextField.alpha = 0
+        
+        //password animation
+        passwordField.transform = passwordField.transform.translatedBy(x: -self.view.frame.width, y: 0)
+        passwordField.alpha = 0
+        
+        //login animation
+        loginButton.transform = loginButton.transform.translatedBy(x: -self.view.frame.width, y: 0)
+        loginButton.alpha = 1
+        
+        //animate pop label
+        UIView.animate(withDuration: 1.5, animations: {
+                self.appNameLabel.transform = .identity
+            }
+        )
+        UIView.animate(withDuration: 1.5, delay: 2,
+           animations: {
+                self.appNameLabel.alpha = 0
+            },
+            completion: {_ in
+                UIView.animate(withDuration: 1.5, animations: {
+                    self.appNameLabel.alpha = 1
+                })
+            }
+        )
+        
+        //username
+        UIView.animate(withDuration: 1.5, delay: 0.25,
+            options: [.curveEaseOut],
+            animations: {
+                self.usernameTextField.transform = .identity
+                self.usernameTextField.alpha = 1
+            }
+        )
+        
+        // password
+        UIView.animate(withDuration: 1.5, delay: 0.5,
+            options: [.curveEaseOut],
+            animations: {
+                self.passwordField.transform = .identity
+                self.passwordField.alpha = 1
+            }
+        )
+        
+        // login button
+        UIView.animate(withDuration: 1.5, delay:0.75,
+            options: [.curveEaseOut],
+            animations: {
+                self.loginButton.transform = .identity
+                self.loginButton.alpha = 1
+            }
+        )
     }
 
     private func setConstraints() {
@@ -177,10 +239,40 @@ class LoginViewController: UIViewController {
             loginButton.backgroundColor = .systemGray2
         }
     }
+    
+    public func getQuizLabel()-> UILabel {
+        return appNameLabel
+    }
         
 }
 
 extension LoginViewController: LoginViewDelegate {
+    
+    func loginSuccessful() {
+        UIView.animate(withDuration: 1.5, animations: {
+            DispatchQueue.main.sync {
+                self.appNameLabel.transform = CGAffineTransform(translationX: 0, y:  -self.view.frame.height)
+            }
+        })
+        UIView.animate(withDuration: 1.5, delay: 0.25, animations: {
+            DispatchQueue.main.sync {
+                self.usernameTextField.transform = CGAffineTransform(translationX: 0, y:  -self.view.frame.height)
+            }
+        })
+        UIView.animate(withDuration: 1.5, delay: 0.50, animations: {
+            DispatchQueue.main.sync {
+                self.passwordField.transform = CGAffineTransform(translationX: 0, y:  -self.view.frame.height)
+            }
+        })
+        UIView.animate(withDuration: 1.5, delay: 0.75, animations: {
+            DispatchQueue.main.sync {
+                self.loginButton.transform = CGAffineTransform(translationX: 0, y:  -self.view.frame.height)
+            }
+        }, completion: {_ in
+            self.presenter.moveToQuizzes()
+        })
+    }
+    
     
     func loginResultError() {
         DispatchQueue.main.async {

@@ -35,10 +35,14 @@ class LoginPresenter {
                     case .failure:
                         self.loginDelegate?.loginResultError()
                     case .success:
-                        DispatchQueue.main.async {
-                            self.router.showTabBarController()
-                        }
+                        self.loginDelegate?.loginSuccessful()
                 }
+        }
+    }
+    
+    func moveToQuizzes() {
+        DispatchQueue.main.async {
+            self.router.showTabBarController()
         }
     }
     
